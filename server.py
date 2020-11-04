@@ -34,5 +34,11 @@ def show_product():
 
     return render_template('product.html')
 
+@app.route('/favorite')
+def show_favorite():
+    """Show favorites page"""
+
+    return render_template('favorite.html')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

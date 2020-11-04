@@ -2,9 +2,14 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}
+{% block js %}
+	<script src="/static/js/homepage.jsx" type="text/jsx"></script>
+{% endblock %}
 
-  <h2>This is my Homepage</h2>
 
+{% block body %}
+<h2>This is my Homepage</h2>
+Mount your react components on to this element.
+<div id="app"></div>
 
 {% endblock %}

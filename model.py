@@ -3,7 +3,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-*****************************************************************************
+# *****************************************************************************
 
 class User(db.Model):
     """A user."""
@@ -28,11 +28,11 @@ class User(db.Model):
                         nullable=True)
     product_add = db.Column(db.Integer,
                         nullable=True)
-
-    # rating = a list of Rating objects???
+    rating = db.Column(db.Integer,
+                        nullable=True)
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} email={self.email}>'
+        return f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} email={self.email} password={self.password} favorite={self.favorite} product_add={self.product_add} rating={self.rating}>'
 
 class Favorite(db.Model):
     """A users favorite product."""
@@ -47,11 +47,11 @@ class Favorite(db.Model):
     product = db.Column(db.Integer, 
                         db.ForeignKey('users.user_id'))
 
-    movie = db.relationship('Movie', backref='ratings')
-    user = db.relationship('User', backref='ratings')
+    # movie = db.relationship('Movie', backref='ratings')
+    # user = db.relationship('User', backref='ratings')
 
     def __repr__(self):
-        return f'<Rating rating_id={self.rating_id} movie_id={self.movie_id} rating={self.rating}>'
+        return f'<Favorite favorite_id ={self.favorite_id } category={self.category} product={self.product}>'
 
 class Category(db.Model):
     """A category."""
@@ -67,7 +67,7 @@ class Category(db.Model):
                         nullable=False)
 
     def __repr__(self):
-        return f'<movie_id={self.movie_id} title={self.title} description={self.description}>'
+        return f'<Category category_id={self.category_id} title={self.title} subcategory={self.subcategory}>'
 
 class Subcategory(db.Model):
     """A category."""
@@ -81,7 +81,7 @@ class Subcategory(db.Model):
                         primary_key=True)
 
     def __repr__(self):
-        return f'<movie_id={self.movie_id} title={self.title} description={self.description}>'
+        return f'<Subcategory subcategory_id ={self.subcategory_id } title={self.title}>'
 
 
 class Certification(db.Model):
@@ -97,7 +97,7 @@ class Certification(db.Model):
 
 
     def __repr__(self):
-        return f'<movie_id={self.movie_id} title={self.title} description={self.description}>'
+        return f'<Certification certification_id={self.certification_id} company={self.company}>'
 
 
 
@@ -121,7 +121,7 @@ class Product(db.Model):
                         nullable=False)
 
     def __repr__(self):
-        return f'<movie_id={self.movie_id} title={self.title} description={self.description}>'
+        return f'<Product product_id={self.product_id} title={self.title} description={self.description} url={self.url} category={self.category} subcategory={self.subcategory},>'
 
 class Product_Add(db.Model):
     """A category."""
@@ -132,8 +132,8 @@ class Product_Add(db.Model):
                         nullable=False,
                         primary_key=True)
     user_id = db.Column(db.Integer,
-                        nullable=False,
-                        db.ForeignKey=True)
+                        db.ForeignKey('users.user_id'),
+                        nullable=False)
 
     title = db.Column(db.String,
                         autoincrement=True)
@@ -147,7 +147,7 @@ class Product_Add(db.Model):
                         nullable=False)
 
     def __repr__(self):
-        return f'<movie_id={self.movie_id} title={self.title} description={self.description}>'
+        return f'<User product_id={self.product_id} user_id={self.user_id} title ={self.title} url={self.url} description={self.description} category={self.category} subcategory={self.subcategory}>'
 
 def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -158,6 +158,8 @@ def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
     db.init_app(flask_app)
 
     print('Connected to the db!')
+
+# *****************************************************************************
 
 
 if __name__ == '__main__':
