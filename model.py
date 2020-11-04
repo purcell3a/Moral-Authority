@@ -59,10 +59,10 @@ class Category(db.Model):
     __tablename__ = 'categories'
 
     category_id = db.Column(db.Integer,
-                        nullable=False)
-    title = db.Column(db.String,
+                        primary_key= True,
                         autoincrement=True,
-                        primary_key=True)
+                        nullable=False)
+    title = db.Column(db.String,)
     subcategory = db.Column(db.Integer,
                         nullable=False)
     date_added = db.Column(db.DateTime,nullable=False)
@@ -80,7 +80,6 @@ class Subcategory(db.Model):
                         autoincrement=True,
                         nullable=False)
     title = db.Column(db.String,
-                        autoincrement=True,
                         primary_key=True)
     category_id = db.Column(db.Integer, 
                         db.ForeignKey('categories.category_id'))
@@ -133,7 +132,7 @@ class Product(db.Model):
                         db.ForeignKey('categories.category_id'),
                         nullable = False)
     img_id = db.Column(db.Integer, 
-                        db.ForeignKey('images.image_id'),
+                        db.ForeignKey('productimages.image_id'),
                         nullable = False)
     user_id = db.Column(db.Integer, 
                         db.ForeignKey('users.user_id'),
@@ -183,7 +182,7 @@ class ProductCertification(db.Model):
     def __repr__(self):
         return f'<ProductCertification productcert_id={self.productcert_id} product_id={self.product_id} cert_id ={self.cert_id} date_added={self.date_added} date_modified={self.date_modified}>'
 
-def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
+def connect_to_db(flask_app, db_uri='postgresql:///moralauthority', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
