@@ -24,17 +24,13 @@ class User(db.Model):
                         unique=True)
     password = db.Column(db.String,
                         nullable=False)
-    favorite = db.Column(db.Integer,
-                        nullable=True)
-    product_add = db.Column(db.Integer,
-                        nullable=True)
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    date_added = db.Column(db.DateTime,nullable=False)
+    date_modified = db.Column(db.DateTime,nullable=False)
     # rating = db.Column(db.Integer,
     #                     nullable=True)
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} email={self.email} password={self.password} favorite={self.favorite} product_add={self.product_add} rating={self.rating}  date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} email={self.email} password={self.password} date_added={self.date_added} date_modified={self.date_modified}>'
 #  why does my repr always give me issues when i try to make it multiple lines SOS
 class Favorite(db.Model):
     """A users favorite product."""
@@ -44,18 +40,18 @@ class Favorite(db.Model):
     favorite_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key= True)
-    category = db.Column(db.Integer, 
+    user_id = db.Column(db.Integer, 
                         db.ForeignKey('users.user_id'))
-    product = db.Column(db.Integer, 
-                        db.ForeignKey('users.user_id'))
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    product_id = db.Column(db.Integer, 
+                        db.ForeignKey('products.product_id'))
+    date_added = db.Column(db.DateTime,nullable=False)
+    date_modified = db.Column(db.DateTime,nullable=False)
 
     # movie = db.relationship('Movie', backref='ratings')
     # user = db.relationship('User', backref='ratings')
 
     def __repr__(self):
-        return f'<Favorite favorite_id ={self.favorite_id } category={self.category} product={self.product} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Favorite favorite_id ={self.favorite_id } user_id={self.user_id} product_id={self.product_id} date_added={self.date_added} date_modified={self.date_modified}>'
 
 class Category(db.Model):
     """A category."""
@@ -69,8 +65,8 @@ class Category(db.Model):
                         primary_key=True)
     subcategory = db.Column(db.Integer,
                         nullable=False)
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    date_added = db.Column(db.DateTime,nullable=False)
+    date_modified = db.Column(db.DateTime,nullable=False)
 
     def __repr__(self):
         return f'<Category category_id={self.category_id} title={self.title} subcategory={self.subcategory} date_added={self.date_added} date_modified={self.date_modified}>'
@@ -81,15 +77,20 @@ class Subcategory(db.Model):
     __tablename__ = 'subcategories'
 
     subcategory_id = db.Column(db.Integer,
+                        autoincrement=True,
                         nullable=False)
     title = db.Column(db.String,
                         autoincrement=True,
                         primary_key=True)
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    category_id = db.Column(db.Integer, 
+                        db.ForeignKey('categories.category_id'))
+    product_id = db.Column(db.Integer,
+                db.ForeignKey('products.product_id'))
+    date_added = db.Column(db.DateTime, nullable=False)
+    date_modified = db.Column(db.DateTime, nullable=False,)
 
     def __repr__(self):
-        return f'<Subcategory subcategory_id ={self.subcategory_id } title={self.title} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Subcategory subcategory_id ={self.subcategory_id } title={self.title} category_id={self.category_id} product_id={self.product_id } date_added={self.date_added} date_modified={self.date_modified}>'
 
 
 class Certification(db.Model):
@@ -97,16 +98,19 @@ class Certification(db.Model):
 
     __tablename__ = 'certifications'
 
-    certification_id = db.Column(db.Integer,
-                        nullable=False)
-    company = db.Column(db.String,
-                        autoincrement=True,
+    cert_id = db.Column(db.Integer,
+                        autoincrement = True,
+                        nullable=False,
                         primary_key=True)
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    company = db.Column(db.String,
+                        nullable=False,)
+    rating = db.Column(db.Integer)
+    max_rating = db.Column(db.Integer)
+    date_added = db.Column(db.DateTime,nullable=False,)
+    date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<Certification certification_id={self.certification_id} company={self.company} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Certification certification_id={self.cert_id} company={self.company} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
 
 
 
@@ -116,6 +120,7 @@ class Product(db.Model):
     __tablename__ = 'products'
 
     product_id = db.Column(db.Integer,
+                        autoincrement=True,
                         nullable=False,
                         primary_key=True)
     title = db.Column(db.String,
@@ -124,42 +129,59 @@ class Product(db.Model):
                         autoincrement=True)
     description = db.Column(db.String,
                         autoincrement=True)
-    category = db.Column(db.Integer,
-                        nullable=False)
-    subcategory = db.Column(db.Integer,
-                        nullable=False)
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    category_id = db.Column(db.Integer, 
+                        db.ForeignKey('categories.category_id'),
+                        nullable = False)
+    img_id = db.Column(db.Integer, 
+                        db.ForeignKey('images.image_id'),
+                        nullable = False)
+    user_id = db.Column(db.Integer, 
+                        db.ForeignKey('users.user_id'),
+                        nullable = False)
+    date_added = db.Column(db.DateTime,nullable=False,)
+    date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<Product product_id={self.product_id} title={self.title} description={self.description} url={self.url} category={self.category} subcategory={self.subcategory} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Product product_id={self.product_id} title={self.title} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
 
-class Product_Add(db.Model):
+class ProductImage(db.Model):
     """A category."""
 
-    __tablename__ = 'productsadded'
+    __tablename__ = 'productimages'
 
-    product_id = db.Column(db.Integer,
+    image_id = db.Column(db.Integer,
                         nullable=False,
                         primary_key=True)
-    user_id = db.Column(db.Integer,
-                        db.ForeignKey('users.user_id'),
+    product_id = db.Column(db.Integer,
+                        db.ForeignKey('products.product_id'),
                         nullable=False)
-    title = db.Column(db.String,
-                        autoincrement=True)
-    url = db.Column(db.String,
-                        autoincrement=True)
-    description = db.Column(db.String,
-                        autoincrement=True)
-    category = db.Column(db.Integer,
-                        nullable=False)
-    subcategory = db.Column(db.Integer,
-                        nullable=False)
-    date_added = db.Column(datetime)
-    date_modified = db.Column(datetime)
+    url = db.Column(db.String)
+    date_added = db.Column(db.DateTime,nullable=False,)
+    date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<User product_id={self.product_id} user_id={self.user_id} title ={self.title} url={self.url} description={self.description} category={self.category} subcategory={self.subcategory} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<ProductImage product_id={self.product_id} user_id={self.user_id} url={self.url} date_added={self.date_added} date_modified={self.date_modified}>'
+
+class ProductCertification(db.Model):
+    """A category."""
+
+    __tablename__ = 'productcerts'
+
+    productcert_id = db.Column(db.Integer,
+                        autoincrement = True,
+                        nullable=False,
+                        primary_key=True)
+    product_id = db.Column(db.Integer,
+                        db.ForeignKey('products.product_id'),
+                        nullable=False)
+    cert_id = db.Column(db.Integer,
+                        db.ForeignKey('certifications.cert_id'),
+                        nullable=False)
+    date_added = db.Column(db.DateTime,nullable=False,)
+    date_modified = db.Column(db.DateTime,nullable=False,)
+
+    def __repr__(self):
+        return f'<ProductCertification productcert_id={self.productcert_id} product_id={self.product_id} cert_id ={self.cert_id} date_added={self.date_added} date_modified={self.date_modified}>'
 
 def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
