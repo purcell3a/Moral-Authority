@@ -101,9 +101,13 @@ class Certification(db.Model):
                         autoincrement = True,
                         nullable=False,
                         primary_key=True)
-    company = db.Column(db.String,
+    company_certified = db.Column(db.String,
                         nullable=False,)
-    rating = db.Column(db.Integer)
+    certification = db.Column(db.String,
+                        nullable=False,)
+    cert_status = db.Column(db.String)
+    cert_url = db.Column(db.String)
+    rating = db.Column(db.Float)
     max_rating = db.Column(db.Integer)
     date_added = db.Column(db.DateTime,nullable=False,)
     date_modified = db.Column(db.DateTime,nullable=False,)
