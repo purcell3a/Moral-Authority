@@ -1,20 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}My awesome page title{% endblock %}
+{% block title %} login{% endblock %}
 
-{% block content %}
+{% block body %}
+  <!-- Mount your react components on to this element. -->
+  <div id="app"></div>
+{% endblock %}
 
-  <div class="form"> 
-      <h1><a href="index.html">Moral Authority</a></h1>
-      <p class="login-form">Coming Soon - Join our Waitlist!</p>
-      <form method="post" action="">
-      <p><input type="text" placeholder= "Email"></p>
-      <p><input type="text" placeholder= "Password"></p>
-      <div class="registerbutton">
-          <a href="#"class="register">Sign-In</a>
-      </div>
-      </form>
-  </div>
-
-
+{% block js %}
+	<script src="/static/js/login.jsx" type="text/jsx"></script>
 {% endblock %}
