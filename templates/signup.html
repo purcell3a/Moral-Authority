@@ -4,7 +4,8 @@
 
 {% block body %}
   <!-- Mount your react components on to this element. -->
-  <div class="container">
+  <div id="app"></div>
+  <!-- <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-2"></div>
         <div class="col-lg-6 col-md-8 login-box">
@@ -37,7 +38,6 @@
 
                         <div class="col-lg-12 loginbttm">
                             <div class="col-lg-6 login-btm login-text">
-                                <!-- Error Message -->
                             </div>
                             <div class="col-lg-6 login-btm login-button">
                                 <button type="submit" class="btn btn-outline-primary">SIGNUP</button>
@@ -51,14 +51,7 @@
             </div>
             <div class="col-lg-3 col-md-2"></div>
         </div>
-    </div>
-
-    {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-            <div class="alert alert-warning">{{ message }}</div>
-        {% endfor %}
-    {% endwith %}
-
+    </div> -->
 
 {% endblock %}
 
