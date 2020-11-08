@@ -22,16 +22,16 @@ function App() {
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-            <Route path="/Add-Product" component={AddProduct}>
+            <Route path="/Add-Product">
               <AddProduct />
             </Route>
-            <Route path="/login" component={Login}>
+            <Route path="/login">
               <Login />
             </Route>
-            <Route path="/" component={Homepage}>
+            <Route path="/">
               <Homepage />
             </Route>
-            <Route path="/signup" component={Signup}>
+            <Route path="/signup">
               <Homepage />
             </Route>
           </Switch>
@@ -39,3 +39,5 @@ function App() {
       </Router>
     );
   }
+
+  ReactDOM.render(<App />, document.getElementById('app'));
