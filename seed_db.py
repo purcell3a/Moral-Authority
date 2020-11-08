@@ -1,7 +1,7 @@
 """Script to seed database."""
 
 import os
-# This is a module from Python’s standard library. It contains 
+# This is a module from Python’s standard library. It contains
 # code related to working with your computer’s operating system.
 import json
 from random import choice, randint
@@ -39,6 +39,6 @@ with open(filename, 'r') as file:
                                         date_modified = '11-04-2020')
 
         db.session.add(certifications)
-    db.session.commit()   
+    db.session.commit()
 
 # ***************************************************************************

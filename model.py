@@ -118,7 +118,7 @@ class Certification(db.Model):
 
 
 class Product(db.Model):
-    """A category."""
+    """A Product"""
 
     __tablename__ = 'products'
 
@@ -127,25 +127,28 @@ class Product(db.Model):
                         nullable=False,
                         primary_key=True)
     title = db.Column(db.String,
-                        autoincrement=True)
+                        nullable=False)
+    company = db.Column(db.String,
+                        unique=False,
+                        nullable=False)
     url = db.Column(db.String,
-                        autoincrement=True)
+                        nullable=False)
     description = db.Column(db.String,
-                        autoincrement=True)
-    category_id = db.Column(db.Integer, 
+                        nullable=True)
+    category_id = db.Column(db.Integer,
                         db.ForeignKey('categories.category_id'),
-                        nullable = False)
-    img_id = db.Column(db.Integer, 
+                        nullable=True) #change back to false after testing
+    img_id = db.Column(db.Integer,
                         db.ForeignKey('productimages.image_id'),
-                        nullable = False)
-    user_id = db.Column(db.Integer, 
+                        nullable=True) #change back to false after testing
+    user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'),
-                        nullable = False)
+                        nullable=False)
     date_added = db.Column(db.DateTime,nullable=False,)
     date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<Product product_id={self.product_id} title={self.title} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Product product_id={self.product_id} title={self.title} company={self.company} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
 
 class ProductImage(db.Model):
     """A category."""

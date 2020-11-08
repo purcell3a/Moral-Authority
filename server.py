@@ -35,10 +35,12 @@ def show_product():
     return render_template('product.html')
 
 @app.route('/add-product')
-def add_product():
-    """Show product page"""
+def show_productAdd():
+    """Show product add page"""
 
-    return render_template('add-product.html')
+    bcorps = crud.return_bcorp()
+    return jsonify(DATA["bcorps"])
+    return render_template('add-product.html',bcorps=bcorps)
 
 @app.route('/favorite')
 def show_favorite():
@@ -49,20 +51,34 @@ def show_favorite():
 @app.route('/signup', methods=["POST"])
 def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
+    data = request.get_json()
 
-    fname = request.form.get('fname')
-    lname = request.form.get('lname')
-    email = request.form.get('email')
-    password = request.form.get('password')
+    print(data)
+    fname = data['fname']
+    lname = data['lname']
+    email = data['email']
+    password = data['password']
 
-    existing_user = crud.get_user_by_email(email)
+    new_user = crud.create_user(fname,lname,email,password)
 
-    if existing_user:
-        flash('An account with that email already exists')
-        return redirect('/signup')
+    print(new_user)
+
+    # existing_user = crud.get_user_by_email(email)
+
+
+    if email == password:
+        return jsonify('success')
+    #     flash('Welcome Back!')
+    #     return redirect('/')
     else:
-        crud.create_user(fname,lname,email,password)
-        flash('Account created! Please log in.')
+        return jsonify('yousuck')
+
+    # if existing_user:
+    #     return jsonify('An account with that email already exists')
+    #     # return redirect('/signup')
+    # else:
+    #     crud.create_user(fname,lname,email,password)
+    #     flash('Account created! Please log in.')
 
     return redirect('/login')
 
@@ -71,18 +87,12 @@ def sign_up():
 def login_user():
     '''verify user and login'''
     data = request.get_json()
-    
+
     print(data)
 
     email = data['email']
     password = data['password']
 
-
-
-    # email = request.form.get('login-email')
-    # password = request.form.get('login-password')
-    # user = crud.get_user_by_email(email)
-    # user_passw = crud.validate_user_password(password)
 
     # session['user'] = User.user_id
 
@@ -94,31 +104,33 @@ def login_user():
         return jsonify('yousuck')
     #     flash('Your email and password do not match')
 
-    # return redirect('/login')
 
-# @app.route('/add-product', methods=["POST"])
-# def add_product():
-    # '''verify user and login'''
+@app.route('/add-product', methods=["POST"])
+def add_product():
+    '''verify user and login'''
 
-    # print('connected')
+    data = request.get_json()
 
-    # email = request.form.get('login-email')
-    # password = request.form.get('login-password')
+    print(data)
 
-    # print(email)
-    # print(password)
+    productName = data['productName']
+    company = data['company']
+    productUrl = data['productUrl']
+    description = data['description']
+
+    new_product = crud.add_product(productName,company,productUrl,description)
 
 
-    # user_email = crud.get_user_by_email(email)
-    # user_password = crud.validate_user_password(password)
+    print(new_product)
 
-    # # session['user'] = User.user_id
+    # session['user'] = User.user_id
 
-    # if user_email == user_password and user_email:
+    if productName == company:
+        return jsonify('success')
     #     flash('Welcome Back!')
     #     return redirect('/')
-    # else:
-    #     flash('Your email and password do not match')
+    else:
+        return jsonify('yousuck')
 
     # return redirect('/login')
 
