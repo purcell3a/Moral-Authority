@@ -48,10 +48,11 @@ def get_user_by_email(email):
 
     return User.query.filter(User.email == email).first()
 
-def validate_user_password(password):
+def validate_user(password,email):
     """checks for valid password on login"""
 
-    return User.query.filter(User.password == password).first()
+    return User.query.filter(User.password == password, User.email == email).first()
+
 
 def get_user_by_id(user_id):
     """Returns user based on id"""

@@ -4,14 +4,10 @@
 function Homepage() {
     return (
       <React.Fragment>
-        <ul>
-          <li><a href="/login">Login</a></li>
-          <li><a href="/signup">Register</a></li>
-          <li><a href="/add-product">Add Product</a></li>
-        </ul>
+        <div> this is my homepage</div>
       </React.Fragment>
     );
   }
 
-  ReactDOM.render(<App />, document.getElementById('app'));
+//   ReactDOM.render(<App />, document.getElementById('app'));
 // ******************************************************************* */

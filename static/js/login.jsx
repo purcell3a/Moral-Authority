@@ -1,9 +1,5 @@
 "use strict";
 
-// *******************************************************************
-
-
-
 function Login() {
 
   const [email, setEmail] = React.useState('')
@@ -32,25 +28,21 @@ function Login() {
 
   }
 
-
-
-
-
-
     return (
 
       <React.Fragment>
 
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-3 col-md-2"></div>
-              <div className="col-lg-6 col-md-8 login-box">
-                <div className="col-lg-12 login-key">
-                  <i className="fa fa-key" aria-hidden="true"></i>
-                </div>
-                <div className="col-lg-12 login-title">
-                  MORAL AUTHORITY
-                </div>
+
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-3 col-md-2"></div>
+                <div className="col-lg-6 col-md-8 login-box">
+                  <div className="col-lg-12 login-key">
+                    <i className="fa fa-key" aria-hidden="true"></i>
+                  </div>
+                  <div className="col-lg-12 login-title">
+                    Login
+                  </div>
 
             <div className="col-lg-12 login-form">
               <div className="col-lg-12 login-form">
@@ -76,14 +68,13 @@ function Login() {
                       </div>
                       </div>
                       </form>
-                    </div>
-                  </div>
-              </div>
-          </div>
+                      </div>
+            </div>
+            <div className="col-lg-3 col-md-2"></div>
         </div>
+    </div>
+    </div>
       </React.Fragment>
     );
   }
-
-  ReactDOM.render(<Login />, document.getElementById('app'));
 

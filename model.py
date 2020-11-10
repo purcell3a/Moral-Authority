@@ -81,7 +81,7 @@ class Subcategory(db.Model):
                         nullable=False)
     title = db.Column(db.String,
                         primary_key=True)
-    category_id = db.Column(db.Integer, 
+    category_id = db.Column(db.Integer,
                         db.ForeignKey('categories.category_id'))
     product_id = db.Column(db.Integer,
                 db.ForeignKey('products.product_id'))

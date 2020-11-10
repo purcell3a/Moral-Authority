@@ -56,7 +56,7 @@
                   <div className="col-lg-12 login-title">
                     Register
                   </div>
- 
+
             <div className="col-lg-12 login-form">
                 <div className="col-lg-12 login-form">
                     <form onSubmit={handleSubmit}>
@@ -98,5 +98,3 @@
   </React.Fragment>
   );
 }
-
-ReactDOM.render(<Signup/>, document.getElementById('app'));
