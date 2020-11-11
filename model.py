@@ -14,13 +14,13 @@ class User(db.Model):
                         autoincrement=True,
                         primary_key=True)
     fname = db.Column(db.String,
-                        nullable=False, 
+                        nullable=False,
                         unique=False)
     lname = db.Column(db.String,
-                        nullable=False, 
+                        nullable=False,
                         unique=False)
     email = db.Column(db.String,
-                        nullable=False, 
+                        nullable=False,
                         unique=True)
     password = db.Column(db.String,
                         nullable=False)
@@ -94,7 +94,7 @@ class Subcategory(db.Model):
 
 class Certification(db.Model):
     """A category."""
-
+# add FK to company table
     __tablename__ = 'certifications'
 
     cert_id = db.Column(db.Integer,
@@ -113,7 +113,7 @@ class Certification(db.Model):
     date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<Certification certification_id={self.cert_id} company={self.company} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Certification certification_id={self.cert_id} company_certified={self.company_certified} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
 
 
 

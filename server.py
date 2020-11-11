@@ -22,6 +22,7 @@ def return_bcorps():
     """return list of bcorps"""
 
     bcorps = crud.return_bcorp()
+    bcorps = bcorps
     bcorps = jsonify(bcorps)
     return bcorps
 

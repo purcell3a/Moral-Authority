@@ -24,6 +24,12 @@ function App() {
               <li>
                 <Link to="/user-profile">UserProfile</Link>
               </li>
+              <li>
+                <Link to="/product-page">Product Page</Link>
+              </li>
+              <li>
+                <Link to="/product">Products</Link>
+              </li>
             </ul>
           </nav>
 
@@ -45,12 +51,17 @@ function App() {
             <Route path="/user-profile">
               <ShowProfile />
             </Route>
+            <Route path="/all-product">
+              <AllProducts />
+            </Route>
+            <Route path="/product">
+              <ShowProduct />
+            </Route>
           </Switch>
         </div>
       </Router>
     );
 }
-
 // function Homepage() {
 //   return (
 //     <React.Fragment>

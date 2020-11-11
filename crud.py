@@ -32,8 +32,11 @@ def add_product(productName,productUrl,company,description):
 
 def return_bcorp():
 
-    bcorps =  Certification.query.get(Certification.company_certified).distinct()
-
+    bcorps = []
+    all_bcorps =  Certification.query.filter(Certification.certification == 'Bcorp').all()
+    for corp in all_bcorps:
+        if corp.company_certified not in bcorps:
+            bcorps.append(corp.company_certified)
     return bcorps
 
 def get_users():
