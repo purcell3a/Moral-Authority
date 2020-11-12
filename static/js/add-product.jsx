@@ -9,6 +9,7 @@
     const [description, setDescription] = React.useState('')
     const [img, setImg] = React.useState('')
     const [bcorp, setBcorp] = React.useState([]);
+    // const [selectedBCorp, setSelectedBCorp] = useState("");
 
     React.useEffect(() => {
     fetch('/list-bcorps')
@@ -16,7 +17,18 @@
       .then(data => setBcorp(data));
   }, []);
 
-
+      //   <select
+      //   name="Countries"
+      //   onChange={e => handleCountrySelect(e)}
+      //   value={selectedCounty}
+      // >
+      //   <option value="">Select the country</option>
+      //   {countryList.map((country, key) => (
+      //     <option key={key} value={country.name}>
+      //       {country.name}
+      //     </option>
+      //   ))}
+      // </select>
     function handleSubmit(evt){
       evt.preventDefault()
       console.log('productpage')
@@ -54,33 +66,11 @@
 
       return (
         <React.Fragment>
-      <div className="container" id="product-section">
-      <div className="row">
-      <div className="col-md-6">
-        <div className="form-group">
-          <label>Product Notes</label>
-          <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
-          <div className="file-uploader">
-            <input type="file" value={img} onChange={handleImgChange}></input>
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder= "img url"  value={img} onChange={handleImgChange}></input>
-          </div>
-        </div>
-      </div>
-
-      <div className="col-md-6">
-        <div className="container">
-          <div className="row">
-              <div className="col-lg-3 col-md-2"></div>
-              <div className="col-lg-6 col-md-8 login-box">
-                  <div className="col-lg-12 login-key">
-                      <i className="fa fa-key" aria-hidden="true"></i>
-                  </div>
-
-                  <div className="col-lg-12 login-form">
-                      <div className="col-lg-12 login-form">
-                          <form onSubmit={handleSubmit}>
+          <Container>
+            <Row>
+              <Col>1 of 2</Col>
+              <Col>
+              <form onSubmit={handleSubmit}>
                               <div className="form-group">
                                   <input type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>
                               </div>
@@ -93,10 +83,9 @@
                               <div className="form-group">
                                 <label>BCorp Certified?:</label>
                                 {/* some kind of for statement here for bcorp generating */}
-                                <select className="form-control" id="sel1">
+                                {/* <select className="form-control" id="sel1">*/}
                                   <option>Choose:</option>
                                   <option>{bcorp}</option>
-                                </select>
                               </div>
 
                               <div className="col-lg-12 loginbttm">
@@ -107,15 +96,38 @@
                                   </div>
                               </div>
                           </form>
-                      </div>
-                  </div>
-                  <div className="col-lg-3 col-md-2"></div>
-              </div>
+                          </Col>
+            </Row>
+            <Row>
+              <Col>
+          <label>Product Notes</label>
+          <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
+          <div className="file-uploader">
+            <input type="file" value={img} onChange={handleImgChange}></input>
           </div>
-      </div>
-      </div>
-    </div>
-    </div>
+          <div className="form-group">
+            <input type="text" placeholder= "img url"  value={img} onChange={handleImgChange}></input>
+          </div>
+              </Col>
+              <Col>
+              </Col>
+              <Col>
+                <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                    <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                  </InputGroup.Prepend>
+                  <FormControl placeholder="placeholder" aria-label="Text input with checkbox" />
+                </InputGroup>
+                <InputGroup>
+                  <InputGroup.Prepend>
+                    <InputGroup.Radio aria-label="Radio button for following text input" />
+                  </InputGroup.Prepend>
+                  <FormControl placeholder="placeholder" aria-label="Text input with radio button" />
+                </InputGroup>
+              </Col>
+            </Row>
+          </Container>
+
     </React.Fragment>
   );
 }

@@ -3,36 +3,13 @@ const Router = ReactRouterDOM.BrowserRouter;
 const { useHistory, useParams, Redirect, Switch, Prompt, Link, Route } = ReactRouterDOM;
 
 function App() {
+  // const [user, setUser] = React.useState(null)
 
     return (
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/signup">Signup</Link>
-              </li>
-              <li>
-                <Link to="/add-product">AddProduct</Link>
-              </li>
-              <li>
-                <Link to="/user-profile">UserProfile</Link>
-              </li>
-              <li>
-                <Link to="/product-page">Product Page</Link>
-              </li>
-              <li>
-                <Link to="/product">Products</Link>
-              </li>
-            </ul>
-          </nav>
-
+            {/* <Nav user = {user}></Nav> */}
+            <Nav></Nav>
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
@@ -40,7 +17,8 @@ function App() {
               <Homepage />
             </Route> */}
             <Route path="/login">
-              <Login />
+              <Login/>
+              {/* <Login setUser={setUser}/> */}
             </Route>
             <Route path="/signup">
               <Signup />

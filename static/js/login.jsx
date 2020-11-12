@@ -1,9 +1,21 @@
 "use strict";
 
+// const { checkPropTypes } = require("prop-types");
+
+
+
+//   onSubmit = () => {
+//      if(userFound){
+//          return  <Redirect  to="/posts/" />
+//      }
+//   }
+
+
 function Login() {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+
 
   function handleSubmit(evt){
     evt.preventDefault()
@@ -14,7 +26,20 @@ function Login() {
     'Content-Type': 'application/json'}} )
   .then(response => response.json())
   .then(data => console.log(data));
+
+
+  // React.useEffect(() => {
+  //   fetch('/login')
+  //     .then(response => response.json())
+  //     .then(data => setUser(data));
+  //     history.pushState('/');
+  //     //  props allows us to set a "true" attribute on User
+  //     props.setUser(true);
+  //     localStorage.setItem('user',(data));
+  // }, []);
+
   }
+
 
   function handleEmailChange(evt){
     setEmail(evt.target.value)

@@ -58,14 +58,13 @@ def login_user():
     data = request.get_json()
 
     print(data)
-
     email = data['email']
     password = data['password']
-
+    # user = crud.get_user_by_email(email)
     is_user = crud.validate_user(password,email)
     # session['user'] = User.user_id
     if is_user:
-        return jsonify('success')
+        return jsonify('k')
 
     else:
         return jsonify('yousuck')

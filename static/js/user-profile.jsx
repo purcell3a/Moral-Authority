@@ -3,24 +3,28 @@ function ShowProfile() {
     return (
      <React.Fragment>
 
-         <div className="container">
-            <div className="row">
-                <div className="col-md-6">
-                    <div className="form-group">
-                            <label>User Profile</label>
-                            <div>name here</div>
-                            <div>email here</div>
-                    </div>
-                </div>
+        <Container>
+            <Row>
 
-                <div className="col-md-6">
-                            <div className="col-lg-12 login-form">
-                                <div> maybe products added here</div>
-                                <div> maybe favorites added here</div>
-                            </div>
-                </div>
-            </div>
-        </div>
-           </React.Fragment>
+                <Col>
+                    <label>User Profile</label>
+                    <div>name here</div>
+                    <div>email here</div>
+                </Col>
+                <Col>
+                    <div> maybe products added here</div>
+                    <div> maybe favorites added here</div>
+                </Col>
+
+            </Row>
+            <Row>
+                <Col>1 of 3</Col>
+
+                <Col> 2 of 3</Col>
+
+                <Col>3 of 3</Col>
+            </Row>
+        </Container>
+    </React.Fragment>
      );
    }
