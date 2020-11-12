@@ -65,20 +65,15 @@ function Login() {
                   <div className="col-lg-12 login-key">
                     <i className="fa fa-key" aria-hidden="true"></i>
                   </div>
-                  <div className="col-lg-12 login-title">
-                    Login
-                  </div>
 
             <div className="col-lg-12 login-form">
               <div className="col-lg-12 login-form">
                     <form onSubmit={handleSubmit}>
                       <div className="form-group">
-                        <label className="form-control-label">EMAIL</label>
-                        <input type="text" name="login-email" className="form-control" value={email} onChange={handleEmailChange}></input>
+                        <input type="text" name="login-email" placeholder="Email" className="form-control" value={email} onChange={handleEmailChange}></input>
                       </div>
                       <div className="form-group">
-                        <label className="form-control-label">PASSWORD</label>
-                        <input type="text" name="login-password" className="form-control" value={password} onChange={handlePasswordChange}></input>
+                        <input type="text" name="login-password" placeholder="Password" className="form-control" value={password} onChange={handlePasswordChange}></input>
                       </div>
 
                       <div className="col-lg-12 loginbttm">

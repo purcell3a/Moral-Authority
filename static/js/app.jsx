@@ -8,14 +8,10 @@ function App() {
     return (
       <Router>
         <div>
-            {/* <Nav user = {user}></Nav> */}
-            <Nav></Nav>
+          <TopNav />
           {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
           <Switch>
-          {/* <Route path="/">
-              <Homepage />
-            </Route> */}
             <Route path="/login">
               <Login/>
               {/* <Login setUser={setUser}/> */}
@@ -23,7 +19,7 @@ function App() {
             <Route path="/signup">
               <Signup />
             </Route>
-            <Route path="/add-product">
+             <Route path="/add-product">
               <AddProduct />
             </Route>
             <Route path="/user-profile">
@@ -47,6 +43,7 @@ function App() {
 //     </React.Fragment>
 //   );
 // }
+
 
 ReactDOM.render(<App />, document.getElementById('app'));
 
