@@ -8,14 +8,9 @@
     const [productUrl, setProductUrl] = React.useState('')
     const [description, setDescription] = React.useState('')
     const [img, setImg] = React.useState('')
-    const [bcorp, setBcorp] = React.useState([]);
+    // const [bcorp, setBcorp] = React.useState([]);
     // const [selectedBCorp, setSelectedBCorp] = useState("");
 
-    React.useEffect(() => {
-    fetch('/list-bcorps')
-      .then(response => response.json())
-      .then(data => setBcorp(data));
-  }, []);
 
       //   <select
       //   name="Bcorps"
@@ -23,9 +18,9 @@
       //   value={selectedBCorp}
       // >
       //   <option value="">Select the BCorp</option>
-      //   {countryList.map((country, key) => (
-      //     <option key={key} value={country.name}>
-      //       {country.name}
+      //   {countryList.map((value, key) => (
+      //     <option key={bcorp} value={bcorp}>
+      //       {bcorp}
       //     </option>
       //   ))}
       // </select>
@@ -64,6 +59,24 @@
       setImg(evt.target.value)
     }
 
+    function listBCorps (){
+      const [bcorp, setBcorp] = React.useState([]);
+      // const [selectedBCorp, setSelectedBCorp] = useState("");
+      console.log(bcorp)
+  
+      React.useEffect(() => {
+        fetch('/list-bcorps')
+          .then(response => response.json())
+          .then(data => setBcorp(data));
+          console.log(bcorp)
+      }, []);
+  
+      for (const corp in bcorp){
+             return(
+        <div>{listofbcorps}</div>
+      );
+  }
+
       return (
         <React.Fragment>
           <Container>
@@ -84,8 +97,9 @@
                                 <label>BCorp Certified?:</label>
                                 {/* some kind of for statement here for bcorp generating */}
                                 {/* <select className="form-control" id="sel1">*/}
+                                <DropDownListComponent id="ddlelement" dataSource={bcorp}placeholder="Select a customer" />
                                   <option>Choose:</option>
-                                  <option>{bcorp}</option>
+                                  <option></option>
                               </div>
 
                               <div className="col-lg-12 loginbttm">
