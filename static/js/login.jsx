@@ -11,33 +11,50 @@
 //   }
 
 
-function Login() {
+function Login(props) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const history = useHistory()
 
 
   function handleSubmit(evt){
     evt.preventDefault()
-    console.log('hi')
-
-  let data = {email:email, password:password}
-  fetch('/login',{method: "POST",  body: JSON.stringify(data),  headers: {
-    'Content-Type': 'application/json'}} )
-  .then(response => response.json())
-  .then(data => console.log(data));
-
-
-  React.useEffect(() => {
-    fetch('/login')
+    let data = {email:email, password:password}
+    fetch('/login' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+      'Content-Type': 'application/json'}})
       .then(response => response.json())
       // data is the user we are pulling from our db after verifying their info above
-      .then(data => setUser(data));
-      history.pushState('/');
-      //  props allows us to set a "true" attribute on User
-      props.setUser(true);
-      localStorage.setItem('user',(data));
-  }, []);
+      .then(data => {
+        if (data !== 'not logged in'){
+          props.setUser(data)
+          localStorage.setItem('user',(data));
+          history.push('/');
+        }else{
+          alert('Ivalid Username or Password')
+        }
+    console.log('hi')
+      });
+  // let data = {email:email, password:password}
+  // fetch('/login',{method: "POST",  body: JSON.stringify(data),  headers: {
+  //   'Content-Type': 'application/json'}} )
+  // .then(response => response.json())
+  // .then(data => console.log(data));
+
+
+  // React.useEffect(() => {
+  //   fetch('/login')
+  //     .then(response => response.json())
+  //     // data is the user we are pulling from our db after verifying their info above
+  //     .then(data => {
+  //       if (data === 'logged in'){
+  //         props.setUser(data)
+  //         localStorage.setItem('user',(data));
+  //         history.push('/');
+  //       }else{
+  //         alert('Ivalid Username or Password')
+  //       }
+  // }, []);
 
   }
 

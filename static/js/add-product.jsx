@@ -8,80 +8,84 @@
     const [productUrl, setProductUrl] = React.useState('')
     const [description, setDescription] = React.useState('')
     const [img, setImg] = React.useState('')
-    // const [bcorp, setBcorp] = React.useState([]);
-    // const [selectedBCorp, setSelectedBCorp] = useState("");
+    const [bcorps, setBcorps] = React.useState({corps:[]});
+    const [selectedBCorp, setSelectedBcorp] = React.useState("");
 
 
-      //   <select
-      //   name="Bcorps"
-      //   onChange={e => handleBCorpSelect(e)}
-      //   value={selectedBCorp}
-      // >
-      //   <option value="">Select the BCorp</option>
-      //   {countryList.map((value, key) => (
-      //     <option key={bcorp} value={bcorp}>
-      //       {bcorp}
-      //     </option>
-      //   ))}
-      // </select>
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log('productpage')
-
-    let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img}
-    fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
-      'Content-Type': 'application/json'}} )
-    .then(response => response.json())
-    .then(data => console.log(data));
+      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img}
+      fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
+        'Content-Type': 'application/json'}} )
+      .then(response => response.json())
+      .then(data => console.log(data));
     }
+
+
+
+    React.useEffect(() => {
+        fetch('/list-bcorps')
+        .then((response) => {
+            return response.json();
+          })
+        .then(data => {
+            let bcorplist = data.map(corp =>{
+              return {value:corp, display:corp}
+            });
+            setBcorps({
+            corps: [{value: '', display: '(Select your bcorp)'}].concat(bcorplist)
+          });
+        }).catch(error => {
+          console.log(error);
+        });
+    },[]);
+
+
+    function generateOptions(){
+      const options = bcorps.corps.map((corp, index) => (
+        <option key={index} value={corp.value}>
+          {corp.display}
+        </option>
+      ))
+      return options
+    }
+
+
+    function handleBcorpSelect(evt){
+      setSelectedBcorp(evt.target.value)
+    }
+
 
     function handleProductNameChange(evt){
       setProductName(evt.target.value)
-
-
     }
+
 
     function handleCompanyChange(evt){
       setCompany(evt.target.value)
-
-
     }
+
 
     function handleProductUrlChange(evt){
       setProductUrl(evt.target.value)
     }
 
+
     function handleDescriptionChange(evt){
       setDescription(evt.target.value)
     }
 
+
     function handleImgChange(evt){
       setImg(evt.target.value)
     }
-
-    function listBCorps (){
-      const [bcorp, setBcorp] = React.useState([]);
-      // const [selectedBCorp, setSelectedBCorp] = useState("");
-      console.log(bcorp)
-  
-      React.useEffect(() => {
-        fetch('/list-bcorps')
-          .then(response => response.json())
-          .then(data => setBcorp(data));
-          console.log(bcorp)
-      }, []);
-  
-      for (const corp in bcorp){
-             return(
-        <div>{listofbcorps}</div>
-      );
-  }
 
       return (
         <React.Fragment>
           <Container>
             <Row>
               <Col>1 of 2</Col>
+              <span>jaldksfjalsdfkjasldfkjaslfdkjalskdfjalskfdjaslfkdj</span>
               <Col>
               <form onSubmit={handleSubmit}>
                               <div className="form-group">
@@ -94,10 +98,13 @@
                                   <input type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
                               </div>
                               <div className="form-group">
+
+                              <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
+                              {generateOptions()}
+                                </select>
+
+
                                 <label>BCorp Certified?:</label>
-                                {/* some kind of for statement here for bcorp generating */}
-                                {/* <select className="form-control" id="sel1">*/}
-                                <DropDownListComponent id="ddlelement" dataSource={bcorp}placeholder="Select a customer" />
                                   <option>Choose:</option>
                                   <option></option>
                               </div>
@@ -145,7 +152,3 @@
     </React.Fragment>
   );
 }
-
-
-
-

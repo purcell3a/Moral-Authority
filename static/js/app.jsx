@@ -3,8 +3,14 @@ const Router = ReactRouterDOM.BrowserRouter;
 const { useHistory, useParams, Redirect, Switch, Prompt, Link, Route } = ReactRouterDOM;
 
 function App() {
-  const [user, setUser] = React.useState(null)
 
+  function getCurrentUser(){
+    const currentuser = localStorage.getItem('user');
+
+    return currentuser
+  }
+  const [user, setUser] = React.useState(getCurrentUser)
+  console.log(user)
     return (
       <Router>
         <div>

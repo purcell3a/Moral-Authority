@@ -22,10 +22,8 @@ def return_bcorps():
     """return list of bcorps"""
 
     bcorps = crud.return_bcorp()
-    bcorps = bcorps
-    bcorps = jsonify(bcorps)
-    return bcorps
-
+    print(bcorps)
+    return jsonify(bcorps)
 
 @app.route('/signup', methods=["POST"])
 def sign_up():
@@ -60,14 +58,15 @@ def login_user():
     print(data)
     email = data['email']
     password = data['password']
-    # user = crud.get_user_by_email(email)
+    user = crud.get_user_by_email(email)
+
     is_user = crud.validate_user(password,email)
     # session['user'] = User.user_id
     if is_user:
-        return jsonify('k')
+        return jsonify(user.fname)
 
     else:
-        return jsonify('yousuck')
+        return jsonify('not logged in')
 
 
 
