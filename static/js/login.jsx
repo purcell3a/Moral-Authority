@@ -28,15 +28,16 @@ function Login() {
   .then(data => console.log(data));
 
 
-  // React.useEffect(() => {
-  //   fetch('/login')
-  //     .then(response => response.json())
-  //     .then(data => setUser(data));
-  //     history.pushState('/');
-  //     //  props allows us to set a "true" attribute on User
-  //     props.setUser(true);
-  //     localStorage.setItem('user',(data));
-  // }, []);
+  React.useEffect(() => {
+    fetch('/login')
+      .then(response => response.json())
+      // data is the user we are pulling from our db after verifying their info above
+      .then(data => setUser(data));
+      history.pushState('/');
+      //  props allows us to set a "true" attribute on User
+      props.setUser(true);
+      localStorage.setItem('user',(data));
+  }, []);
 
   }
 

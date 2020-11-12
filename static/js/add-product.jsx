@@ -18,11 +18,11 @@
   }, []);
 
       //   <select
-      //   name="Countries"
-      //   onChange={e => handleCountrySelect(e)}
-      //   value={selectedCounty}
+      //   name="Bcorps"
+      //   onChange={e => handleBCorpSelect(e)}
+      //   value={selectedBCorp}
       // >
-      //   <option value="">Select the country</option>
+      //   <option value="">Select the BCorp</option>
       //   {countryList.map((country, key) => (
       //     <option key={key} value={country.name}>
       //       {country.name}
