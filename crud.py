@@ -33,11 +33,13 @@ def add_product(productName,productUrl,company,description):
 def get_products():
 
     all_products =  Product.query.all()
-
+    productList= []
     for product in all_products:
-        products = {'title':product.title,
+        productObject = {'title':product.title,
                     'description': product.description}
-    return products
+        productList.append(productObject)
+    return productList
+
 
 def return_bcorp():
 

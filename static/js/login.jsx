@@ -35,26 +35,6 @@ function Login(props) {
         }
     console.log('hi')
       });
-  // let data = {email:email, password:password}
-  // fetch('/login',{method: "POST",  body: JSON.stringify(data),  headers: {
-  //   'Content-Type': 'application/json'}} )
-  // .then(response => response.json())
-  // .then(data => console.log(data));
-
-
-  // React.useEffect(() => {
-  //   fetch('/login')
-  //     .then(response => response.json())
-  //     // data is the user we are pulling from our db after verifying their info above
-  //     .then(data => {
-  //       if (data === 'logged in'){
-  //         props.setUser(data)
-  //         localStorage.setItem('user',(data));
-  //         history.push('/');
-  //       }else{
-  //         alert('Ivalid Username or Password')
-  //       }
-  // }, []);
 
   }
 
