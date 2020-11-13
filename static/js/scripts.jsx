@@ -9,3 +9,4 @@ const Nav = ReactBootstrap.Nav;
 const NavDropdown = ReactBootstrap.NavDropdown;
 const FormControl = ReactBootstrap.FormControl;
 const InputGroup = ReactBootstrap.InputGroup;
+const Card = ReactBootstrap.Card;

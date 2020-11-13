@@ -14,13 +14,13 @@
 
     function handleSubmit(evt){
       evt.preventDefault()
-      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img}
+      console.log(productName, company,productUrl,description,img,selectedBCorp)
+      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp }
       fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
       .then(data => console.log(data));
     }
-
 
 
     React.useEffect(() => {
@@ -123,9 +123,6 @@
               <Col>
           <label>Product Notes</label>
           <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
-          <div className="file-uploader">
-            <input type="file" value={img} onChange={handleImgChange}></input>
-          </div>
           <div className="form-group">
             <input type="text" placeholder= "img url"  value={img} onChange={handleImgChange}></input>
           </div>

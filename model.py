@@ -40,9 +40,9 @@ class Favorite(db.Model):
     favorite_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key= True)
-    user_id = db.Column(db.Integer, 
+    user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'))
-    product_id = db.Column(db.Integer, 
+    product_id = db.Column(db.Integer,
                         db.ForeignKey('products.product_id'))
     date_added = db.Column(db.DateTime,nullable=False)
     date_modified = db.Column(db.DateTime,nullable=False)

@@ -7,7 +7,6 @@ from jinja2 import StrictUndefined
 
 app = Flask(__name__)
 app.secret_key = 'SECRETKEY'
-# app.jinja_env.undefined = StrictUndefined
 
 @app.route('/')
 def show_homepage():
@@ -15,8 +14,13 @@ def show_homepage():
 
     return render_template('base.html')
 
+@app.route('/return-products')
+def return_products():
+    """return all products"""
+    products = crud.get_products()
 
-# name this better
+    return jsonify(products)
+
 @app.route('/list-bcorps')
 def return_bcorps():
     """return list of bcorps"""
@@ -41,8 +45,6 @@ def sign_up():
 
     if existing_user:
         return jsonify('you already exist dingus')
-    #     flash('Welcome Back!')
-    #     return redirect('/')
     else:
         new_user = crud.create_user(fname,lname,email,password)
         return jsonify('account created')
@@ -76,28 +78,19 @@ def add_product():
 
     data = request.get_json()
 
-    print(data)
-
+    bcorp = data['selectedBCorp']
     productName = data['productName']
     company = data['company']
     productUrl = data['productUrl']
     description = data['description']
 
-    new_product = crud.add_product(productName,company,productUrl,description)
+    if bcorp:
+        company = bcorp
+        new_product = crud.add_product(productName,company,productUrl,description)
+        return jsonify('product made')
+    else: 
+        return jsonify('try again')
 
-
-    print(new_product)
-
-    # session['user'] = User.user_id
-
-    if productName == company:
-        return jsonify('success')
-    #     flash('Welcome Back!')
-    #     return redirect('/')
-    else:
-        return jsonify('yousuck')
-
-    # return redirect('/login')
 
 if __name__ == '__main__':
     connect_to_db(app)

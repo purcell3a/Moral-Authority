@@ -30,6 +30,12 @@ def add_product(productName,productUrl,company,description):
 
     return new_product
 
+def get_products():
+
+    products =  Product.query.all()
+
+    return products
+
 def return_bcorp():
 
     bcorps = []

@@ -14,12 +14,9 @@ function App() {
     return (
       <Router>
         <div>
-          <TopNav user={user}/>
-          {/* A <Switch> looks through its children <Route>s and
-              renders the first one that matches the current URL. */}
+          <TopNav user={user} setUser={setUser}/>
           <Switch>
             <Route path="/login">
-              {/* <Login/> */}
               <Login setUser={setUser}/>
             </Route>
             <Route path="/signup">
@@ -42,14 +39,6 @@ function App() {
       </Router>
     );
 }
-// function Homepage() {
-//   return (
-//     <React.Fragment>
-//       <div> this is my homepage</div>
-//     </React.Fragment>
-//   );
-// }
-
 
 ReactDOM.render(<App />, document.getElementById('app'));
 
