@@ -54,7 +54,6 @@
                     <i className="fa fa-key" aria-hidden="true"></i>
                   </div>
                   <div className="col-lg-12 login-title">
-                    Register
                   </div>
 
             <div className="col-lg-12 login-form">

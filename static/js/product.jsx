@@ -1,30 +1,49 @@
 "use strict";
 
-function ShowProduct() {
+function ShowProduct(){
 
-  function ProductCard(){
-    return(
-      <Card style={{ width: '18rem' }}>
+  const [productCards, setProductCard] = React.useState('')
+
+
+    React.useEffect(() =>{
+      console.log('******************')
+      fetch('/return-products')
+      .then((response) => {
+        response.json();
+        })
+      .then((data) => {
+        let allproducts = data.map( Product =>{
+          return{title: Product.title, description: Product.description}
+        });
+        setProductCard
+      });
+    },[]);
+
+
+
+  function generateProductCards(){
+    const cards = productCards.Product.map((Product,index) =>(
+      <Card style={{ width: '18rem' }} key={index} value={Product.title}>
         <Card.Img variant="top" src="static/img/logo.png" />
         <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the bulk of
-            the card's content.
-          </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
+            <Card.Title>{Product.title}</Card.Title>
+            <Card.Text>
+              {Product.description}
+            </Card.Text>
+            <Button variant="primary">Go somewhere</Button>
         </Card.Body>
       </Card>
-    )
+      ))
+      return cards
   }
 
-
-    return (
+  return (
     <React.Fragment>
 
       <Container>
         <Row>
-          {ProductCard()}
+          <Col>1 of 2</Col>
+          <Col>{generateProductCards()}</Col>
         </Row>
       </Container>
 

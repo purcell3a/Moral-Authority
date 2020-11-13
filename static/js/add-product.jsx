@@ -85,7 +85,6 @@
           <Container>
             <Row>
               <Col>1 of 2</Col>
-              <span>jaldksfjalsdfkjasldfkjaslfdkjalskdfjalskfdjaslfkdj</span>
               <Col>
               <form onSubmit={handleSubmit}>
                               <div className="form-group">
@@ -99,14 +98,9 @@
                               </div>
                               <div className="form-group">
 
-                              <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
-                              {generateOptions()}
+                                <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
+                                {generateOptions()}
                                 </select>
-
-
-                                <label>BCorp Certified?:</label>
-                                  <option>Choose:</option>
-                                  <option></option>
                               </div>
 
                               <div className="col-lg-12 loginbttm">
@@ -135,12 +129,6 @@
                     <InputGroup.Checkbox aria-label="Checkbox for following text input" />
                   </InputGroup.Prepend>
                   <FormControl placeholder="placeholder" aria-label="Text input with checkbox" />
-                </InputGroup>
-                <InputGroup>
-                  <InputGroup.Prepend>
-                    <InputGroup.Radio aria-label="Radio button for following text input" />
-                  </InputGroup.Prepend>
-                  <FormControl placeholder="placeholder" aria-label="Text input with radio button" />
                 </InputGroup>
               </Col>
             </Row>

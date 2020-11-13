@@ -21,12 +21,12 @@ def return_products():
 
     return jsonify(products)
 
+
 @app.route('/list-bcorps')
 def return_bcorps():
     """return list of bcorps"""
 
     bcorps = crud.return_bcorp()
-    print(bcorps)
     return jsonify(bcorps)
 
 @app.route('/signup', methods=["POST"])
