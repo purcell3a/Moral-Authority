@@ -6,15 +6,21 @@ function App() {
 
   function getCurrentUser(){
     const currentuser = localStorage.getItem('user');
-
     return currentuser
   }
+
+
   const [user, setUser] = React.useState(getCurrentUser)
   console.log(user)
+
+
     return (
       <Router>
         <div>
           <TopNav user={user} setUser={setUser}/>
+
+
+
           <Switch>
             <Route path="/login">
               <Login setUser={setUser}/>
@@ -31,11 +37,14 @@ function App() {
             <Route path="/user-profile">
               <ShowProfile />
             </Route>
-            <Route path="/all-product">
-              <AllProducts />
+            <Route path="/shop">
+              <Shop />
             </Route>
-            <Route path="/product">
-              <ShowProduct />
+            <Route path="/product-page">
+              <ProductPage />
+            </Route>
+            <Route path="/">
+              <Homepage />
             </Route>
           </Switch>
         </div>

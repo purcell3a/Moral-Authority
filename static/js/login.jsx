@@ -1,16 +1,5 @@
 "use strict";
 
-// const { checkPropTypes } = require("prop-types");
-
-
-
-//   onSubmit = () => {
-//      if(userFound){
-//          return  <Redirect  to="/posts/" />
-//      }
-//   }
-
-
 function Login(props) {
 
   const [email, setEmail] = React.useState('')
@@ -54,44 +43,26 @@ function Login(props) {
     return (
 
       <React.Fragment>
+          <Container>
+            <Row>
+              <Col>
+                <Form onSubmit={handleSubmit}>
 
+                  <Form.Group controlId="formBasicEmail">
+                    <Form.Control type="email" name="login-email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
+                  </Form.Group>
 
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-3 col-md-2"></div>
-                <div className="col-lg-6 col-md-8 login-box">
-                  <div className="col-lg-12 login-key">
-                    <i className="fa fa-key" aria-hidden="true"></i>
-                  </div>
+                  <Form.Group controlId="formBasicPassword">
+                    <Form.Control type="password" name="login-password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
+                  </Form.Group>
 
-            <div className="col-lg-12 login-form">
-              <div className="col-lg-12 login-form">
-                    <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                        <input type="text" name="login-email" placeholder="Email" className="form-control" value={email} onChange={handleEmailChange}></input>
-                      </div>
-                      <div className="form-group">
-                        <input type="text" name="login-password" placeholder="Password" className="form-control" value={password} onChange={handlePasswordChange}></input>
-                      </div>
-
-                      <div className="col-lg-12 loginbttm">
-                      <div className="col-lg-6 login-btm login-text">
-
-                      </div>
-                      <div className="col-lg-6 login-btm login-button">
-                        <button type="submit" className="btn btn-outline-primary">LOGIN</button>
-                      </div>
-                      <div className="col-lg-6 login-btm login-button">
-                          <a href="/signup">Register</a>
-                      </div>
-                      </div>
-                      </form>
-                      </div>
-            </div>
-            <div className="col-lg-3 col-md-2"></div>
-        </div>
-    </div>
-    </div>
+                  <Button variant="primary" type="submit">
+                    Login
+                  </Button>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
       </React.Fragment>
     );
   }

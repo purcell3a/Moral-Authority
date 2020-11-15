@@ -14,6 +14,12 @@ def show_homepage():
 
     return render_template('base.html')
 
+@app.route('/product-info')
+def return_product_info(productTitle):
+    """Returns product info for Product page"""
+    product_info = crud.get_product_info(productTitle)
+    return jsonify(product_info)
+
 @app.route('/return-products')
 def return_products():
     """return all products"""
@@ -74,7 +80,7 @@ def login_user():
 
 @app.route('/add-product', methods=["POST"])
 def add_product():
-    '''verify user and login'''
+    '''adds new product to db'''
 
     data = request.get_json()
 
@@ -88,7 +94,7 @@ def add_product():
         company = bcorp
         new_product = crud.add_product(productName,company,productUrl,description)
         return jsonify('product made')
-    else: 
+    else:
         return jsonify('try again')
 
 

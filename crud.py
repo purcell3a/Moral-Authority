@@ -40,6 +40,11 @@ def get_products():
         productList.append(productObject)
     return productList
 
+def get_product_info(productTitle):
+
+    product = Product.query.filter(Product.title == productTitle).first()
+    return product
+
 
 def return_bcorp():
 

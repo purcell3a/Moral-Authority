@@ -46,53 +46,46 @@
 
         <React.Fragment>
 
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-3 col-md-2"></div>
-                <div className="col-lg-6 col-md-8 login-box">
-                  <div className="col-lg-12 login-key">
-                    <i className="fa fa-key" aria-hidden="true"></i>
-                  </div>
-                  <div className="col-lg-12 login-title">
-                  </div>
+            <Container>
+              <Row>
+                1 of 3
+              </Row>
+              <Row>
+                <Col>
+                    Login goes here
+                </Col>
+                <Col>
+                  <Form onSubmit={handleSubmit}>
 
-            <div className="col-lg-12 login-form">
-                <div className="col-lg-12 login-form">
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-group">
-                            <label className="form-control-label">FIRST</label>
-                            <input type="text" name="fname" className="form-control" value={fname} onChange={handleFnameChange}></input>
-                        </div>
-                        <div className="form-group">
-                          <label className="form-control-label">LAST</label>
-                          <input type="text" name="lname" className="form-control" value={lname} onChange={handleLnameChange}></input>
-                        </div>
-                        <div className="form-group">
-                            <label className="form-control-label">EMAIL</label>
-                            <input type="text" name="email" className="form-control" value={email} onChange={handleEmailChange}></input>
-                        </div>
-                        <div className="form-group">
-                            <label className="form-control-label">PASSWORD</label>
-                            <input type="password" name="password" className="form-control" value={password} onChange={handlePasswordChange}></input>
-                        </div>
+                      <Form.Group controlId="formBasicEmail">
+                        <Form.Control type="text" name="fname" placeholder="First" value={fname} onChange={handleFnameChange} />
+                      </Form.Group>
 
-                        <div className="col-lg-12 loginbttm">
-                            <div className="col-lg-6 login-btm login-text">
-                            </div>
-                            <div className="col-lg-6 login-btm login-button">
-                                <button type="submit" className="btn btn-outline-primary">SIGNUP</button>
-                            </div>
-                            <div className="col-lg-6 login-btm login-button">
-                                <a href="/login">Login</a>
-                              </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div className="col-lg-3 col-md-2"></div>
-        </div>
-    </div>
-    </div>
+                      <Form.Group controlId="formBasicPassword">
+                        <Form.Control type="text" name="lname"  placeholder="Last" value={lname} onChange={handleLnameChange}></Form.Control>
+                      </Form.Group>
+
+                      <Form.Group controlId="formBasicPassword">
+                        <Form.Control type="email" name="email"  placeholder="email" value={email} onChange={handleEmailChange}></Form.Control>
+                      </Form.Group>
+
+                      <Form.Group controlId="formBasicPassword">
+                        <Form.Control type="password" name="password"  placeholder="password" value={password} onChange={handlePasswordChange}></Form.Control>
+                      </Form.Group>
+
+                      <Button variant="primary" type="submit">
+                        Register
+                      </Button>
+
+                  </Form>
+                </Col>
+              </Row>
+              <Row>
+                3 of 3
+              </Row>
+
+            </Container>
+
 
   </React.Fragment>
   );

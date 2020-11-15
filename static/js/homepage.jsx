@@ -4,7 +4,11 @@
 function Homepage() {
     return (
       <React.Fragment>
-        <div> this is my homepage</div>
+        <Container>
+          <Row>
+          <Image src="static/img/vote.png" fluid />
+          </Row>
+        </Container>
       </React.Fragment>
     );
   }
