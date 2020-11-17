@@ -11,3 +11,6 @@ const FormControl = ReactBootstrap.FormControl;
 const InputGroup = ReactBootstrap.InputGroup;
 const Card = ReactBootstrap.Card;
 const Image = ReactBootstrap.Image;
+const DropdownButton = ReactBootstrap.DropdownButton;
+const Dropdown = ReactBootstrap.Dropdown;
+const Checkboxes  = ReactBootstrap.Checkboxes;

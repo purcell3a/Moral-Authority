@@ -3,6 +3,7 @@
 function Shop(){
 
     const [productCards, setProductCard] = React.useState([{}])
+    const [selectedCategory, setselectedCategory] = React.useState('');
     const history = useHistory()
 
     React.useEffect(() =>{
@@ -12,12 +13,15 @@ function Shop(){
       .then(data => setProductCard(data));
     },[]);
     console.log('productcards:',productCards);
-  
-    // when the product is clicked on - set that product id to state and send it with redirect 
+
+    // when the product is clicked on - set that product id to state and send it with redirect
     function handleClick(productId){
       history.push({pathname:`/product-page/${productId}`});
       };
 
+    function handleCategorySelect(evt){
+      setselectedCategory(evt.target.value)
+      }
 
     function generateProductCards(){
       const cards = productCards.map((product,index) =>(
@@ -34,14 +38,50 @@ function Shop(){
         ))
         return cards
     }
+    function generateDepartments(){
+      const departments = ['Beauty|Health','Clothing|Shoes|Accessories','Home|Garden'].map((dep, index) => (
+          <Dropdown.Item key={index} value={dep}>{dep}</Dropdown.Item>
+      ))
+      return departments
+    }
+
 
     return (
       <React.Fragment>
 
         <Container>
           <Row>
-            <Col>1 of 2</Col>
-            <Col>{generateProductCards()}</Col>
+
+
+            <Col xs={6} md={4}>
+              <Form>
+                <Nav defaultActiveKey="/product-search" className="flex-column">
+
+
+                    <Form.Group>
+                    <DropdownButton id="dropdown-basic-button" title="Department" onChange={handleCategorySelect} value={selectedCategory}>
+                          {generateDepartments()}
+                    </DropdownButton>
+                    </Form.Group>
+
+                      {/* #we can map this given categories in db */}
+                    <Form.Check label="Remember me" />
+
+                    <Form.Group>
+                      <Nav.Link href="/home">Active</Nav.Link>
+                      <Nav.Link eventKey="link-1">Link</Nav.Link>
+                      <Nav.Link eventKey="link-2">Link</Nav.Link>
+                      <Nav.Link eventKey="disabled" disabled>
+                        Disabled
+                      </Nav.Link>
+                    </Form.Group>
+                  </Nav>
+                  <Button type='submit'>Search</Button>
+              </Form>
+            </Col>
+
+
+            <Col xs={12} md={8}>{generateProductCards()}</Col>
           </Row>
         </Container>
 

@@ -19,8 +19,6 @@ function ProductPage() {
     <React.Fragment>
         <Container>
             <Row>
-            </Row>
-            <Row>
                 <Col>
                     <Image src="https://www.pcmedicalllc.com/images/ecommerce/no-img-med.jpg" rounded />
                 </Col>
@@ -28,11 +26,8 @@ function ProductPage() {
                 <div>{productInfo.title}</div>
                 <div>{productInfo.company}</div>
                 <div>{productInfo.url}</div>
+                <div>{productInfo.url}</div>
                 </Col>
-            </Row>
-            <Row>
-                <Col>{productInfo.description}</Col>
-                <Col> 2 of 2</Col>
             </Row>
         </Container>
       </React.Fragment>

@@ -1,6 +1,6 @@
 "use strict";
 
-  function Signup() {
+  function Signup(props) {
 
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
@@ -56,7 +56,7 @@
               </Row>
               <Row>
                 <Col>
-                    login goes here
+                    <Login/>
                 </Col>
                 <Col>
                   <Form onSubmit={handleSubmit}>
@@ -74,7 +74,7 @@
                       </Form.Group>
 
                       <Form.Group controlId="formBasicPassword">
-                        <Form.Control type="password" name="password"  placeholder="password" value={password} onChange={handlePasswordChange}></Form.Control>
+                        <Form.Control type="password" name="signuppassword"  placeholder="password" value={password} onChange={handlePasswordChange}></Form.Control>
                       </Form.Group>
 
                       <Button variant="primary" type="submit">
