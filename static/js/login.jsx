@@ -8,6 +8,7 @@ function Login(props) {
 
 
   function handleSubmit(evt){
+    console.log('sbumit is running')
     evt.preventDefault()
     let data = {email:email, password:password}
     fetch('/login' ,{method: "POST",  body: JSON.stringify(data),  headers: {
@@ -15,16 +16,15 @@ function Login(props) {
       .then(response => response.json())
       // data is the user we are pulling from our db after verifying their info above
       .then(data => {
-        if (data !== 'not logged in'){
+        if (data !== 'info does not match'){
           props.setUser(data)
-          localStorage.setItem('user',(data));
+          localStorage.setItem('user',JSON.stringify(data));
           history.push('/');
         }else{
-          alert('Ivalid Username or Password')
+          alert('Invalid Username or Password')
         }
-    console.log('hi')
+      console.log(data)
       });
-
   }
 
 
@@ -60,6 +60,7 @@ function Login(props) {
                     Login
                   </Button>
                 </Form>
+
               </Col>
             </Row>
           </Container>

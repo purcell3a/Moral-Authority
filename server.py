@@ -14,11 +14,22 @@ def show_homepage():
 
     return render_template('base.html')
 
-@app.route('/product-info')
-def return_product_info(productTitle):
+@app.route('/product-info',methods=['POST'])
+def return_product_info():
     """Returns product info for Product page"""
-    product_info = crud.get_product_info(productTitle)
-    return jsonify(product_info)
+    data = request.get_json()
+    productId = data['productId']
+    product_info = crud.get_product_info(productId)
+    product= {'product_id': product_info.product_id ,
+                    'title': product_info.title ,
+                    'company': product_info.company ,
+                    'description': product_info.description ,
+                    'url': product_info.url, 
+                    'img_id': product_info.img_id}
+    print('*****************************************************************')
+    print('product_info=',product)
+    print('*****************************************************************')
+    return jsonify(product)
 
 @app.route('/return-products')
 def return_products():
@@ -35,6 +46,32 @@ def return_bcorps():
     bcorps = crud.return_bcorp()
     return jsonify(bcorps)
 
+
+@app.route('/change-user-data',methods=['POST'])
+def change_user_data():
+
+    data = request.get_json()
+
+    user_id = data['user_id']
+    fname = data['fname']
+    lname = data['lname']
+    email = data['email']
+    password = data['password']
+
+    updatedUser = crud.change_user_data(fname,lname,email,password,user_id)
+
+    return jsonify ('Account Updated')
+
+@app.route('/get-user-by-id',methods=["POST"])
+def get_user_by_id():
+    ''' gets all user profile info by id'''
+    data = request.get_json()
+
+    user_id = data['user_id']
+    user = crud.get_user_by_id(user_id)
+    return {'fname' : user.fname,'lname' : user.lname, 'id':user.user_id ,'email' : user.email, 'password' : user.password}
+
+
 @app.route('/signup', methods=["POST"])
 def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
@@ -45,17 +82,18 @@ def sign_up():
     lname = data['lname']
     email = data['email']
     password = data['password']
+    print('email')
+    print(email)
+    existing_user = crud.does_user_exist(email)
+    print('*****************************************************************')
+    print(existing_user)
 
-    existing_user = crud.get_user_by_email(email)
-
-
-    if existing_user:
+    if existing_user == 'user exists':
         return jsonify('you already exist dingus')
     else:
         new_user = crud.create_user(fname,lname,email,password)
         return jsonify('account created')
 
-    return redirect('/login')
 
 
 @app.route('/login', methods=["POST"])
@@ -67,14 +105,17 @@ def login_user():
     email = data['email']
     password = data['password']
     user = crud.get_user_by_email(email)
-
+    print('*****************************************************************')
+    print('user=',user)
+    print('*****************************************************************')
     is_user = crud.validate_user(password,email)
     # session['user'] = User.user_id
+
     if is_user:
-        return jsonify(user.fname)
+        return jsonify({'fname' : user['fname'], 'id':user['user_id'] })
 
     else:
-        return jsonify('not logged in')
+        return jsonify('info does not match')
 
 
 
@@ -84,12 +125,13 @@ def add_product():
 
     data = request.get_json()
 
+    # user = data['user']
     bcorp = data['selectedBCorp']
     productName = data['productName']
     company = data['company']
     productUrl = data['productUrl']
     description = data['description']
-
+    # need a way to pull the user_id from local storage and pass it in with product submit
     if bcorp:
         company = bcorp
         new_product = crud.add_product(productName,company,productUrl,description)

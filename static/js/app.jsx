@@ -5,7 +5,8 @@ const { useHistory, useParams, Redirect, Switch, Prompt, Link, Route } = ReactRo
 function App() {
 
   function getCurrentUser(){
-    const currentuser = localStorage.getItem('user');
+    const currentuser = JSON.parse(localStorage.getItem('user'));
+    // const currentuser = localStorage.getItem('user');
     return currentuser
   }
 
@@ -29,18 +30,18 @@ function App() {
               <Logout />
             </Route>
             <Route path="/signup">
-              <Signup />
+              <Signup setUser={setUser}/>
             </Route>
              <Route path="/add-product">
               <AddProduct />
             </Route>
-            <Route path="/user-profile">
+            <Route path="/user-profile" setUser={setUser} user={user}>
               <ShowProfile />
             </Route>
             <Route path="/shop">
               <Shop />
             </Route>
-            <Route path="/product-page">
+            <Route path="/product-page/:productId">
               <ProductPage />
             </Route>
             <Route path="/">

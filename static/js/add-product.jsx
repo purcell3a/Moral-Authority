@@ -83,55 +83,49 @@
       return (
         <React.Fragment>
           <Container>
-            <Row>
-              <Col>1 of 2</Col>
-              <Col>
-                    <form onSubmit={handleSubmit}>
-                      <div className="form-group">
-                          <input type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" name="product-company" className="form-control" placeholder= "company" value={company} onChange={handleCompanyChange}></input>
-                        </div>
-                        <div className="form-group">
-                          <input type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
-                        </div>
-                        <div className="form-group">
 
-                            <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
-                            {generateOptions()}
-                            </select>
+                  <Form onSubmit={handleSubmit}>
+                    <Form.Row>
+                        <Col>
+                        <label>Product Notes</label>
+                        <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
+                        <div className="form-group">
+                        <input type="text" placeholder= "img url"  value={img} onChange={handleImgChange}></input>
                         </div>
+                        </Col>
+                        <Col>
+                            <Form.Group>
+                                <input type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>
+                            </Form.Group>
 
-                        <div className="col-lg-12 loginbttm">
-                            <div className="col-lg-6 login-btm login-text">
-                            </div>
-                            <div className="col-lg-6 login-btm login-button">
-                            <button type="submit" className="btn btn-outline-primary">Submit for Review</button>
-                            </div>
-                        </div>
-                      </form>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <label>Product Notes</label>
-                <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
-                <div className="form-group">
-                <input type="text" placeholder= "img url"  value={img} onChange={handleImgChange}></input>
-                </div>
-              </Col>
-              <Col>
-              </Col>
-              <Col>
-                <InputGroup className="mb-3">
-                <InputGroup.Prepend>
-                  <InputGroup.Checkbox aria-label="Checkbox for following text input" />
-                  </InputGroup.Prepend>
-                  <FormControl placeholder="placeholder" aria-label="Text input with checkbox" />
-                </InputGroup>
-              </Col>
-            </Row>
+                            <Form.Group>
+                                <input type="text" name="product-company" className="form-control" placeholder= "company" value={company} onChange={handleCompanyChange}></input>
+                            </Form.Group>
+
+                            <Form.Group>
+                                <input type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
+                            </Form.Group>
+
+                            <Form.Group>
+                                <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
+                                        {generateOptions()}
+                                </select>
+                            </Form.Group>
+
+                            <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                            </InputGroup.Prepend>
+                            <FormControl placeholder="placeholder" aria-label="Text input with checkbox" />
+                            </InputGroup>
+
+                              <Button type="submit">Submit for Review</Button>
+                          </Col>
+                    </Form.Row>
+
+                    <Form.Row>row 2</Form.Row>
+                  </Form>
+
           </Container>
 
     </React.Fragment>

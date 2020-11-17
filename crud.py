@@ -13,6 +13,28 @@ def create_user(fname,lname,email,password):
     db.session.commit()
     return new_user
 
+
+def change_user_data(fname,lname,email,password,user_id):
+    now = datetime.datetime.now()
+    user = User.query.get(user_id)
+
+    if user.fname != fname:
+        user.fname = fname
+
+    if user.lname != lname:
+        user.lname = lname
+
+    if user.email != email:
+        user.email = email
+
+    if user.password != password:
+        user.password = password
+
+    user.user_id = user_id
+
+    db.session.commit()
+
+
 def add_product(productName,productUrl,company,description):
     user = 1
     now = datetime.datetime.now()
@@ -30,19 +52,23 @@ def add_product(productName,productUrl,company,description):
 
     return new_product
 
+
 def get_products():
 
     all_products =  Product.query.all()
     productList= []
     for product in all_products:
         productObject = {'title':product.title,
-                    'description': product.description}
+                    'description': product.description,
+                    'product_id' : product.product_id}
         productList.append(productObject)
     return productList
 
-def get_product_info(productTitle):
 
-    product = Product.query.filter(Product.title == productTitle).first()
+def get_product_info(productId):
+
+    product = Product.query.filter(Product.product_id == productId).first()
+
     return product
 
 
@@ -55,6 +81,7 @@ def return_bcorp():
             bcorps.append(corp.company_certified)
     return bcorps
 
+
 def get_users():
     """Returns users in db."""
 
@@ -62,10 +89,34 @@ def get_users():
 
     return users
 
+
+
 def get_user_by_email(email):
     ''' return a user by email'''
 
-    return User.query.filter(User.email == email).first()
+    result = User.query.filter(User.email == email).first()
+    print('*********************************************************************')
+    print('result.fname:', result.fname)
+    # user.append(result.gmail)
+    user = { 'email': result.email,
+            'fname' : result.fname,
+            'lname' : result.lname,
+            'password' : result.password,
+            'user_id' : result.user_id}
+
+    return user
+
+
+def does_user_exist(email):
+    ''' return a user by email'''
+
+    result = User.query.filter(User.email == email).first()
+
+    if result is not None:
+        return ('user exists')
+    else:
+        return('user does not exist')
+
 
 def validate_user(password,email):
     """checks for valid password on login"""
