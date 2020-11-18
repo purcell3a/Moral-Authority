@@ -14,6 +14,7 @@ def show_homepage():
 
     return render_template('base.html')
 
+
 @app.route('/product-info',methods=['POST'])
 def return_product_info():
     """Returns product info for Product page"""
@@ -26,10 +27,8 @@ def return_product_info():
                     'description': product_info.description ,
                     'url': product_info.url,
                     'img_id': product_info.img_id}
-    print('*****************************************************************')
-    print('product_info=',product)
-    print('*****************************************************************')
     return jsonify(product)
+
 
 @app.route('/return-products')
 def return_products():
@@ -39,6 +38,14 @@ def return_products():
     return jsonify(products)
 
 
+@app.route('/return-certs')
+def return_all_certs():
+    ''' return all certs'''
+    certs = crud.return_certifications()
+
+    return jsonify(certs)
+
+
 @app.route('/list-bcorps')
 def return_bcorps():
     """return list of bcorps"""
@@ -46,11 +53,23 @@ def return_bcorps():
     bcorps = crud.return_bcorp()
     return jsonify(bcorps)
 
+
 @app.route('/list-departments')
 def return_list_departments():
     ''' return list of departments/categories'''
     departments= crud.return_departments()
     return jsonify(departments)
+
+@app.route('/filter-products', methods=['POST'])
+def filter_products():
+    '''filter products and return to shop page'''
+    data = request.get_json()
+    print('*****************************************************************')
+    print(data)
+    department = data['selectedDepartment']
+    certifications = (data['selectedCerts'])
+    print (department, certifications)
+    return jsonify('change this later')
 
 
 @app.route('/change-user-data',methods=['POST'])
@@ -67,6 +86,7 @@ def change_user_data():
     updatedUser = crud.change_user_data(fname,lname,email,password,user_id)
 
     return jsonify ('Account Updated')
+
 
 @app.route('/get-user-by-id',methods=["POST"])
 def get_user_by_id():

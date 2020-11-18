@@ -119,7 +119,7 @@ def return_certifications():
     for certifications in all_certifications:
         if certifications.certification not in certifications_list:
             certifications_list.append(certifications.certification)
-    print (certifications_list)
+    return (certifications_list)
 
 
 def return_departments():

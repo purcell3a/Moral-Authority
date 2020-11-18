@@ -5,11 +5,10 @@ function Shop(){
     const [productCards, setProductCard] = React.useState([{}])
     const [selectedDepartment, setselectedDepartment] = React.useState('');
     const [departments, setDepartments] = React.useState({deps:[]});
-
-
-    // const [selectedBrands, setSelectedBrands] = useState(new Set());
-    // const [products, setProducts] = useState(allProducts);
+    const [certs, setCerts] = React.useState([]);
+    const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
+    const certsForFilter = Array.from(selectedCerts)
 
 
     React.useEffect(() =>{
@@ -18,7 +17,7 @@ function Shop(){
       .then(response => response.json())
       .then(data => setProductCard(data));
     },[]);
-    console.log('productcards:',productCards);
+    console.log(selectedCerts)
 
 
     React.useEffect(() => {
@@ -38,6 +37,12 @@ function Shop(){
       });
   },[]);
 
+  React.useEffect(() => {
+    fetch('/return-certs')
+      .then(response => response.json())
+      .then(data => setCerts(data));
+      },[]);
+
     // when the product is clicked on - set that product id to state and send it with redirect
     function handleClick(productId){
       history.push({pathname:`/product-page/${productId}`});
@@ -51,7 +56,7 @@ function Shop(){
     function generateProductCards(){
       const cards = productCards.map((product,index) =>(
         <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-          <Card.Img variant="top"  src="https://www.pcmedicalllc.com/images/ecommerce/no-img-med.jpg" />
+          <Card.Img variant="top"  src="https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg" />
           <Card.Body>
               <Card.Title>{product.title}</Card.Title>
               <Card.Text>
@@ -74,14 +79,41 @@ function Shop(){
       return depoptions
     }
 
-    // function handleSubmit(evt){
-    //   evt.preventDefault()
-    //     let data = {category:selectedCategory,Bcorp:certBcorp,category:certEWG,category:selectedCategory,category:selectedCategory}
-    //     fetch('/signup',{method: "POST",  body: JSON.stringify(data),  headers: {
-    //           'Content-Type': 'application/json'}} )
-    //     .then(response => response.json())
-    //     .then(data => console.log(data))
-    //   }
+
+    function toggleCertFilter(cert) {
+      // new set is new set + existing selections
+      const newSet = new Set(selectedCerts);
+      //  if selection already present delete it from add
+      if (selectedCerts.has(cert)) {
+        newSet.delete(cert);
+        setSelectedCerts(newSet);
+      // else add new cert and set selected certs to new set
+      } else {
+        newSet.add(cert);
+        setSelectedCerts(newSet);
+      }
+    }
+
+    function generateCertifications(){
+      const certOptions = certs.map((cert,index) => (
+        <Form.Check label={cert}
+                    key={index}
+                    value={cert}
+                    onClick={() => toggleCertFilter(cert)}/>
+
+      ))
+      return certOptions
+    }
+
+    function handleSubmit(evt){
+      evt.preventDefault()
+      console.log('selectedDepartment', selectedDepartment, 'selectedCerts:', certsForFilter)
+        let data = {selectedDepartment:selectedDepartment,selectedCerts:certsForFilter}
+        fetch('/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
+              'Content-Type': 'application/json'}} )
+        .then(response => response.json())
+        .then(data => console.log(data))
+      }
 
     return (
       <React.Fragment>
@@ -91,7 +123,7 @@ function Shop(){
 
 
             <Col xs={6} md={4}>
-              <Form>
+              <Form onSubmit={handleSubmit}>
                 <Nav defaultActiveKey="/product-search" className="flex-column">
 
 
@@ -102,12 +134,9 @@ function Shop(){
                     </Form.Group>
 
                       {/* #we can map this given categories in db */}
-                    {/* <Form.Group>
-                    <Form.Check label="Bcorp" onSelect={handleBcorpSelect} value={certBcorp}/>
-                    <Form.Check label="EWG" onSelect={handleEWGSelect} value={certEWG}/>
-                    <Form.Check label="FairTrade" onSelect={handleFairTradeSelect} value={certFairtrade}/>
-                    <Form.Check label="LeapingBunny" onSelect={handleLeapingBunnySelect} value={certLeapingBunny}/>
-                    </Form.Group> */}
+                    <Form.Group>
+                    {generateCertifications()}
+                    </Form.Group>
 
                     <Form.Group>
                       <Nav.Link eventKey="link-2">Link</Nav.Link>
@@ -125,54 +154,3 @@ function Shop(){
       </React.Fragment>
     );
 }
-
-
-//   // Whenever brand filter changes update the products list
-//   useEffect(() => {
-//     if (firstTime.current) {
-//       firstTime.current = false;
-//     } else {
-//       if (selectedBrands.size === 0) {
-//         setProducts(allProducts);
-//         return;
-//       } else {
-//         const updatedProducts = allProducts.filter(product =>
-//           selectedBrands.has(product.brand)
-//         );
-//         setProducts(updatedProducts);
-//       }
-//     }
-//   }, [selectedBrands]);
-
-//   function toggleBrandFilter(brand) {
-//     const newSet = new Set(selectedBrands);
-//     if (selectedBrands.has(brand)) {
-//       newSet.delete(brand);
-//       setSelectedBrands(newSet);
-//     } else {
-//       newSet.add(brand);
-//       setSelectedBrands(newSet);
-//     }
-//   }
-//   return (
-//     <div className="App">
-//       <p>Please select a brand</p>
-
-//       <section className="filters">
-//         {availableBrands.map(brand => (
-//           <Filter
-//             brandName={brand}
-//             key={brand}
-//             handleClick={() => toggleBrandFilter(brand)}
-//             selectedBrands={selectedBrands}
-//           />
-//         ))}
-//       </section>
-//       <section className="products">
-//         {products.map(product => (
-//           <Product product={product} key={product.name} />
-//         ))}
-//       </section>
-//     </div>
-//   );
-// }
