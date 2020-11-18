@@ -59,12 +59,11 @@ class Category(db.Model):
     __tablename__ = 'categories'
 
     category_id = db.Column(db.Integer,
-                        primary_key= True,
                         autoincrement=True,
-                        nullable=False)
-    title = db.Column(db.String,)
-    subcategory = db.Column(db.Integer,
-                        nullable=False)
+                        nullable=False,
+                        primary_key=True)
+    title = db.Column(db.String,nullable=False, unique=True)
+    subcategory = db.Column(db.Integer, nullable=True)
     date_added = db.Column(db.DateTime,nullable=False)
     date_modified = db.Column(db.DateTime,nullable=False)
 

@@ -46,6 +46,12 @@ def return_bcorps():
     bcorps = crud.return_bcorp()
     return jsonify(bcorps)
 
+@app.route('/list-departments')
+def return_list_departments():
+    ''' return list of departments/categories'''
+    departments= crud.return_departments()
+    return jsonify(departments)
+
 
 @app.route('/change-user-data',methods=['POST'])
 def change_user_data():
@@ -126,15 +132,25 @@ def add_product():
     data = request.get_json()
 
     # user = data['user']
+    category_from_data = data['category']
+
+    print('*************************************************************************************************************')
+    print('*************************************************************************************************************')
+    print('*************************************************************************************************************')
+    category_id = crud.get_category_id(category_from_data)
+    print('category_id-',category_id)
     bcorp = data['selectedBCorp']
     productName = data['productName']
     company = data['company']
     productUrl = data['productUrl']
     description = data['description']
+    category_from_data = data['category']
+    print('CATEGORY FROM DATA', category_from_data)
+    print('productname FROM DATA', productName)
     # need a way to pull the user_id from local storage and pass it in with product submit
     if bcorp:
         company = bcorp
-        new_product = crud.add_product(productName,company,productUrl,description)
+        new_product = crud.add_product(productName,company,productUrl,description,category_id)
         return jsonify('product made')
     else:
         return jsonify('try again')

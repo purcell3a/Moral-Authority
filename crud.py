@@ -1,6 +1,6 @@
 """CRUD operations."""
 # from flask import Flask, render_template, request, flash, session, redirect ,jsonify
-from model import db, User, connect_to_db, Product, Certification
+from model import db, User, connect_to_db, Product, Certification,Category
 import datetime
 
 # Functions start here!
@@ -34,18 +34,33 @@ def change_user_data(fname,lname,email,password,user_id):
 
     db.session.commit()
 
-
-def add_product(productName,productUrl,company,description):
-    user = 1
+def add_new_category(category):
     now = datetime.datetime.now()
 
+    new_category = Category( title=category,
+                            date_added=now,
+                            date_modified=now)
+    db.session.add(new_category)
+    db.session.commit()
+
+def get_category_id(title):
+
+    categoryObject = Category.query.filter(Category.title == title).first()
+    return categoryObject.category_id
+
+
+def add_product(productName,productUrl,company,description,category_id):
+    user = 1
+    now = datetime.datetime.now()
     new_product= Product(title=productName,
                         url=productUrl,
                         company=company,
                         description=description,
                         user_id=user,
                         date_added=now,
-                        date_modified=now)
+                        date_modified=now,
+                        category_id=category_id)
+
 
     db.session.add(new_product)
     db.session.commit()
@@ -82,6 +97,16 @@ def return_bcorp():
     return bcorps
 
 
+def return_departments():
+
+    departments= []
+    all_departments = Category.query.all()
+    for department in all_departments:
+        if department.title not in departments:
+            departments.append(department.title)
+    return departments
+
+
 def get_users():
     """Returns users in db."""
 
@@ -95,9 +120,6 @@ def get_user_by_email(email):
     ''' return a user by email'''
 
     result = User.query.filter(User.email == email).first()
-    print('*********************************************************************')
-    print('result.fname:', result.fname)
-    # user.append(result.gmail)
     user = { 'email': result.email,
             'fname' : result.fname,
             'lname' : result.lname,

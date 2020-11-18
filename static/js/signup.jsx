@@ -73,8 +73,8 @@
                         <Form.Control type="email" name="email"  placeholder="email" value={email} onChange={handleEmailChange}></Form.Control>
                       </Form.Group>
 
-                      <Form.Group controlId="formBasicPassword">
-                        <Form.Control type="password" name="signuppassword"  placeholder="password" value={password} onChange={handlePasswordChange}></Form.Control>
+                      <Form.Group controlId="formSignupPassword">
+                        <Form.Control type="password" name="password"  placeholder="password" value={password} onChange={handlePasswordChange}></Form.Control>
                       </Form.Group>
 
                       <Button variant="primary" type="submit">

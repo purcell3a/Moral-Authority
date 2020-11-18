@@ -10,12 +10,14 @@
     const [img, setImg] = React.useState('')
     const [bcorps, setBcorps] = React.useState({corps:[]});
     const [selectedBCorp, setSelectedBcorp] = React.useState('');
+    const [departments, setDepartments] = React.useState({deps:[]});
+    const [selectedDepartment, setselectedDepartment] = React.useState('');
 
 
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log(productName, company,productUrl,description,img,selectedBCorp)
-      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp }
+      console.log(productName, company,productUrl,description,img,selectedBCorp,'selecteddepartment=',selectedDepartment)
+      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp,category:selectedDepartment }
       fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
@@ -40,6 +42,23 @@
         });
     },[]);
 
+    React.useEffect(() => {
+      fetch('/list-departments')
+      .then((response) => {
+          return response.json();
+        })
+      .then(data => {
+          let departmentlist = data.map(dep =>{
+            return {value:dep, display:dep}
+          });
+          setDepartments({
+          deps: [{value: '', display: '(Select a Department)'}].concat(departmentlist)
+        });
+      }).catch(error => {
+        console.log(error);
+      });
+  },[]);
+
 
     function generateOptions(){
       const options = bcorps.corps.map((corp, index) => (
@@ -49,6 +68,19 @@
       ))
       return options
     }
+
+    function generateDepartments(){
+      const depoptions = departments.deps.map((dep, index) => (
+        <option key={index} value={dep.value}>
+          {dep.display}
+        </option>
+      ))
+      return depoptions
+    }
+
+    function handleDepartmentSelect(evt){
+      setselectedDepartment(evt.target.value)
+      }
 
 
     function handleBcorpSelect(evt){
@@ -104,6 +136,12 @@
 
                             <Form.Group>
                                 <input type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
+                            </Form.Group>
+
+                            <Form.Group>
+                            <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
+                                {generateDepartments()}
+                                </select>
                             </Form.Group>
 
                             <Form.Group>
