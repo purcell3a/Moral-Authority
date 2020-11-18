@@ -86,6 +86,11 @@ def get_product_info(productId):
 
     return product
 
+def filter_by_department_and_certification(category_id):
+
+    result =  Product.query.filter(category_id == category_id).all()
+    print('crud result=', result)
+    return result
 
 def return_bcorp():
 

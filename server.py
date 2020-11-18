@@ -68,7 +68,15 @@ def filter_products():
     print(data)
     department = data['selectedDepartment']
     certifications = (data['selectedCerts'])
-    print (department, certifications)
+
+    category_id = crud.get_category_id(department)
+#  just filtering departments in server for now till i fix the add product to include certs
+    products = []
+    for cert in certifications:
+        result = crud.filter_by_department_and_certification(category_id)
+        products.append(result)
+    print('categoryid=', category_id)
+    print (products)
     return jsonify('change this later')
 
 

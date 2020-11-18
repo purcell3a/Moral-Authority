@@ -12,12 +12,15 @@
     const [selectedBCorp, setSelectedBcorp] = React.useState('');
     const [departments, setDepartments] = React.useState({deps:[]});
     const [selectedDepartment, setselectedDepartment] = React.useState('');
+    const [certs, setCerts] = React.useState([]);
+    const [selectedCerts, setSelectedCerts] = React.useState( new Set());
+    const certsForFilter = Array.from(selectedCerts)
 
 
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log(productName, company,productUrl,description,img,selectedBCorp,'selecteddepartment=',selectedDepartment)
-      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp,category:selectedDepartment }
+      console.log(productName, company,productUrl,description,img,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter)
+      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter }
       fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
@@ -59,6 +62,39 @@
       });
   },[]);
 
+
+  React.useEffect(() => {
+    fetch('/return-certs')
+      .then(response => response.json())
+      .then(data => setCerts(data));
+      },[]);
+
+
+
+      function toggleCertFilter(cert) {
+        // new set is new set + existing selections
+        const newSet = new Set(selectedCerts);
+        //  if selection already present delete it from add
+        if (selectedCerts.has(cert)) {
+          newSet.delete(cert);
+          setSelectedCerts(newSet);
+        // else add new cert and set selected certs to new set
+        } else {
+          newSet.add(cert);
+          setSelectedCerts(newSet);
+        }
+      }
+
+      function generateCertifications(){
+        const certOptions = certs.map((cert,index) => (
+          <Form.Check label={cert}
+                      key={index}
+                      value={cert}
+                      onClick={() => toggleCertFilter(cert)}/>
+
+        ))
+        return certOptions
+      }
 
     function generateOptions(){
       const options = bcorps.corps.map((corp, index) => (
@@ -148,6 +184,10 @@
                                 <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
                                         {generateOptions()}
                                 </select>
+                            </Form.Group>
+
+                            <Form.Group>
+                            {generateCertifications()}
                             </Form.Group>
 
                             <InputGroup className="mb-3">
