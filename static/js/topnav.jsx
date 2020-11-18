@@ -11,11 +11,11 @@ function TopNav(props){
             {props.user?'':<Nav.Link><Link to="/signup">Signup</Link></Nav.Link>}
             <Nav.Link><Link to="/shop"> Shop</Link></Nav.Link>
             {props.user?
-            <NavDropdown title= {props.user.fname} id="basic-nav-dropdown"> 
+            <NavDropdown title= {props.user.fname} id="basic-nav-dropdown">
                     <NavDropdown.Item><Link to="/user-profile">Profile</Link></NavDropdown.Item>
                     <NavDropdown.Item><Link to="/add-product">AddProduct</Link></NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item><Link to="/logout">Logout</Link></NavDropdown.Item>    
+                    <NavDropdown.Item><Link to="/logout">Logout</Link></NavDropdown.Item>
             </NavDropdown>:''}
 
         </Nav>

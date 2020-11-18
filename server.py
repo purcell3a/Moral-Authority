@@ -24,7 +24,7 @@ def return_product_info():
                     'title': product_info.title ,
                     'company': product_info.company ,
                     'description': product_info.description ,
-                    'url': product_info.url, 
+                    'url': product_info.url,
                     'img_id': product_info.img_id}
     print('*****************************************************************')
     print('product_info=',product)
@@ -133,12 +133,7 @@ def add_product():
 
     # user = data['user']
     category_from_data = data['category']
-
-    print('*************************************************************************************************************')
-    print('*************************************************************************************************************')
-    print('*************************************************************************************************************')
     category_id = crud.get_category_id(category_from_data)
-    print('category_id-',category_id)
     bcorp = data['selectedBCorp']
     productName = data['productName']
     company = data['company']

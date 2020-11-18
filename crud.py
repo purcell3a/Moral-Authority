@@ -96,6 +96,31 @@ def return_bcorp():
             bcorps.append(corp.company_certified)
     return bcorps
 
+def add_new_certification(title):
+
+    now = datetime.datetime.now()
+    new_cert= Certification(company_certified = 'might delete this column',
+                                certification = title,
+                                rating = 100,
+                                max_rating = 100,
+                                date_added = now,
+                                date_modified = now)
+
+    db.session.add(new_cert)
+    db.session.commit()
+
+    return new_cert
+
+
+def return_certifications():
+
+    certifications_list = []
+    all_certifications = Certification.query.all()
+    for certifications in all_certifications:
+        if certifications.certification not in certifications_list:
+            certifications_list.append(certifications.certification)
+    print (certifications_list)
+
 
 def return_departments():
 
