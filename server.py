@@ -60,6 +60,7 @@ def return_list_departments():
     departments= crud.return_departments()
     return jsonify(departments)
 
+
 @app.route('/filter-products', methods=['POST'])
 def filter_products():
     '''filter products and return to shop page'''
@@ -72,12 +73,16 @@ def filter_products():
     category_id = crud.get_category_id(department)
 #  just filtering departments in server for now till i fix the add product to include certs
     products = []
-    for cert in certifications:
-        result = crud.filter_by_department_and_certification(category_id)
-        products.append(result)
-    print('categoryid=', category_id)
-    print (products)
-    return jsonify('change this later')
+    result = crud.filter_by_department_and_certification(category_id)
+    for product in result:
+        productObj= {'product_id': product.product_id ,
+                    'title': product.title ,
+                    'company': product.company ,
+                    'description': product.description ,
+                    'url': product.url,
+                    'img_id': product.img_id}
+        products.append(productObj)
+    return jsonify(products)
 
 
 @app.route('/change-user-data',methods=['POST'])
@@ -158,8 +163,7 @@ def add_product():
     '''adds new product to db'''
 
     data = request.get_json()
-
-    # user = data['user']
+    user_id = data['user_id']
     category_from_data = data['category']
     category_id = crud.get_category_id(category_from_data)
     bcorp = data['selectedBCorp']
@@ -170,10 +174,10 @@ def add_product():
     category_from_data = data['category']
     print('CATEGORY FROM DATA', category_from_data)
     print('productname FROM DATA', productName)
-    # need a way to pull the user_id from local storage and pass it in with product submit
+
     if bcorp:
         company = bcorp
-        new_product = crud.add_product(productName,company,productUrl,description,category_id)
+        new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
         return jsonify('product made')
     else:
         return jsonify('try again')

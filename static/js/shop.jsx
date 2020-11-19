@@ -112,7 +112,7 @@ function Shop(){
         fetch('/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
               'Content-Type': 'application/json'}} )
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => setProductCard(data))
       }
 
     return (

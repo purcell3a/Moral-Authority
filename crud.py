@@ -49,14 +49,15 @@ def get_category_id(title):
     return categoryObject.category_id
 
 
-def add_product(productName,productUrl,company,description,category_id):
+def add_product(productName,productUrl,company,description,category_id,user_id):
     user = 1
     now = datetime.datetime.now()
     new_product= Product(title=productName,
+
                         url=productUrl,
                         company=company,
                         description=description,
-                        user_id=user,
+                        user_id=user_id,
                         date_added=now,
                         date_modified=now,
                         category_id=category_id)
@@ -66,6 +67,11 @@ def add_product(productName,productUrl,company,description,category_id):
     db.session.commit()
 
     return new_product
+
+
+# def get_recently_added_products():
+
+#     recent_products = Product.query.order_by(Product.date_added).limit(4).all()
 
 
 def get_products():
@@ -87,8 +93,10 @@ def get_product_info(productId):
     return product
 
 def filter_by_department_and_certification(category_id):
-
-    result =  Product.query.filter(category_id == category_id).all()
+    print('*****************************************************************')
+    print('*****************************************************************')
+    print('*****************************************************************')
+    result =  Product.query.filter(Product.category_id == category_id).all()
     print('crud result=', result)
     return result
 
@@ -99,7 +107,7 @@ def return_bcorp():
     for corp in all_bcorps:
         if corp.company_certified not in bcorps:
             bcorps.append(corp.company_certified)
-    return bcorps
+    return sorted(bcorps)
 
 def add_new_certification(title):
 

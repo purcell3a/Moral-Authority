@@ -15,12 +15,14 @@
     const [certs, setCerts] = React.useState([]);
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const certsForFilter = Array.from(selectedCerts)
+    const userFromStorage = JSON.parse(localStorage.getItem('user'));
+
 
 
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log(productName, company,productUrl,description,img,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter)
-      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter }
+      console.log(productName, company,productUrl,description,img,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter,'user_id',userFromStorage.id)
+      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter,user_id:userFromStorage.id }
       fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
@@ -97,12 +99,16 @@
       }
 
     function generateOptions(){
-      const options = bcorps.corps.map((corp, index) => (
-        <option key={index} value={corp.value}>
-          {corp.display}
-        </option>
-      ))
-      return options
+      if (selectedCerts.has("Bcorp")){
+        const options = bcorps.corps.map((corp, index) => (
+          <option key={index} value={corp.value}>
+            {corp.display}
+          </option>
+        ))
+        return options
+      }else{
+        return []
+      }
     }
 
     function generateDepartments(){
@@ -181,13 +187,13 @@
                             </Form.Group>
 
                             <Form.Group>
-                                <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
-                                        {generateOptions()}
-                                </select>
+                            {generateCertifications()}
                             </Form.Group>
 
                             <Form.Group>
-                            {generateCertifications()}
+                                <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
+                                        {generateOptions()}
+                                </select>
                             </Form.Group>
 
                             <InputGroup className="mb-3">
