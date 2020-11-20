@@ -1,6 +1,6 @@
 """CRUD operations."""
 # from flask import Flask, render_template, request, flash, session, redirect ,jsonify
-from model import db, User, connect_to_db, Product, Certification,Category
+from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification
 import datetime
 
 # Functions start here!
@@ -45,15 +45,34 @@ def add_new_category(category):
 
 def get_category_id(title):
 
-    categoryObject = Category.query.filter(Category.title == title).first()
-    return categoryObject.category_id
+    result = Category.query.filter(Category.title == title).first()
+    return result.category_id
+
+
+def add_user_favorite(user_id,product_id):
+
+    now = datetime.datetime.now()
+    new_favorite = Favorite(user_id = user_id,
+                            product_id = product_id,
+                            date_added = now,
+                            date_modified = now)
+    db.session.add(new_favorite)
+    db.session.commit()
+
+def add_product_certifications(product_id,cert_id):
+    now = datetime.datetime.now()
+    new_ProductCertification = ProductCertification(product_id = product_id,
+                                                    cert_id = cert_id,
+                                                    date_added = now,
+                                                    date_modified = now)
+    db.session.add(new_ProductCertification)
+    db.session.commit()
 
 
 def add_product(productName,productUrl,company,description,category_id,user_id):
     user = 1
     now = datetime.datetime.now()
     new_product= Product(title=productName,
-
                         url=productUrl,
                         company=company,
                         description=description,
@@ -103,13 +122,34 @@ def get_product_info(productId):
 
     return product
 
-def filter_by_department_and_certification(category_id):
+
+def get_product_id_by_cert_id(cert_id):
+    product_id_list =[]
+    result = ProductCertification.query.filter(ProductCertification == cert_id).all()
+    for products in result:
+        product_id_list.append(products.product_id)
+    return  product_id_list
+
+def filter_by_department_and_certification(category_id,product_id):
+    print('*****************************************************************')
+    print('*****************************************************************')
+    print('*****************************************************************')
+    result =  Product.query.filter(Product.category_id == category_id, Product.product_id == product_id).all()
+    print('crud result=', result)
+    return result
+
+def filter_by_department(category_id):
     print('*****************************************************************')
     print('*****************************************************************')
     print('*****************************************************************')
     result =  Product.query.filter(Product.category_id == category_id).all()
     print('crud result=', result)
     return result
+
+def get_bcorp_id(company):
+    bcorp = Certification.query.filter(Certification.company_certified == company).first()
+    print('bcorp.cert_id =',bcorp.cert_id)
+    return (bcorp.cert_id)
 
 def return_bcorp():
 
@@ -133,7 +173,19 @@ def add_new_certification(title):
     db.session.add(new_cert)
     db.session.commit()
 
-    return new_cert
+    print('new_cert',new_cert)
+
+
+def get_product_id(productName,user_id):
+
+    product_id = Product.query.filter(Product.title == productName,Product.user_id == user_id).first()
+    return product_id.product_id
+
+def get_cert_it_by_title(title):
+
+    cert_id = Certification.query.filter(Certification.certification == title).first()
+
+    return (cert_id.cert_id)
 
 
 def return_certifications():

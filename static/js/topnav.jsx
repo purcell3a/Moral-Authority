@@ -7,8 +7,7 @@ function TopNav(props){
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-            {props.user?'':<Nav.Link><Link to="/login">Login</Link></Nav.Link>}
-            {props.user?'':<Nav.Link><Link to="/signup">Signup</Link></Nav.Link>}
+            {props.user?'':<Nav.Link><Link to="/signup">Login | Signup</Link></Nav.Link>}
             <Nav.Link><Link to="/shop"> Shop</Link></Nav.Link>
             {props.user?
             <NavDropdown title= {props.user.fname} id="basic-nav-dropdown">

@@ -112,7 +112,7 @@ class Certification(db.Model):
     date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<Certification certification_id={self.cert_id} company_certified={self.company_certified} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Certification cert_id={self.cert_id} company_certified={self.company_certified} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
 
 
 
