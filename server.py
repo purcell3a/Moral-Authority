@@ -37,11 +37,43 @@ def return_product_info():
                     'img_id': product_info.img_id}
     return jsonify(product)
 
+@app.route('/get-user-favorites', methods=['POST'])
+def get_user_favorites():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    favorites = []
+    # get product id for each favorite
+    favorites_product_id_list = crud.get_user_favorite_product_id_list(user_id)
+    # get product info for each product id 
+    for product_id in favorites_product_id_list:
+        product_info = crud.get_product_info(product_id)
+        product= {'product_id': product_info.product_id ,
+                    'title': product_info.title ,
+                    'company': product_info.company ,
+                    'description': product_info.description ,
+                    'url': product_info.url,
+                    'img_id': product_info.img_id}
+        favorites.append(product)
+        return jsonify(favorites)
+
+@app.route('/add-favorite',methods=['POST'])
+def add_user_favorite():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    product_id =data['product_id']
+
+    user_favorite =  crud.add_user_favorite(user_id,product_id)
+    print(user_favorite)
+    return jsonify('favorite added!!!!')
+
+
 @app.route('/user-added-products')
 def return_products_added_by_user():
-        data = request.get_json()
-        user_id = data['user_id']
-        products = crud.get_products_added_by_user(user_id)
+    data = request.get_json()
+    user_id = data['user_id']
+    products = crud.get_products_added_by_user(user_id)
 
 @app.route('/return-products')
 def return_products():

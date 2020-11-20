@@ -34,6 +34,15 @@ def change_user_data(fname,lname,email,password,user_id):
 
     db.session.commit()
 
+def get_user_favorite_product_id_list(user_id):
+
+    favorite_product_id_list = []
+    favorites = Favorite.query.filter(Favorite.user_id == user_id).all()
+    for favorite in favorites:
+        favorite_product_id_list.append(favorite.product_id)
+    return favorite_product_id_list
+
+
 def add_new_category(category):
     now = datetime.datetime.now()
 

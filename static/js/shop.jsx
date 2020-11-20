@@ -9,6 +9,7 @@ function Shop(){
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
     const certsForFilter = Array.from(selectedCerts)
+    const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
 
     React.useEffect(() =>{
@@ -44,7 +45,7 @@ function Shop(){
       },[]);
 
     // when the product is clicked on - set that product id to state and send it with redirect
-    function handleClick(productId){
+    function handleMoreInfoClick(productId){
       history.push({pathname:`/product-page/${productId}`});
     };
 
@@ -52,6 +53,14 @@ function Shop(){
       setselectedDepartment(evt.target.value)
     }
 
+    function HandleFavoriteClick(productId){
+      console.log('productId=',productId,'user_id',userFromStorage.id)
+      let data = {product_id:productId,user_id:userFromStorage.id}
+      fetch('/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+        'Content-Type': 'application/json'}} )
+      .then(response => response.json())
+      .then(data => console.log(data));
+    }
 
     function generateProductCards(){
       const cards = productCards.map((product,index) =>(
@@ -62,8 +71,8 @@ function Shop(){
               <Card.Text>
                 {product.description}
               </Card.Text>
-              <Button variant="primary">Favorite</Button>
-              <Button variant="primary" onClick={() => handleClick(product.product_id)}>More Info</Button>
+              <Button variant="primary" onClick={() => HandleFavoriteClick(product.product_id)}>Favorite</Button>
+              <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
           </Card.Body>
         </Card>
         ))

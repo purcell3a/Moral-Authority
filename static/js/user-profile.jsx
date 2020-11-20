@@ -7,7 +7,7 @@ function ShowProfile(props) {
     const [password, setDescription] = React.useState('')
     const [products, setProducts] = React.useState([{}])
     // const [productClicked, setProductClicked] =React.useState['']
-    // const [favorites, setFavorites] = React.useState({})
+    const [favorites, setFavorites] = React.useState([{}])
 
     const [userFromDb, setUserFromDb] = React.useState({})
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
@@ -26,6 +26,17 @@ function ShowProfile(props) {
            })
     }, []);
 
+//  GET USER FAVORITES
+    React.useEffect(() => {
+        let data = {user_id: userFromStorage.id}
+        fetch('/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+        'Content-Type': 'application/json'}})
+        .then(response => response.json())
+        // data is the user we are pulling from our db after verifying their info above
+        .then(data => {setFavorites(data);
+        })
+    }, []);
+
 
     function generateProductCards(){
         const cards = products.map((product,index) =>(
@@ -37,13 +48,29 @@ function ShowProfile(props) {
                   {product.description}
                 </Card.Text>
                 <Button variant="primary" handleClick={handleFavoriteChange}>Favorite</Button>
-              <Button variant="primary" onClick={() => handleClick(product.product_id)}>More Info</Button>
+              <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
             </Card.Body>
           </Card>
           ))
           return cards
       }
 
+      function generateFavorites(){
+        const cards = favorites.map((product,index) =>(
+          <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
+            <Card.Img variant="top"  src="https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg" />
+            <Card.Body>
+                <Card.Title>{product.title}</Card.Title>
+                <Card.Text>
+                  {product.description}
+                </Card.Text>
+                {/* <Button variant="primary" handleClick={handleFavoriteChange}>Favorite</Button> */}
+              <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+            </Card.Body>
+          </Card>
+          ))
+          return cards
+      }
 
     //  GET MAIN PROFILE DATA
     React.useEffect(() => {
@@ -75,6 +102,10 @@ function ShowProfile(props) {
         console.log(data);
         });
     }
+
+    function handleMoreInfoClick(productId){
+        history.push({pathname:`/product-page/${productId}`});
+    };
 
 
     function handleFavoriteChange(){
@@ -122,7 +153,7 @@ function ShowProfile(props) {
 
                     <Tabs defaultActiveKey="Products" id="uncontrolled-tab-example">
                         <Tab eventKey="Favorites" title="Favorites">
-
+                        {generateFavorites()}
                         </Tab>
                         <Tab eventKey="Products" title="Products">
                             {generateProductCards()}
