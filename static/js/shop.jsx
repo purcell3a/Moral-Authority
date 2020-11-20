@@ -62,7 +62,8 @@ function Shop(){
               <Card.Text>
                 {product.description}
               </Card.Text>
-              <Button variant="primary" onClick={() => handleClick(product.product_id)}>Go somewhere</Button>
+              <Button variant="primary">Favorite</Button>
+              <Button variant="primary" onClick={() => handleClick(product.product_id)}>More Info</Button>
           </Card.Body>
         </Card>
         ))

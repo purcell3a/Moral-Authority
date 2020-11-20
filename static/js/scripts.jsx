@@ -14,3 +14,5 @@ const Image = ReactBootstrap.Image;
 const DropdownButton = ReactBootstrap.DropdownButton;
 const Dropdown = ReactBootstrap.Dropdown;
 const Checkboxes  = ReactBootstrap.Checkboxes;
+const Tabs = ReactBootstrap.Tabs;
+const Tab = ReactBootstrap.Tab;

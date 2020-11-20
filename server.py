@@ -15,6 +15,14 @@ def show_homepage():
     return render_template('base.html')
 
 
+@app.route('/recently-added')
+def recently_added_products():
+
+    recentProducts = crud.get_recently_added_products()
+
+    return jsonify(recentProducts)
+
+
 @app.route('/product-info',methods=['POST'])
 def return_product_info():
     """Returns product info for Product page"""
@@ -29,6 +37,11 @@ def return_product_info():
                     'img_id': product_info.img_id}
     return jsonify(product)
 
+@app.route('/user-added-products')
+def return_products_added_by_user():
+        data = request.get_json()
+        user_id = data['user_id']
+        products = crud.get_products_added_by_user(user_id)
 
 @app.route('/return-products')
 def return_products():

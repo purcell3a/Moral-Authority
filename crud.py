@@ -62,16 +62,22 @@ def add_product(productName,productUrl,company,description,category_id,user_id):
                         date_modified=now,
                         category_id=category_id)
 
-
     db.session.add(new_product)
     db.session.commit()
 
     return new_product
 
 
-# def get_recently_added_products():
-
-#     recent_products = Product.query.order_by(Product.date_added).limit(4).all()
+def get_recently_added_products():
+    productList= []
+    recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
+#  DON'T FORGET TO ADD IMAGES LATER BC YOU'RE LAZY
+    for product in recent_products:
+                productObject = {'title':product.title,
+                    'description': product.description,
+                    'product_id' : product.product_id}
+                productList.append(productObject)
+    return productList
 
 
 def get_products():
@@ -85,6 +91,11 @@ def get_products():
         productList.append(productObject)
     return productList
 
+
+def get_products_added_by_user(user_id):
+    products = Product.query.filter(Product.user_id == user_id).first()
+
+    return products
 
 def get_product_info(productId):
 

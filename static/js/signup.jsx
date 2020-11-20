@@ -56,7 +56,7 @@
               </Row>
               <Row>
                 <Col>
-                    <Login/>
+                <Login setUser={props.setUser}/>
                 </Col>
                 <Col>
                   <Form onSubmit={handleSubmit}>

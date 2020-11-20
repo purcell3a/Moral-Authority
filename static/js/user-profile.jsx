@@ -5,6 +5,9 @@ function ShowProfile(props) {
     const [lname, setLname] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setDescription] = React.useState('')
+    const [products, setProducts] = React.useState([{}])
+    // const [productClicked, setProductClicked] =React.useState['']
+    // const [favorites, setFavorites] = React.useState({})
 
     const [userFromDb, setUserFromDb] = React.useState({})
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
@@ -12,6 +15,37 @@ function ShowProfile(props) {
     console.log('userid=',userFromStorage.id)
 
 
+//  GET PRODUCTS ADDED BY USER
+    React.useEffect(() => {
+        let data = {user_id: userFromStorage.id}
+        fetch('/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+          'Content-Type': 'application/json'}})
+          .then(response => response.json())
+          // data is the user we are pulling from our db after verifying their info above
+          .then(data => {setProducts(data);
+           })
+    }, []);
+
+
+    function generateProductCards(){
+        const cards = products.map((product,index) =>(
+          <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
+            <Card.Img variant="top"  src="https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg" />
+            <Card.Body>
+                <Card.Title>{product.title}</Card.Title>
+                <Card.Text>
+                  {product.description}
+                </Card.Text>
+                <Button variant="primary" handleClick={handleFavoriteChange}>Favorite</Button>
+              <Button variant="primary" onClick={() => handleClick(product.product_id)}>More Info</Button>
+            </Card.Body>
+          </Card>
+          ))
+          return cards
+      }
+
+
+    //  GET MAIN PROFILE DATA
     React.useEffect(() => {
         let data = {user_id: userFromStorage.id}
         fetch('/get-user-by-id' ,{method: "POST",  body: JSON.stringify(data),  headers: {
@@ -19,8 +53,7 @@ function ShowProfile(props) {
           .then(response => response.json())
           // data is the user we are pulling from our db after verifying their info above
           .then(data => {setUserFromDb(data);
-            // AS ANDREW WHY THIS IS PRINTING UNDEFINED BUT STILL RENDERING BELOW
-            console.log('user=',userFromDb.fname)})
+           })
     }, []);
 
 
@@ -43,6 +76,11 @@ function ShowProfile(props) {
         });
     }
 
+
+    function handleFavoriteChange(){
+        setFavorites({product_id:'True'})
+
+    }
     function handleFnameChange(evt){
         setFname(evt.target.value)
     }
@@ -80,18 +118,28 @@ function ShowProfile(props) {
                 </Form.Group>
                 </Col>
                 <Col>
-                    <div> maybe products added here</div>
-                    <div> maybe favorites added here</div>
+
+
+                    <Tabs defaultActiveKey="Products" id="uncontrolled-tab-example">
+                        <Tab eventKey="Favorites" title="Favorites">
+
+                        </Tab>
+                        <Tab eventKey="Products" title="Products">
+                            {generateProductCards()}
+                        </Tab>
+
+                    </Tabs>
+
                 </Col>
 
             </Form.Row>
             <Form.Row>
-                <Col>1 of 3</Col>
+                <Col><Button type="submit">Save Changes</Button></Col>
 
                 <Col> 2 of 3</Col>
 
                 <Col>
-                <Button type="submit">Save Changes</Button>
+                3 of 3
                 </Col>
             </Form.Row>
 
