@@ -31,7 +31,7 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} email={self.email} password={self.password} date_added={self.date_added} date_modified={self.date_modified}>'
-#  why does my repr always give me issues when i try to make it multiple lines SOS
+# ! why does my repr always give me issues when i try to make it multiple lines SOS
 class Favorite(db.Model):
     """A users favorite product."""
 
@@ -47,8 +47,6 @@ class Favorite(db.Model):
     date_added = db.Column(db.DateTime,nullable=False)
     date_modified = db.Column(db.DateTime,nullable=False)
 
-    # movie = db.relationship('Movie', backref='ratings')
-    # user = db.relationship('User', backref='ratings')
 
     def __repr__(self):
         return f'<Favorite favorite_id ={self.favorite_id } user_id={self.user_id} product_id={self.product_id} date_added={self.date_added} date_modified={self.date_modified}>'
@@ -93,7 +91,7 @@ class Subcategory(db.Model):
 
 class Certification(db.Model):
     """A category."""
-# add FK to company table
+    # TODO add FK to company table
     __tablename__ = 'certifications'
 
     cert_id = db.Column(db.Integer,
@@ -110,6 +108,10 @@ class Certification(db.Model):
     max_rating = db.Column(db.Integer)
     date_added = db.Column(db.DateTime,nullable=False,)
     date_modified = db.Column(db.DateTime,nullable=False,)
+
+
+    # productcertification = db.relationship('ProductCertification')
+    # user = db.relationship('User', backref='ratings')
 
     def __repr__(self):
         return f'<Certification cert_id={self.cert_id} company_certified={self.company_certified} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
@@ -136,15 +138,17 @@ class Product(db.Model):
                         nullable=True)
     category_id = db.Column(db.Integer,
                         db.ForeignKey('categories.category_id'),
-                        nullable=True) #change back to false after testing
+                        nullable=True) # TODO change back to false after testing
     img_id = db.Column(db.Integer,
                         db.ForeignKey('productimages.image_id'),
-                        nullable=True) #change back to false after testing
+                        nullable=True) # TODO change back to false after testing
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'),
                         nullable=False)
     date_added = db.Column(db.DateTime,nullable=False,)
     date_modified = db.Column(db.DateTime,nullable=False,)
+
+    # certifications = db.relationship("Certification", secondary="ProductCertification")
 
     def __repr__(self):
         return f'<Product product_id={self.product_id} title={self.title} company={self.company} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'

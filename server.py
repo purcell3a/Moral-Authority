@@ -128,15 +128,16 @@ def filter_products():
     department = data['selectedDepartment']
     category_id = crud.get_category_id(department)
     certifications = (data['selectedCerts'])
-#  IF THERE ARE CERTIFICATIONS get cert Id's 
+
+#  IF THERE ARE CERTIFICATIONS get cert Id's
     if certifications != []:
         cert_id_list = []
         for cert in certifications:
             if cert != 'Bcorp':
-                cert_id = crud.get_cert_it_by_title(cert)
+                cert_id = crud.get_cert_id_by_title(cert)
                 cert_id_list.append(cert_id)
             if cert == 'Bcorp':
-                # return all products made by corp companies 
+                # return all products made by corp companies
                 print('need to do this')
         #  GET PRODUCT IDS associated with those cert ids
         product_id_list_from_certs = []
@@ -213,16 +214,13 @@ def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
     data = request.get_json()
 
-    print(data)
     fname = data['fname']
     lname = data['lname']
     email = data['email']
     password = data['password']
-    print('email')
-    print(email)
+
     existing_user = crud.does_user_exist(email)
-    print('*****************************************************************')
-    print(existing_user)
+
 
     if existing_user == 'user exists':
         return jsonify('you already exist dingus')
@@ -230,22 +228,17 @@ def sign_up():
         new_user = crud.create_user(fname,lname,email,password)
         return jsonify('account created')
 
-
-
 @app.route('/login', methods=["POST"])
 def login_user():
     '''verify user and login'''
     data = request.get_json()
 
-    print(data)
     email = data['email']
     password = data['password']
     user = crud.get_user_by_email(email)
-    print('*****************************************************************')
-    print('user=',user)
-    print('*****************************************************************')
+
     is_user = crud.validate_user(password,email)
-    # session['user'] = User.user_id
+
 
     if is_user:
         return jsonify({'fname' : user['fname'], 'id':user['user_id'] })
@@ -269,16 +262,19 @@ def add_product():
     productUrl = data['productUrl']
     description = data['description']
     # ****************************** #
-
+    print('*********************************************************')
+    print('PRODUCT NAME FROM DATA =', productName)
     #  INFO THAT NEEDS MORE PROCESSING
     category_from_data = data['category']
     file_from_data = data['file']
     selectedCerts = data['selectedCerts']
-    img = data['img']
+    # img = data['img']
      # ****************************** #
 
     # GET DEPARTMENT/CATEGORY ID FROM DB BASED ON DATA
     category_id = crud.get_category_id(category_from_data)
+    print('*********************************************************')
+    print('category ID FROM DATA =', category_id)
 
     #  GET ALL CERT IDS FOR CERTS GIVEN IF THEY AREN'T A BCORP
     cert_id_list = []
@@ -286,8 +282,10 @@ def add_product():
         if cert != 'Bcorp':
             cert_id = crud.get_cert_it_by_title(cert)
             cert_id_list.append(cert_id)
+    print('*********************************************************')
+    print('cert ID LIST =', cert_id_list)
 
-    #  PROCESS IMAGE WITH CLOUDINARY
+    # ! PROCESS IMAGE WITH CLOUDINARY
     # img = cloudinary.config(file_from_data)
     # cloudinary.uploader.upload("s3://my-bucket/my-path/example.jpg") FOR FILE UPLOADS
     # cloudinary.uploader.upload("https://www.example.com/sample.jpg") FOR URLS
@@ -299,6 +297,8 @@ def add_product():
         company = bcorp
         new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
         product_id = crud.get_product_id(productName,user_id)
+        print('*********************************************************')
+        print('new product =', new_product)
         #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
         for cert_id in cert_id_list:
             new_certification = crud.add_product_certifications(product_id,cert_id)
@@ -307,6 +307,8 @@ def add_product():
     else:
         # MAKE THE PRODUCT AND GET THE PRODUCT ID FROM DB
         new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
+        print('*********************************************************')
+        print('new product =', new_product)
         product_id = crud.get_product_id(productName,user_id)
         print('new_product',new_product)
         #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)

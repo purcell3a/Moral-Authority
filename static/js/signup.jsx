@@ -17,7 +17,6 @@
       .then(data => {
           if (data == 'account created'){
             alert('account created, please login')
-            history.push('/')
           }else{
             alert('invalid email or password')
           }

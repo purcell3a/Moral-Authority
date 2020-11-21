@@ -9,7 +9,7 @@ from datetime import datetime
 import csv
 
 # import crud
-from model import db, connect_to_db, Certification
+from model import db, connect_to_db, Certification, Category
 import server
 
 os.system('dropdb moralauthority')
@@ -39,6 +39,23 @@ with open(filename, 'r') as file:
                                         date_modified = '11-04-2020')
 
         db.session.add(certifications)
+
+    for department in ['Beauty & Health', 'Home & Garden', 'Clothing, Shoes & Accessories']:
+        new_category = Category(title=department,
+                                date_added='2020-11-21',
+                                date_modified='2020-11-21')
+        db.session.add(new_category)
+
+
+    for certification in ['EWG', 'FairTrade', 'Leaping Bunny']:
+        new_certification = Certification(company_certified = 'might delete this column',
+                                    certification = certification,
+                                    rating = 100,
+                                    max_rating = 100,
+                                    date_added = '2020-11-21',
+                                    date_modified = '2020-11-21')
+        db.session.add(new_certification)
+
     db.session.commit()
 
 # ***************************************************************************

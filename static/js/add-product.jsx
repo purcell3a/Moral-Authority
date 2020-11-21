@@ -222,11 +222,11 @@
                     </Form.Row>
 
                     <Form.Row>
-                    <button id="upload_widget" class="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
+                    
                             {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
                     </Form.Row>
                   </Form>
-
+                  <button id="upload_widget" className="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
           </Container>
 
     </React.Fragment>

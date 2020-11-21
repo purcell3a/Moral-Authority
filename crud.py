@@ -79,7 +79,8 @@ def add_product_certifications(product_id,cert_id):
 
 
 def add_product(productName,productUrl,company,description,category_id,user_id):
-    user = 1
+    #TODO CHANGE USER ID INPUT
+    user_id = 1
     now = datetime.datetime.now()
     new_product= Product(title=productName,
                         url=productUrl,
@@ -99,13 +100,16 @@ def add_product(productName,productUrl,company,description,category_id,user_id):
 def get_recently_added_products():
     productList= []
     recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
-#  DON'T FORGET TO ADD IMAGES LATER BC YOU'RE LAZY
+
+    #TODO ADD IMAGES 
+
     for product in recent_products:
                 productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id}
                 productList.append(productObject)
     return productList
+
 
 
 def get_products():
