@@ -3,6 +3,15 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db, db, User
 import crud
 from jinja2 import StrictUndefined
+import cloudinary
+import secrets
+
+cloudinary.config(
+  cloud_name = "ClOUDNAME",
+  api_key = "APIKEY",
+  api_secret = "SECRETAPIKEY"
+)
+
 # import secrets
 
 app = Flask(__name__)
@@ -55,7 +64,7 @@ def get_user_favorites():
                     'url': product_info.url,
                     'img_id': product_info.img_id}
         favorites.append(product)
-        return jsonify(favorites)
+    return jsonify(favorites)
 
 @app.route('/add-favorite',methods=['POST'])
 def add_user_favorite():
@@ -69,11 +78,12 @@ def add_user_favorite():
     return jsonify('favorite added!!!!')
 
 
-@app.route('/user-added-products')
+@app.route('/user-added-products', methods=['POST'])
 def return_products_added_by_user():
     data = request.get_json()
     user_id = data['user_id']
     products = crud.get_products_added_by_user(user_id)
+    return jsonify(products)
 
 @app.route('/return-products')
 def return_products():
@@ -251,6 +261,7 @@ def add_product():
 
     data = request.get_json()
 #  pull info from DATA
+    file_from_data = data['file']
     user_id = data['user_id']
     selectedCerts = data['selectedCerts']
     category_from_data = data['category']
@@ -262,13 +273,19 @@ def add_product():
     category_from_data = data['category']
 #  pulling info from db based on data received 
     category_id = crud.get_category_id(category_from_data)
-    bcorp_id = crud.get_bcorp_id(bcorp)
 #  getting all cert id's from the certs given if it's not a bcorp
     cert_id_list = []
     for cert in selectedCerts:
         if cert != 'Bcorp':
             cert_id = crud.get_cert_it_by_title(cert)
             cert_id_list.append(cert_id)
+# Upload image to cloudinary 
+    img = cloudinary.config(file_from_data)
+    # cloudinary.uploader.upload("s3://my-bucket/my-path/example.jpg") FOR FILE UPLOADS
+    # cloudinary.uploader.upload("https://www.example.com/sample.jpg") FOR URLS
+    print('THIS IS FILE FROM DATA **************************************************************')
+    print(img)
+
 #  if a bcorp name was given then override the company (we can do this on the front end later maybe?)
     if bcorp:
         company = bcorp

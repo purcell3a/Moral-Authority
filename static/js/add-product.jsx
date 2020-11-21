@@ -1,13 +1,11 @@
 // *******************************************************************
   "use strict";
-
   function AddProduct() {
 
     const [productName, setProductName] = React.useState('')
     const [company, setCompany] = React.useState('')
     const [productUrl, setProductUrl] = React.useState('')
     const [description, setDescription] = React.useState('')
-    const [img, setImg] = React.useState('')
     const [bcorps, setBcorps] = React.useState({corps:[]});
     const [selectedBCorp, setSelectedBcorp] = React.useState('');
     const [departments, setDepartments] = React.useState({deps:[]});
@@ -16,17 +14,24 @@
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const certsForFilter = Array.from(selectedCerts)
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
+    const history = useHistory()
+    const [file, setSelectedFile] = React.useState(null)
+    const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'preset1',}, (error, result) => { if (result.event == "success") {
+          console.log(result.info) // result.info contains data from upload
+      } })
 
 
 
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log(productName, company,productUrl,description,img,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter,'user_id',userFromStorage.id)
-      let data = {productName:productName, company:company, productUrl:productUrl, description:description, img:img, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter,user_id:userFromStorage.id }
+      console.log(productName, company,productUrl,description,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter,'user_id',userFromStorage.id, 'file=',file)
+      let data = {productName:productName, company:company, productUrl:productUrl, description:description, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter,user_id:userFromStorage.id, file:file }
       fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
       .then(data => console.log(data));
+      alert('Product Created!')
+      history.push('/')
     }
 
 
@@ -120,6 +125,9 @@
       return depoptions
     }
 
+    function handleFileChange(evt){
+      setSelectedFile(evt.target.value)
+    }
     function handleDepartmentSelect(evt){
       setselectedDepartment(evt.target.value)
       }
@@ -149,9 +157,8 @@
       setDescription(evt.target.value)
     }
 
-
-    function handleImgChange(evt){
-      setImg(evt.target.value)
+    function handleWidgetClick(){
+      myWidget.open();
     }
 
       return (
@@ -161,12 +168,19 @@
                   <Form onSubmit={handleSubmit}>
                     <Form.Row>
                         <Col>
-                        <label>Product Notes</label>
-                        <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
-                        <div className="form-group">
-                        <input type="text" placeholder= "img url"  value={img} onChange={handleImgChange}></input>
-                        </div>
+
+                          <Form.Group>
+                          <label>Product Notes</label>
+                          <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
+                          </Form.Group>
+
+
+                          <Form.Group>
+                          <button id="upload_widget" class="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
+                            {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
+                          </Form.Group>
                         </Col>
+
                         <Col>
                             <Form.Group>
                                 <input type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>

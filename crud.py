@@ -121,9 +121,14 @@ def get_products():
 
 
 def get_products_added_by_user(user_id):
-    products = Product.query.filter(Product.user_id == user_id).first()
-
-    return products
+    products = Product.query.filter(Product.user_id == user_id).all()
+    productList = []
+    for product in products:
+        productObject = {'title':product.title,
+                    'description': product.description,
+                    'product_id' : product.product_id}
+        productList.append(productObject)
+    return productList
 
 def get_product_info(productId):
 
@@ -155,10 +160,11 @@ def filter_by_department(category_id):
     print('crud result=', result)
     return result
 
-def get_bcorp_id(company):
-    bcorp = Certification.query.filter(Certification.company_certified == company).first()
-    print('bcorp.cert_id =',bcorp.cert_id)
-    return (bcorp.cert_id)
+# def get_bcorp_id(company):
+#     print('company=', company)
+#     bcorp = Certification.query.filter(Certification.company_certified == company).first()
+#     print('bcorp.cert_id =',bcorp)
+#     return (bcorp.cert_id)
 
 def return_bcorp():
 
