@@ -259,55 +259,60 @@ def login_user():
 def add_product():
     '''adds new product to db'''
 
+    # GET BASIC INFO FROM DATA
     data = request.get_json()
-#  pull info from DATA
-    file_from_data = data['file']
+
     user_id = data['user_id']
-    selectedCerts = data['selectedCerts']
-    category_from_data = data['category']
     bcorp = data['selectedBCorp']
     productName = data['productName']
     company = data['company']
     productUrl = data['productUrl']
     description = data['description']
+    # ****************************** #
+
+    #  INFO THAT NEEDS MORE PROCESSING
     category_from_data = data['category']
-#  pulling info from db based on data received 
+    file_from_data = data['file']
+    selectedCerts = data['selectedCerts']
+    img = data['img']
+     # ****************************** #
+
+    # GET DEPARTMENT/CATEGORY ID FROM DB BASED ON DATA
     category_id = crud.get_category_id(category_from_data)
-#  getting all cert id's from the certs given if it's not a bcorp
+
+    #  GET ALL CERT IDS FOR CERTS GIVEN IF THEY AREN'T A BCORP
     cert_id_list = []
     for cert in selectedCerts:
         if cert != 'Bcorp':
             cert_id = crud.get_cert_it_by_title(cert)
             cert_id_list.append(cert_id)
-# Upload image to cloudinary 
-    img = cloudinary.config(file_from_data)
+
+    #  PROCESS IMAGE WITH CLOUDINARY
+    # img = cloudinary.config(file_from_data)
     # cloudinary.uploader.upload("s3://my-bucket/my-path/example.jpg") FOR FILE UPLOADS
     # cloudinary.uploader.upload("https://www.example.com/sample.jpg") FOR URLS
-    print('THIS IS FILE FROM DATA **************************************************************')
-    print(img)
+    # print('THIS IS FILE FROM DATA **************************************************************')
+    # print(img)
 
-#  if a bcorp name was given then override the company (we can do this on the front end later maybe?)
+    #  IF THERE IS A BCORP IGNORE THE COMPANY PROVIDED (we can do this on the front end later maybe?)
     if bcorp:
         company = bcorp
-        new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
+        new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
         product_id = crud.get_product_id(productName,user_id)
+        #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
         for cert_id in cert_id_list:
-            print('***********************************************************************************')
-            print('***********************************************************************************')
-            print('cert_id',cert_id, 'product_id',product_id)
             new_certification = crud.add_product_certifications(product_id,cert_id)
-            print('***********************************************************************************')
-        return jsonify('product made')
-    #  if bcorp is not given
+        return jsonify('Product added')
+    #  IF THERE IS NO BCORP
     else:
-        # make products and then get the product id
+        # MAKE THE PRODUCT AND GET THE PRODUCT ID FROM DB
         new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
         product_id = crud.get_product_id(productName,user_id)
         print('new_product',new_product)
-        #  once we have the product id we can had the certifications to our relational DB table(which we don't need to do for bcorp)
+        #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
         for cert_id in cert_id_list:
             new_certification = crud.add_product_certifications(product_id,cert_id)
-        return jsonify('product made')
+        return jsonify('Product added')
 
 
 if __name__ == '__main__':

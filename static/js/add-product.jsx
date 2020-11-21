@@ -125,9 +125,9 @@
       return depoptions
     }
 
-    function handleFileChange(evt){
-      setSelectedFile(evt.target.value)
-    }
+    // function handleFileChange(evt){
+    //   setSelectedFile(evt.target.value)
+    // }
     function handleDepartmentSelect(evt){
       setselectedDepartment(evt.target.value)
       }
@@ -175,10 +175,10 @@
                           </Form.Group>
 
 
-                          <Form.Group>
+                          {/* <Form.Group>
                           <button id="upload_widget" class="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
                             {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
-                          </Form.Group>
+                          {/* </Form.Group> */} 
                         </Col>
 
                         <Col>
@@ -221,7 +221,10 @@
                           </Col>
                     </Form.Row>
 
-                    <Form.Row>row 2</Form.Row>
+                    <Form.Row>
+                    <button id="upload_widget" class="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
+                            {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
+                    </Form.Row>
                   </Form>
 
           </Container>
