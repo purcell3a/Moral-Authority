@@ -47,7 +47,7 @@ function ShowProfile(props) {
                 <Card.Text>
                   {product.description}
                 </Card.Text>
-                <Button variant="primary" handleClick={handleFavoriteChange}>Favorite</Button>
+                <Button variant="primary" onClick={() => HandleFavoriteClick(product.product_id)}>Favorite</Button>
               <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
             </Card.Body>
           </Card>
@@ -64,7 +64,7 @@ function ShowProfile(props) {
                 <Card.Text>
                   {product.description}
                 </Card.Text>
-                {/* <Button variant="primary" handleClick={handleFavoriteChange}>Favorite</Button> */}
+                <Button variant="primary" onClick={() => handleRemoveFavorite(product.product_id)}> Remove Favorite</Button>
               <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
             </Card.Body>
           </Card>
@@ -83,11 +83,28 @@ function ShowProfile(props) {
            })
     }, []);
 
+    function HandleFavoriteClick(productId){
+        console.log('productId=',productId,'user_id',userFromStorage.id)
+        let data = {product_id:productId,user_id:userFromStorage.id}
+        fetch('/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+          'Content-Type': 'application/json'}} )
+        .then(response => response.json())
+        .then(data => console.log(data));
+    }
+
+    function handleRemoveFavorite(productId){
+        console.log('productId=',productId,'user_id',userFromStorage.id)
+        let data = {product_id:productId,user_id:userFromStorage.id}
+        fetch('/remove-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+          'Content-Type': 'application/json'}} )
+        .then(response => response.json())
+        .then(data => console.log(data));
+    }
 
     function handleSubmit(evt){
         evt.preventDefault()
-        console.log('data going to /add-product:', fname, lname,email,password, userFromStorage.id)
-        let data = {fname:fname, lname:lname, email:email, password:password, user_id: userFromStorage.id }
+        console.log('data going to /change-user-data', fname, lname,email,password, userFromStorage.id)
+        let data = {fname:fname, lname:lname, email:email, password:password, user_id: userFromStorage.id}
         fetch('/change-user-data',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
@@ -107,11 +124,6 @@ function ShowProfile(props) {
         history.push({pathname:`/product-page/${productId}`});
     };
 
-
-    function handleFavoriteChange(){
-        setFavorites({product_id:'True'})
-
-    }
     function handleFnameChange(evt){
         setFname(evt.target.value)
     }
@@ -142,10 +154,25 @@ function ShowProfile(props) {
                 <Col>
                 <Form.Group>
                 <label>User Profile</label>
-                    <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
-                    <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
-                    <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
-                    <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
+                </Form.Group>
+
+                <Form.Group>
+                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
+                </Form.Group>
+
+                <Form.Group>
+                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
+                </Form.Group>
+
+                <Form.Group>
+                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
+                </Form.Group>
+
+                <Form.Group>
+                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
+                </Form.Group>
+                <Form.Group>
+                <Button type="submit">Save Changes</Button>
                 </Form.Group>
                 </Col>
                 <Col>
@@ -163,15 +190,6 @@ function ShowProfile(props) {
 
                 </Col>
 
-            </Form.Row>
-            <Form.Row>
-                <Col><Button type="submit">Save Changes</Button></Col>
-
-                <Col> 2 of 3</Col>
-
-                <Col>
-                3 of 3
-                </Col>
             </Form.Row>
 
         </Form>

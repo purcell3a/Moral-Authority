@@ -171,7 +171,7 @@
 
                           <Form.Group>
                           <label>Product Notes</label>
-                          <textarea className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
+                          <textarea required className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
                           </Form.Group>
 
 
@@ -183,19 +183,19 @@
 
                         <Col>
                             <Form.Group>
-                                <input type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>
+                                <input required type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>
                             </Form.Group>
 
                             <Form.Group>
-                                <input type="text" name="product-company" className="form-control" placeholder= "company" value={company} onChange={handleCompanyChange}></input>
+                                <input required type="text" name="product-company" className="form-control" placeholder= "company" value={company} onChange={handleCompanyChange}></input>
                             </Form.Group>
 
                             <Form.Group>
-                                <input type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
+                                <input required type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
                             </Form.Group>
 
-                            <Form.Group>
-                            <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
+                            <Form.Group required>
+                            <select required name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
                                 {generateDepartments()}
                                 </select>
                             </Form.Group>
@@ -222,7 +222,7 @@
                     </Form.Row>
 
                     <Form.Row>
-                    
+
                             {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
                     </Form.Row>
                   </Form>

@@ -14,23 +14,26 @@ def create_user(fname,lname,email,password):
     return new_user
 
 
-def change_user_data(fname,lname,email,password,user_id):
+def change_user_data(user_id,fname,lname,email,password):
     now = datetime.datetime.now()
     user = User.query.get(user_id)
 
-    if user.fname != fname:
+    if fname and user.fname != fname:
         user.fname = fname
-
-    if user.lname != lname:
+        # user.update().values({"fname": fname})
+    if lname and user.lname != lname:
         user.lname = lname
+        # user.update().values({"lname": lname})
 
-    if user.email != email:
+    if email and user.email != email:
         user.email = email
+        # user.update().values({"email": email})
 
-    if user.password != password:
+    if password and user.password != password:
         user.password = password
+        # user.update().values({"password": password})
 
-    user.user_id = user_id
+    # user.user_id = user_id
 
     db.session.commit()
 
@@ -55,7 +58,9 @@ def add_new_category(category):
 def get_category_id(title):
 
     result = Category.query.filter(Category.title == title).first()
+
     return result.category_id
+    # get_category_id('Beauty & Health')
 
 
 def add_user_favorite(user_id,product_id):
@@ -66,6 +71,13 @@ def add_user_favorite(user_id,product_id):
                             date_added = now,
                             date_modified = now)
     db.session.add(new_favorite)
+    db.session.commit()
+
+def remove_user_favorite(user_id,product_id):
+
+    favorite = Favorite.query.filter(Favorite.user_id == user_id, Favorite.product_id == product_id).first()
+
+    db.session.delete(favorite)
     db.session.commit()
 
 def add_product_certifications(product_id,cert_id):
@@ -143,26 +155,25 @@ def get_product_info(productId):
 
 def get_product_id_by_cert_id(cert_id):
     product_id_list =[]
-    result = ProductCertification.query.filter(ProductCertification == cert_id).all()
+    result = ProductCertification.query.filter(ProductCertification.cert_id == cert_id).all()
+    for products in result:
+        product_id_list.append(products.product_id)
+    return product_id_list
+
+def filter_by_department_and_certification(category_id,product_id):
+    product_id_list = []
+    result =  Product.query.filter(Product.category_id == category_id, Product.product_id == product_id).all()
     for products in result:
         product_id_list.append(products.product_id)
     return  product_id_list
 
-def filter_by_department_and_certification(category_id,product_id):
-    print('*****************************************************************')
-    print('*****************************************************************')
-    print('*****************************************************************')
-    result =  Product.query.filter(Product.category_id == category_id, Product.product_id == product_id).all()
-    print('crud result=', result)
-    return result
 
 def filter_by_department(category_id):
-    print('*****************************************************************')
-    print('*****************************************************************')
-    print('*****************************************************************')
+    product_id_list = []
     result =  Product.query.filter(Product.category_id == category_id).all()
-    print('crud result=', result)
-    return result
+    for products in result:
+        product_id_list.append(products.product_id)
+    return product_id_list
 
 # def get_bcorp_id(company):
 #     print('company=', company)
@@ -200,7 +211,7 @@ def get_product_id(productName,user_id):
     product_id = Product.query.filter(Product.title == productName,Product.user_id == user_id).first()
     return product_id.product_id
 
-def get_cert_it_by_title(title):
+def get_cert_id_by_title(title):
 
     cert_id = Certification.query.filter(Certification.certification == title).first()
 
