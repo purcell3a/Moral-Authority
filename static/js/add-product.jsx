@@ -157,9 +157,9 @@
       setDescription(evt.target.value)
     }
 
-    function handleWidgetClick(){
-      myWidget.open();
-    }
+    // function handleWidgetClick(){
+    //   myWidget.open();
+    // }
 
       return (
         <React.Fragment>
@@ -226,7 +226,7 @@
                             {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
                     </Form.Row>
                   </Form>
-                  <button id="upload_widget" className="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
+                  <button id="upload_widget" className="cloudinary-button" onClick={myWidget.open()}>Upload files</button>
           </Container>
 
     </React.Fragment>

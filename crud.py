@@ -2,8 +2,54 @@
 # from flask import Flask, render_template, request, flash, session, redirect ,jsonify
 from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification
 import datetime
+import random
 
-# Functions start here!
+
+def get_users():
+    """Returns users in db."""
+
+    users = User.query.all()
+
+    return users
+
+
+def get_user_by_email(email):
+    ''' return a user by email'''
+
+    result = User.query.filter(User.email == email).first()
+    user = { 'email': result.email,
+            'fname' : result.fname,
+            'lname' : result.lname,
+            'password' : result.password,
+            'user_id' : result.user_id}
+
+    return user
+
+
+def does_user_exist(email):
+    ''' return a user by email'''
+
+    result = User.query.filter(User.email == email).first()
+
+    if result is not None:
+        return ('user exists')
+    else:
+        return('user does not exist')
+
+
+def validate_user(password,email):
+    """checks for valid password on login"""
+
+    return User.query.filter(User.password == password, User.email == email).first()
+
+
+def get_user_by_id(user_id):
+    """Returns user based on id"""
+
+    user = User.query.get(user_id)
+
+    return user
+
 
 def create_user(fname,lname,email,password):
     now = datetime.datetime.now()
@@ -46,23 +92,6 @@ def get_user_favorite_product_id_list(user_id):
     return favorite_product_id_list
 
 
-def add_new_category(category):
-    now = datetime.datetime.now()
-
-    new_category = Category( title=category,
-                            date_added=now,
-                            date_modified=now)
-    db.session.add(new_category)
-    db.session.commit()
-
-def get_category_id(title):
-
-    result = Category.query.filter(Category.title == title).first()
-
-    return result.category_id
-    # get_category_id('Beauty & Health')
-
-
 def add_user_favorite(user_id,product_id):
 
     now = datetime.datetime.now()
@@ -88,6 +117,43 @@ def add_product_certifications(product_id,cert_id):
                                                     date_modified = now)
     db.session.add(new_ProductCertification)
     db.session.commit()
+
+def get_product_info(productId):
+
+    product = Product.query.filter(Product.product_id == productId).first()
+
+    return product
+
+def get_bcorps():
+
+    company_list = []
+    all_bcorps = Certification.query.filter(Certification.certification == 'Bcorp').all()
+    for cert in all_bcorps:
+        company_list.append(cert.company_certified)
+
+    return company_list
+
+
+def get_product_made_by_bcorp(company):
+    #? get_product_made_by_bcorp('AV1')
+    product = Product.query.filter(Product.company == company).first()
+    if product:
+        return product.product_id
+    else:
+        return 'no product'
+
+
+def get_product_id_by_cert_id(cert_id):
+    product_id_list =[]
+    result = ProductCertification.query.filter(ProductCertification.cert_id == cert_id).all()
+    for products in result:
+        product_id_list.append(products.product_id)
+    return product_id_list
+
+def get_product_id(productName,user_id):
+
+    product_id = Product.query.filter(Product.title == productName,Product.user_id == user_id).first()
+    return product_id.product_id
 
 
 def add_product(productName,productUrl,company,description,category_id,user_id):
@@ -146,19 +212,12 @@ def get_products_added_by_user(user_id):
         productList.append(productObject)
     return productList
 
-def get_product_info(productId):
+def get_category_id(title):
 
-    product = Product.query.filter(Product.product_id == productId).first()
+    result = Category.query.filter(Category.title == title).first()
 
-    return product
-
-
-def get_product_id_by_cert_id(cert_id):
-    product_id_list =[]
-    result = ProductCertification.query.filter(ProductCertification.cert_id == cert_id).all()
-    for products in result:
-        product_id_list.append(products.product_id)
-    return product_id_list
+    return result.category_id
+    # get_category_id('Beauty & Health')
 
 def filter_by_department_and_certification(category_id,product_id):
     product_id_list = []
@@ -190,27 +249,6 @@ def return_bcorp():
             bcorps.append(corp.company_certified)
     return sorted(bcorps)
 
-def add_new_certification(title):
-
-    now = datetime.datetime.now()
-    new_cert= Certification(company_certified = 'might delete this column',
-                                certification = title,
-                                rating = 100,
-                                max_rating = 100,
-                                date_added = now,
-                                date_modified = now)
-
-    db.session.add(new_cert)
-    db.session.commit()
-
-    print('new_cert',new_cert)
-
-
-def get_product_id(productName,user_id):
-
-    product_id = Product.query.filter(Product.title == productName,Product.user_id == user_id).first()
-    return product_id.product_id
-
 def get_cert_id_by_title(title):
 
     cert_id = Certification.query.filter(Certification.certification == title).first()
@@ -237,52 +275,28 @@ def return_departments():
             departments.append(department.title)
     return departments
 
+def add_new_category(category):
+    now = datetime.datetime.now()
 
-def get_users():
-    """Returns users in db."""
+    new_category = Category( title=category,
+                            date_added=now,
+                            date_modified=now)
+    db.session.add(new_category)
+    db.session.commit()
 
-    users = User.query.all()
+def add_new_certification(title):
 
-    return users
+    now = datetime.datetime.now()
+    new_cert= Certification(company_certified = 'might delete this column',
+                                certification = title,
+                                rating = 100,
+                                max_rating = 100,
+                                date_added = now,
+                                date_modified = now)
+    db.session.add(new_cert)
+    db.session.commit()
 
-
-
-def get_user_by_email(email):
-    ''' return a user by email'''
-
-    result = User.query.filter(User.email == email).first()
-    user = { 'email': result.email,
-            'fname' : result.fname,
-            'lname' : result.lname,
-            'password' : result.password,
-            'user_id' : result.user_id}
-
-    return user
-
-
-def does_user_exist(email):
-    ''' return a user by email'''
-
-    result = User.query.filter(User.email == email).first()
-
-    if result is not None:
-        return ('user exists')
-    else:
-        return('user does not exist')
-
-
-def validate_user(password,email):
-    """checks for valid password on login"""
-
-    return User.query.filter(User.password == password, User.email == email).first()
-
-
-def get_user_by_id(user_id):
-    """Returns user based on id"""
-
-    user = User.query.get(user_id)
-
-    return user
+    print('new_cert',new_cert)
 
 
 if __name__ == '__main__':

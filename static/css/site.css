@@ -1,0 +1,11 @@
+/* =================  BODY =================== */
+
+body{
+    background-image: linear-gradient(to bottom,  #ffffff, #9adefdcc);
+}
+
+#sidenav{
+    background:whitesmoke;
+    color: black;
+    box-shadow:10px 0px 20px rgba(0,0,0,0.2);
+}

@@ -133,9 +133,8 @@ function Shop(){
 
 
             <Col xs={6} md={4}>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit} id="sidenav">
                 <Nav defaultActiveKey="/product-search" className="flex-column">
-
 
                     <Form.Group>
                       <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
@@ -148,9 +147,6 @@ function Shop(){
                     {generateCertifications()}
                     </Form.Group>
 
-                    <Form.Group>
-                      <Nav.Link eventKey="link-2">Link</Nav.Link>
-                    </Form.Group>
                   </Nav>
                   <Button type='submit'>Search</Button>
               </Form>
@@ -158,6 +154,9 @@ function Shop(){
 
 
             <Col xs={12} md={8}>{generateProductCards()}</Col>
+          </Row>
+
+          <Row>
           </Row>
         </Container>
 

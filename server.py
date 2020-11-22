@@ -217,47 +217,42 @@ def filter_products():
     certifications = (data['selectedCerts'])
     # ****************************** #
 
-    #  IF THERE ARE CERTIFICATIONS GET CERT IDS
+    #*  IF THERE ARE CERTIFICATIONS GET CERT IDS
     if certifications != []:
         cert_id_list = []
         for cert in certifications:
-            #  IF CERTIFICATION IS NOT A BCORP ADD IT CERT_ID_LIST
+            #*  IF CERTIFICATION IS NOT A BCORP ADD IT CERT_ID_LIST
             if cert != 'Bcorp':
                 cert_id = crud.get_cert_id_by_title(cert)
                 cert_id_list.append(cert_id)
+            #* GET PRODUCT IDS OF PRODUCTS MADE BY BCORPS
             if cert == 'Bcorp':
-                # TODO return all products made by corp companies
-                print('need to do this')
-        #  GET PRODUCTS ID'S WITH CERT IDS
+                print('do this')
+                #! A QUERY THAT GET'S COMPANIES IN CERT TABLE AND PRODUCT TABLE 
+                # bcorps = crud.get_bcorps()
+                # for company in bcorps:
+                #     product_id = crud.get_product_made_by_bcorp(company)
+                #     if product_id != 'no product':
+                #         product_ids.append(product_id)
+        #*  GET PRODUCTS ID'S WITH CERT IDS
         #? I FEEL  LIKE A LOT OF THIS COULD BE DONE BETTER IN CRUD?
         for cert_id in cert_id_list:
             product_id_list_from_certs = crud.get_product_id_by_cert_id(cert_id)
-        # IF THERE ARE CERTIFICATIONS AND DEPARTMENTS
+        #* IF THERE ARE CERTIFICATIONS AND DEPARTMENTS
         if department:
-            print('*********************************************************')
-            print('*********************************************************')
-            print('*********************************************************')
-            print('if department', department)
             category_id = crud.get_category_id(department)
-            #  GET PRODUCT IDS WITH category_id AND product_id FROM CERTS
+            # * GET PRODUCT IDS WITH category_id AND product_id FROM CERTS
             for product_id in product_id_list_from_certs:
                 product_ids = crud.filter_by_department_and_certification(category_id,product_id)
         else:
-            print('*********************************************************')
-            print('*********************************************************')
-            print('*********************************************************')
-            print('else', product_id_list_from_certs)
             product_ids = product_id_list_from_certs
     else:
         if department != '':
             category_id = crud.get_category_id(department)
             product_ids = crud.filter_by_department(category_id)
+    #* NOW LOOP THROUGH PRODUCT IDS AND RETURN PRODUCT OBJECTS 
     for productId in product_ids:
             product = crud.get_product_info(productId)
-            print('*********************************************************')
-            print('*********************************************************')
-            print('*********************************************************')
-            print('product info =', product)
             productObj= {'product_id': product.product_id,
                         'title': product.title,
                         'company': product.company,
@@ -297,12 +292,12 @@ def add_product():
     cert_id_list = []
     for cert in selectedCerts:
         if cert != 'Bcorp':
-            cert_id = crud.get_cert_it_by_title(cert)
+            cert_id = crud.get_cert_id_by_title(cert)
             cert_id_list.append(cert_id)
     print('*********************************************************')
     print('cert ID LIST =', cert_id_list)
 
-    # ! PROCESS IMAGE WITH CLOUDINARY
+    # TODO PROCESS IMAGE WITH CLOUDINARY
     # img = cloudinary.config(file_from_data)
     # cloudinary.uploader.upload("s3://my-bucket/my-path/example.jpg") FOR FILE UPLOADS
     # cloudinary.uploader.upload("https://www.example.com/sample.jpg") FOR URLS
@@ -314,8 +309,6 @@ def add_product():
         company = bcorp
         new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
         product_id = crud.get_product_id(productName,user_id)
-        print('*********************************************************')
-        print('new product =', new_product)
         #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
         for cert_id in cert_id_list:
             new_certification = crud.add_product_certifications(product_id,cert_id)
@@ -324,8 +317,6 @@ def add_product():
     else:
         # MAKE THE PRODUCT AND GET THE PRODUCT ID FROM DB
         new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
-        print('*********************************************************')
-        print('new product =', new_product)
         product_id = crud.get_product_id(productName,user_id)
         print('new_product',new_product)
         #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
