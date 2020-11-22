@@ -218,7 +218,7 @@ def filter_products():
     # ****************************** #
 
     #*  IF THERE ARE CERTIFICATIONS GET CERT IDS
-    if certifications != []:
+    if certifications:
         cert_id_list = []
         for cert in certifications:
             #*  IF CERTIFICATION IS NOT A BCORP ADD IT CERT_ID_LIST
@@ -227,25 +227,25 @@ def filter_products():
                 cert_id_list.append(cert_id)
             #* GET PRODUCT IDS OF PRODUCTS MADE BY BCORPS
             if cert == 'Bcorp':
-                print('do this')
-                #! A QUERY THAT GET'S COMPANIES IN CERT TABLE AND PRODUCT TABLE 
-                # bcorps = crud.get_bcorps()
-                # for company in bcorps:
-                #     product_id = crud.get_product_made_by_bcorp(company)
-                #     if product_id != 'no product':
-                #         product_ids.append(product_id)
+                # print('do this')
+                #! A QUERY THAT GET'S COMPANIES IN CERT TABLE AND PRODUCT TABLE
+                bcorps = crud.get_bcorps()
+                for company in bcorps:
+                    product_id = crud.get_product_made_by_bcorp(company)
+                    if product_id != 'no product':
+                        product_ids.append(product_id)
         #*  GET PRODUCTS ID'S WITH CERT IDS
         #? I FEEL  LIKE A LOT OF THIS COULD BE DONE BETTER IN CRUD?
         for cert_id in cert_id_list:
             product_id_list_from_certs = crud.get_product_id_by_cert_id(cert_id)
-        #* IF THERE ARE CERTIFICATIONS AND DEPARTMENTS
-        if department:
-            category_id = crud.get_category_id(department)
-            # * GET PRODUCT IDS WITH category_id AND product_id FROM CERTS
-            for product_id in product_id_list_from_certs:
-                product_ids = crud.filter_by_department_and_certification(category_id,product_id)
-        else:
-            product_ids = product_id_list_from_certs
+            #* IF THERE ARE CERTIFICATIONS AND DEPARTMENTS
+            if department:
+                category_id = crud.get_category_id(department)
+                # * GET PRODUCT IDS WITH category_id AND product_id FROM CERTS
+                for product_id in product_id_list_from_certs:
+                    product_ids = crud.filter_by_department_and_certification(category_id,product_id)
+            else:
+                product_ids = product_id_list_from_certs
     else:
         if department != '':
             category_id = crud.get_category_id(department)

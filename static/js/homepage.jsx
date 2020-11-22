@@ -41,18 +41,15 @@ function Homepage() {
     return (
       <React.Fragment>
 
-            <Image src='static/img/Your dollar, Your vote.png' fluid />
+          <Image src='static/img/beinggoodshouldbeeasy.png' fluid />
 
-        <Container>
+          <Container>
 
           <Row>
-          <h2>
-            Recently Added Products
-          </h2>
+              <h2>Recently Added Products</h2>
           </Row>
 
           <Row>{generateProductCards()}</Row>
-
 
         </Container>
       </React.Fragment>
