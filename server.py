@@ -227,12 +227,8 @@ def filter_products():
                 cert_id_list.append(cert_id)
             #* GET PRODUCT IDS OF PRODUCTS MADE BY BCORPS
             if cert == 'Bcorp':
-                # print('do this')
-                #! A QUERY THAT GET'S COMPANIES IN CERT TABLE AND PRODUCT TABLE
-                bcorps = crud.get_bcorps()
-                for company in bcorps:
-                    product_id = crud.get_product_made_by_bcorp(company)
-                    if product_id != 'no product':
+                bcorps_product_ids = crud.get_product_ids_made_by_bcorps()
+                for product_id in bcorps_product_ids:
                         product_ids.append(product_id)
         #*  GET PRODUCTS ID'S WITH CERT IDS
         #? I FEEL  LIKE A LOT OF THIS COULD BE DONE BETTER IN CRUD?
@@ -281,7 +277,7 @@ def add_product():
     category_from_data = data['category']
     file_from_data = data['file']
     selectedCerts = data['selectedCerts']
-    # TODO img = data['img']
+    img = data['img']
      # ****************************** #
 
     # GET DEPARTMENT/CATEGORY ID FROM DB BASED ON DATA
@@ -298,6 +294,8 @@ def add_product():
     print('cert ID LIST =', cert_id_list)
 
     # TODO PROCESS IMAGE WITH CLOUDINARY
+    img = cloudinary.uploader.upload(file_from_data)
+
     # img = cloudinary.config(file_from_data)
     # cloudinary.uploader.upload("s3://my-bucket/my-path/example.jpg") FOR FILE UPLOADS
     # cloudinary.uploader.upload("https://www.example.com/sample.jpg") FOR URLS

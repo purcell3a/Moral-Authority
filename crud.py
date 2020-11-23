@@ -234,26 +234,30 @@ def filter_by_department(category_id):
         product_id_list.append(products.product_id)
     return product_id_list
 
-# def get_bcorp_id(company):
-#     print('company=', company)
-#     bcorp = Certification.query.filter(Certification.company_certified == company).first()
-#     print('bcorp.cert_id =',bcorp)
-#     return (bcorp.cert_id)
+
+def get_product_ids_made_by_bcorps():
+
+    result = []
+    product_tuples = db.session.query(Product.product_id).select_from(Product).join(Certification, Product.company == Certification.company_certified).filter(Certification.certification == 'Bcorp').all()
+    for product_id in product_tuples:
+        result.append(product_id[0])
+    return result
 
 def return_bcorp():
+    # bcorps = db.session.query(Certification.company_certified.distinct()).filter(Certification.certification == 'Bcorp').order_by(Certification.company_certified.desc()).all()
 
     bcorps = []
     all_bcorps =  Certification.query.filter(Certification.certification == 'Bcorp').all()
     for corp in all_bcorps:
         if corp.company_certified not in bcorps:
             bcorps.append(corp.company_certified)
-    return sorted(bcorps)
+    return bcorps
 
 def get_cert_id_by_title(title):
 
-    cert_id = Certification.query.filter(Certification.certification == title).first()
+    cert = Certification.query.filter(Certification.certification == title).first()
 
-    return (cert_id.cert_id)
+    return (cert.cert_id)
 
 
 def return_certifications():

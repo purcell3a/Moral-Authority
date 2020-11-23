@@ -16,7 +16,7 @@
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
     const history = useHistory()
     const [file, setSelectedFile] = React.useState(null)
-    const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'preset1',}, (error, result) => { if (result.event == "success") {
+    const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ml_default',}, (error, result) => { if (result.event == "success") {
           console.log(result.info) // result.info contains data from upload
       } })
 
@@ -157,9 +157,9 @@
       setDescription(evt.target.value)
     }
 
-    // function handleWidgetClick(){
-    //   myWidget.open();
-    // }
+    function handleWidgetClick(){
+      myWidget.open();
+    }
 
       return (
         <React.Fragment>
@@ -226,7 +226,7 @@
                             {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
                     </Form.Row>
                   </Form>
-                  <button id="upload_widget" className="cloudinary-button" onClick={myWidget.open()}>Upload files</button>
+                  <button id="upload_widget" className="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
           </Container>
 
     </React.Fragment>

@@ -59,3 +59,13 @@ with open(filename, 'r') as file:
     db.session.commit()
 
 # ***************************************************************************
+# url = 'https://www.leapingbunny.org/guide/brands/list'
+# page = requests.get(url)
+# soup = BeautifulSoup(page.content, 'html.parser')
+
+
+# product = []
+# productTable = soup.find_all('div', attrs={"class":"brand-icon-content"})
+# for company in productTable:
+#     product.append(company.a.text)
+# print (product)
