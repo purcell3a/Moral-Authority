@@ -152,7 +152,9 @@ function Shop(){
               </Form>
             </Col>
 
-
+            {/* <AutoResponsive ref="container"> */}
+            {/* {generateProductCards()} */}
+          {/* </AutoResponsive> */}
             <Col xs={12} md={8}>{generateProductCards()}</Col>
           </Row>
 

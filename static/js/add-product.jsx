@@ -16,11 +16,9 @@
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
     const history = useHistory()
     const [file, setSelectedFile] = React.useState(null)
-    const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ml_default',}, (error, result) => { if (result.event == "success") {
-          console.log(result.info) // result.info contains data from upload
+    const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ipialmwj',}, (error, result) => { if (result.event == "success") {
+          setSelectedFile(result.info.url) // result.info contains data from upload
       } })
-
-
 
     function handleSubmit(evt){
       evt.preventDefault()
@@ -110,7 +108,9 @@
             {corp.display}
           </option>
         ))
-        return options
+        return(<select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
+              {options}
+            </select>)
       }else{
         return []
       }
@@ -157,10 +157,6 @@
       setDescription(evt.target.value)
     }
 
-    function handleWidgetClick(){
-      myWidget.open();
-    }
-
       return (
         <React.Fragment>
           <Container>
@@ -173,12 +169,6 @@
                           <label>Product Notes</label>
                           <textarea required className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
                           </Form.Group>
-
-
-                          {/* <Form.Group>
-                          <button id="upload_widget" class="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
-                            {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
-                          {/* </Form.Group> */} 
                         </Col>
 
                         <Col>
@@ -205,9 +195,7 @@
                             </Form.Group>
 
                             <Form.Group>
-                                <select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
                                         {generateOptions()}
-                                </select>
                             </Form.Group>
 
                             <InputGroup className="mb-3">
@@ -221,12 +209,8 @@
                           </Col>
                     </Form.Row>
 
-                    <Form.Row>
-
-                            {/* <Form.File id="exampleFormControlFile1" type="file" label="Uploadfile" value={file} onChange={handleFileChange}/> */}
-                    </Form.Row>
                   </Form>
-                  <button id="upload_widget" className="cloudinary-button" onClick={handleWidgetClick}>Upload files</button>
+                  <Button id="upload_widget" className="cloudinary-button"  onClick={()=> {myWidget.open()}}>Upload files</Button>
           </Container>
 
     </React.Fragment>

@@ -146,52 +146,48 @@ function ShowProfile(props) {
 
     return (
      <React.Fragment>
-
-        <Container>
+       <Container>
         <Form onSubmit={handleSubmit}>
-            <Form.Row>
 
-                <Col>
-                <Form.Group>
-                <label>User Profile</label>
-                </Form.Group>
+          <Row>
 
-                <Form.Group>
-                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
-                </Form.Group>
+          <Col>
 
-                <Form.Group>
-                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
-                </Form.Group>
+                  <Form.Group>
+                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
+                  </Form.Group>
 
-                <Form.Group>
-                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
-                </Form.Group>
+                  <Form.Group>
+                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
+                  </Form.Group>
 
-                <Form.Group>
-                <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
-                </Form.Group>
-                <Form.Group>
-                <Button type="submit">Save Changes</Button>
-                </Form.Group>
-                </Col>
-                <Col>
+                  <Form.Group>
+                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
+                  </Form.Group>
+
+                  <Form.Group>
+                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
+                  </Form.Group>
+                  <Form.Group>
+                  <Button type="submit">Save Changes</Button>
+                  </Form.Group>
+                  </Col>
+
+                  <Col>
 
 
-                    <Tabs defaultActiveKey="Products" id="uncontrolled-tab-example">
-                        <Tab eventKey="Favorites" title="Favorites">
-                        {generateFavorites()}
-                        </Tab>
-                        <Tab eventKey="Products" title="Products">
-                            {generateProductCards()}
-                        </Tab>
+                      <Tabs defaultActiveKey="Products" id="uncontrolled-tab-example">
+                          <Tab eventKey="Favorites" title="Favorites">
+                          {generateFavorites()}
+                          </Tab>
+                          <Tab eventKey="Products" title="Products">
+                              {generateProductCards()}
+                          </Tab>
 
-                    </Tabs>
+                      </Tabs>
 
-                </Col>
-
-            </Form.Row>
-
+                  </Col>
+          </Row>
         </Form>
         </Container>
     </React.Fragment>

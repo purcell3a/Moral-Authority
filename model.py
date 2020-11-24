@@ -152,42 +152,6 @@ class Product(db.Model):
         return f'<Product product_id={self.product_id} title={self.title} company={self.company} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
 
 
-class Company(db.Model):
-    """A Product"""
-
-    __tablename__ = 'companies'
-
-    company_id = db.Column(db.Integer,
-                        autoincrement=True,
-                        nullable=False,
-                        primary_key=True)
-    title = db.Column(db.String,
-                        nullable=False)
-    url = db.Column(db.String,
-                        nullable=False)
-    description = db.Column(db.String,
-                        nullable=True)
-    cert_id = db.Column(db.Integer,
-                        db.ForeignKey('certifications.cert_id'),
-                        nullable=True) # TODO change back to false after testing
-    category_id = db.Column(db.Integer,
-                        db.ForeignKey('categories.category_id'),
-                        nullable=True) # TODO change back to false after testing
-    img_id = db.Column(db.Integer,
-                        db.ForeignKey('productimages.image_id'),
-                        nullable=True) # TODO change back to false after testing
-    user_id = db.Column(db.Integer,
-                        db.ForeignKey('users.user_id'),
-                        nullable=False)
-    date_added = db.Column(db.DateTime,nullable=False,)
-    date_modified = db.Column(db.DateTime,nullable=False,)
-    # certifications = db.relationship("Certification", secondary="ProductCertification")
-
-    def __repr__(self):
-        return f'<Product product_id={self.product_id} title={self.title} company={self.company} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
-
-
-
 class ProductImage(db.Model):
     """A category."""
 

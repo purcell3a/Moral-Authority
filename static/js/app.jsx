@@ -4,15 +4,12 @@ const { useHistory, useParams, Redirect, Switch, Prompt, Link, Route } = ReactRo
 
 function App() {
 
-  function getCurrentUser(){
+    React.useEffect(() => {
     const currentuser = JSON.parse(localStorage.getItem('user'));
-    // const currentuser = localStorage.getItem('user');
-    return currentuser
-  }
-
-
-  const [user, setUser] = React.useState(getCurrentUser)
-  console.log(user)
+    setUser(currentuser)
+    console.log(user)
+  },[]);
+  const [user, setUser] = React.useState()
 
 
     return (
@@ -25,9 +22,6 @@ function App() {
           <Switch>
             <Route path="/login">
               <Login setUser={setUser}/>
-            </Route>
-            <Route path="/logout">
-              <Logout />
             </Route>
             <Route path="/signup">
               <Signup setUser={setUser} user={user}/>

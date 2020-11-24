@@ -41,7 +41,7 @@ function Homepage() {
     return (
       <React.Fragment>
 
-          <Image src='static/img/beinggoodshouldbeeasy.png' fluid />
+          <Image src='static/img/begoodyellow.png' fluid />
 
           <Container>
 

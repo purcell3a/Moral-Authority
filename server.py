@@ -12,6 +12,8 @@ import secrets
 #! USER FAVORITE ROUTES LINE 104
 #! GENERAL PRODUCT FILTERS LINE 154
 
+#TODO CHANGE ROUTES TO BEGIN WITH /API  + FETCH REQUEST URLS
+#TODO LET USERS HAVE PROFILE PHOTOS?
 
 cloudinary.config(
   cloud_name = "ClOUDNAME",
@@ -277,7 +279,7 @@ def add_product():
     category_from_data = data['category']
     file_from_data = data['file']
     selectedCerts = data['selectedCerts']
-    img = data['img']
+    img_url = data['img']
      # ****************************** #
 
     # GET DEPARTMENT/CATEGORY ID FROM DB BASED ON DATA
@@ -293,15 +295,6 @@ def add_product():
     print('*********************************************************')
     print('cert ID LIST =', cert_id_list)
 
-    # TODO PROCESS IMAGE WITH CLOUDINARY
-    img = cloudinary.uploader.upload(file_from_data)
-
-    # img = cloudinary.config(file_from_data)
-    # cloudinary.uploader.upload("s3://my-bucket/my-path/example.jpg") FOR FILE UPLOADS
-    # cloudinary.uploader.upload("https://www.example.com/sample.jpg") FOR URLS
-    # print('THIS IS FILE FROM DATA **************************************************************')
-    # print(img)
-
     #  IF THERE IS A BCORP IGNORE THE COMPANY PROVIDED (we can do this on the front end later maybe?)
     if bcorp:
         company = bcorp
@@ -316,6 +309,8 @@ def add_product():
         # MAKE THE PRODUCT AND GET THE PRODUCT ID FROM DB
         new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
         product_id = crud.get_product_id(productName,user_id)
+        image_id = crud.add_image(img_url,product_id)
+        # TODO update new product with image id
         print('new_product',new_product)
         #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
         for cert_id in cert_id_list:
