@@ -30,7 +30,8 @@ class User(db.Model):
     #                     nullable=True)
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} email={self.email} password={self.password} date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} '
+                f'email={self.email} password={self.password} date_added={self.date_added} date_modified={self.date_modified}>')
 # ! why does my repr always give me issues when i try to make it multiple lines SOS
 class Favorite(db.Model):
     """A users favorite product."""

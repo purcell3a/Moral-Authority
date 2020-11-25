@@ -65,7 +65,7 @@ function Shop(){
     function generateProductCards(){
       const cards = productCards.map((product,index) =>(
         <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-          <Card.Img variant="top"  src="https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg" />
+          <Card.Img variant="top"  src={product.img_id} />
           <Card.Body>
               <Card.Title>{product.title}</Card.Title>
               <Card.Text>

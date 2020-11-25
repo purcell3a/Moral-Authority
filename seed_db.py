@@ -9,7 +9,7 @@ from datetime import datetime
 import csv
 
 # import crud
-from model import db, connect_to_db, Certification, Category
+from model import db, connect_to_db, Certification, Category,Product, ProductImage,User
 import server
 
 os.system('dropdb moralauthority')
@@ -39,12 +39,14 @@ with open(filename, 'r') as file:
                                         date_modified = '11-04-2020')
 
         db.session.add(certifications)
+        db.session.commit()
 
     for department in ['Beauty & Health', 'Home & Garden', 'Clothing, Shoes & Accessories']:
         new_category = Category(title=department,
                                 date_added='2020-11-21',
                                 date_modified='2020-11-21')
         db.session.add(new_category)
+        db.session.commit()
 
 
     for certification in ['EWG', 'FairTrade', 'Leaping Bunny']:
@@ -55,7 +57,34 @@ with open(filename, 'r') as file:
                                     date_added = '2020-11-21',
                                     date_modified = '2020-11-21')
         db.session.add(new_certification)
+        db.session.commit()
 
+    new_user = User(fname = 'User',
+                    lname ='user',
+                    email = 'user@gmail.com',
+                    password = 'user',
+                    date_added = '2020-11-21',
+                    date_modified = '2020-11-21')
+    db.session.add(new_user)
+    db.session.commit()
+
+    new_product = Product(title = 'Product1',
+                         company = 'company',
+                          url = 'none',
+                          description = 'test product',
+                            category_id = 1,
+                            user_id = 1,
+                            date_added = '2020-11-21',
+                            date_modified = '2020-11-21')
+    db.session.add(new_product)
+    db.session.commit()
+
+    for photo in ["https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg"]:
+        new_product_image = ProductImage(product_id = 1,
+                                        url = photo,
+                                        date_added = '2020-11-21',
+                                        date_modified = '2020-11-21')
+        db.session.add(new_product_image)
     db.session.commit()
 
 # ***************************************************************************

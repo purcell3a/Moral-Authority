@@ -8,6 +8,7 @@ function ShowProfile(props) {
     const [products, setProducts] = React.useState([{}])
     // const [productClicked, setProductClicked] =React.useState['']
     const [favorites, setFavorites] = React.useState([{}])
+    const history = useHistory()
 
     const [userFromDb, setUserFromDb] = React.useState({})
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
@@ -41,7 +42,7 @@ function ShowProfile(props) {
     function generateProductCards(){
         const cards = products.map((product,index) =>(
           <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-            <Card.Img variant="top"  src="https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg" />
+            <Card.Img variant="top"  src={product.img_id} />
             <Card.Body>
                 <Card.Title>{product.title}</Card.Title>
                 <Card.Text>
@@ -58,7 +59,7 @@ function ShowProfile(props) {
       function generateFavorites(){
         const cards = favorites.map((product,index) =>(
           <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-            <Card.Img variant="top"  src="https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg" />
+            <Card.Img variant="top"  src={product.img_id} />
             <Card.Body>
                 <Card.Title>{product.title}</Card.Title>
                 <Card.Text>

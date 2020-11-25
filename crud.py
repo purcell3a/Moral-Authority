@@ -92,6 +92,23 @@ def get_user_favorite_product_id_list(user_id):
         favorite_product_id_list.append(favorite.product_id)
     return favorite_product_id_list
 
+def get_user_favorites(user_id):
+
+    result = []
+    products = db.session.query(Product).select_from(Product).join(Favorite, Favorite.user_id == Product.user_id).filter(Favorite.user_id == user_id).all()
+
+    for product in products:
+        product_image = get_product_img(product.img_id)
+        image_url = ' '.join(map(str, product_image))
+        productObject = {'title':product.title,
+                    'description': product.description,
+                    'product_id' : product.product_id,
+                    'img_id':image_url,
+                    'company': product.company,
+                    'url': product.url,}
+        result.append(productObject)
+    return result
+
 
 def add_user_favorite(user_id,product_id):
 
@@ -250,10 +267,25 @@ def get_product_id(productName,user_id):
     product_id = Product.query.filter(Product.title == productName,Product.user_id == user_id).first()
     return product_id.product_id
 
+def get_product_img(img_id):
+    #*  This can be changed later to return multiple images 
+    image = db.session.query(ProductImage.url).select_from(ProductImage).filter(ProductImage.image_id == img_id).all()
+    return list(image[0])
 
-def add_product(productName,productUrl,company,description,category_id,user_id,img_id):
+def update_product_image(img_id,product_id):
+
+    product = Product.query.filter(Product.product_id==product_id).first()
+    print('THIS IS THE PRODUCT***************************************',product)
+    update_product = product.img_id = img_id
+    print('NEW ***************************************',product)
+
+    db.session.commit()
+
+    print('PRODUCT IMAGE UPDATED')
+
+def add_product(productName,productUrl,company,description,category_id,user_id=1,img_id=1):
     #TODO CHANGE USER ID INPUT
-    user_id = 1
+
     now = datetime.datetime.now()
     new_product= Product(title=productName,
                         url=productUrl,
@@ -278,11 +310,15 @@ def get_recently_added_products():
     #TODO ADD IMAGES 
 
     for product in recent_products:
-                productObject = {'title':product.title,
+        product_image = get_product_img(product.img_id)
+        image_url = ' '.join(map(str, product_image))
+        productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.img_id}
-                productList.append(productObject)
+                    'img_id':image_url,
+                    'company': product.company,
+                    'url': product.url,}
+        productList.append(productObject)
     return productList
 
 def add_product_certifications(product_id,cert_id):
@@ -297,6 +333,14 @@ def add_product_certifications(product_id,cert_id):
 def get_product_info(productId):
 
     product = Product.query.filter(Product.product_id == productId).first()
+    product_image = get_product_img(product.img_id)
+    image_url = ' '.join(map(str, product_image))
+    product = {'title':product.title,
+                'description': product.description,
+                'product_id' : product.product_id,
+                'img_id':image_url,
+                'company': product.company,
+                'url': product.url,}
 
     return product
 
@@ -305,22 +349,29 @@ def get_products():
     all_products =  Product.query.all()
     productList= []
     for product in all_products:
+        product_image = get_product_img(product.img_id)
+        image_url = ' '.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.img_id}
+                    'img_id':image_url,
+                    'company': product.company,
+                    'url': product.url,}
         productList.append(productObject)
     return productList
-
 
 def get_products_added_by_user(user_id):
     products = Product.query.filter(Product.user_id == user_id).all()
     productList = []
     for product in products:
+        product_image = get_product_img(product.img_id)
+        image_url = ' '.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.img_id}
+                    'img_id':image_url,
+                    'company': product.company,
+                    'url': product.url,}
         productList.append(productObject)
     return productList
 

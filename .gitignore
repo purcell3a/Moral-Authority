@@ -1,3 +1,5 @@
 env
 secrets.sh
-pycache
+__pycache__
+.DS_Store
+.vscode

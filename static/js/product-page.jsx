@@ -20,7 +20,7 @@ function ProductPage() {
         <Container>
             <Row>
                 <Col>
-                    <Image src="https://www.pcmedicalllc.com/images/ecommerce/no-img-med.jpg" rounded />
+                    <Image src={productInfo.img_id} rounded />
                 </Col>
                 <Col>
                 <div>{productInfo.title}</div>

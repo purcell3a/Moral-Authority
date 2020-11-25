@@ -14,14 +14,13 @@ import secrets
 
 #TODO CHANGE ROUTES TO BEGIN WITH /API  + FETCH REQUEST URLS
 #TODO LET USERS HAVE PROFILE PHOTOS?
+#TODO FIX USER UPDATE INFO FUNCTION
 
 cloudinary.config(
   cloud_name = "ClOUDNAME",
   api_key = "APIKEY",
   api_secret = "SECRETAPIKEY"
 )
-
-# import secrets
 
 app = Flask(__name__)
 app.secret_key = 'SECRETKEY'
@@ -107,22 +106,10 @@ def get_user_by_id():
 @app.route('/get-user-favorites', methods=['POST'])
 def get_user_favorites():
     data = request.get_json()
-
     user_id = data['user_id']
-    favorites = []
-    # get product id for each favorite
-    favorites_product_id_list = crud.get_user_favorite_product_id_list(user_id)
-    # get product info for each product id 
-    for product_id in favorites_product_id_list:
-        product_info = crud.get_product_info(product_id)
-        product= {'product_id': product_info.product_id ,
-                    'title': product_info.title ,
-                    'company': product_info.company ,
-                    'description': product_info.description ,
-                    'url': product_info.url,
-                    'img_id': product_info.img_id}
-        favorites.append(product)
-    return jsonify(favorites)
+    #* GET USER FAVORITES
+    favorite_product__list = crud.get_user_favorites(user_id)
+    return jsonify(favorite_product__list)
 
 @app.route('/add-favorite',methods=['POST'])
 def add_user_favorite():
@@ -130,9 +117,9 @@ def add_user_favorite():
 
     user_id = data['user_id']
     product_id =data['product_id']
-    #  get existing user favorites
+    #* GET EXISTING USER FAVORITES
     existing_favorites = crud.get_user_favorite_product_id_list(user_id)
-    # if product_id present do not add 
+    #* IF PRODUCT_ID PRESENT DO NOT ADD
     if product_id in existing_favorites:
         return jsonify('already exists')
     else:
@@ -147,11 +134,12 @@ def remove_user_favorite():
 
     user_id = data['user_id']
     product_id =data['product_id']
-    #  get existing user favorites
+    #* GET EXISTING USER FAVORITES
 
     favorite_removed = crud.remove_user_favorite(user_id,product_id)
 
     return jsonify('removed!!!!')
+
 
 #! GENERAL PRODUCT FILTERS
 @app.route('/return-certs')
@@ -176,6 +164,7 @@ def return_list_departments():
     departments= crud.return_departments()
     return jsonify(departments)
 
+
 #! PRODUCT SPECIFIC ROUTES LINE 
 @app.route('/product-info',methods=['POST'])
 def return_product_info():
@@ -183,13 +172,7 @@ def return_product_info():
     data = request.get_json()
     productId = data['productId']
     product_info = crud.get_product_info(productId)
-    product= {'product_id': product_info.product_id ,
-                    'title': product_info.title ,
-                    'company': product_info.company ,
-                    'description': product_info.description ,
-                    'url': product_info.url,
-                    'img_id': product_info.img_id}
-    return jsonify(product)
+    return jsonify(product_info)
 
 @app.route('/user-added-products', methods=['POST'])
 def return_products_added_by_user():
@@ -201,9 +184,8 @@ def return_products_added_by_user():
 @app.route('/return-products')
 def return_products():
     """return all products"""
-    products = crud.get_products()
-
-    return jsonify(products)
+    result = crud.get_products()
+    return jsonify(result)
 
 
 @app.route('/filter-products', methods=['POST'])
@@ -277,7 +259,6 @@ def add_product():
 
     #  INFO THAT NEEDS MORE PROCESSING
     category_from_data = data['category']
-    file_from_data = data['file']
     selectedCerts = data['selectedCerts']
     img_url = data['img']
      # ****************************** #
@@ -292,30 +273,19 @@ def add_product():
         if cert != 'Bcorp':
             cert_id = crud.get_cert_id_by_title(cert)
             cert_id_list.append(cert_id)
-    print('*********************************************************')
-    print('cert ID LIST =', cert_id_list)
 
     #  IF THERE IS A BCORP IGNORE THE COMPANY PROVIDED (we can do this on the front end later maybe?)
     if bcorp:
         company = bcorp
-        new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
-        product_id = crud.get_product_id(productName,user_id)
-        #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
-        for cert_id in cert_id_list:
-            new_certification = crud.add_product_certifications(product_id,cert_id)
-        return jsonify('Product added')
-    #  IF THERE IS NO BCORP
-    else:
-        # MAKE THE PRODUCT AND GET THE PRODUCT ID FROM DB
-        new_product = crud.add_product(productName,company,productUrl,description,category_id,user_id)
-        product_id = crud.get_product_id(productName,user_id)
-        image_id = crud.add_image(img_url,product_id)
-        # TODO update new product with image id
-        print('new_product',new_product)
-        #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
-        for cert_id in cert_id_list:
-            new_certification = crud.add_product_certifications(product_id,cert_id)
-        return jsonify('Product added')
+    new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
+    product_id = crud.get_product_id(productName,user_id)
+    image_id = crud.add_image(img_url,product_id)
+    product = crud.update_product_image(image_id,product_id)
+    print('new_product',product)
+    #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
+    for cert_id in cert_id_list:
+        new_certification = crud.add_product_certifications(product_id,cert_id)
+    return jsonify('Product added')
 
 
 if __name__ == '__main__':
