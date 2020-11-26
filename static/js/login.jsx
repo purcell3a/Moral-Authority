@@ -11,7 +11,7 @@ function Login(props) {
     console.log('sbumit is running')
     evt.preventDefault()
     let data = {email:email, password:password}
-    fetch('/login' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+    fetch('/app/login' ,{method: "POST",  body: JSON.stringify(data),  headers: {
       'Content-Type': 'application/json'}})
       .then(response => response.json())
       // data is the user we are pulling from our db after verifying their info above

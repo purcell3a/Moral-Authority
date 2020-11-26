@@ -24,7 +24,7 @@
       evt.preventDefault()
       console.log(productName, company,productUrl,description,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter,'user_id',userFromStorage.id, 'file=',file)
       let data = {productName:productName, company:company, productUrl:productUrl, description:description, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter,user_id:userFromStorage.id, img:file }
-      fetch('/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/app/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
       .then(data => console.log(data));
@@ -34,7 +34,7 @@
 
 
     React.useEffect(() => {
-        fetch('/list-bcorps')
+        fetch('/app/list-bcorps')
         .then((response) => {
             return response.json();
           })
@@ -51,7 +51,7 @@
     },[]);
 
     React.useEffect(() => {
-      fetch('/list-departments')
+      fetch('/app/list-departments')
       .then((response) => {
           return response.json();
         })
@@ -69,7 +69,7 @@
 
 
   React.useEffect(() => {
-    fetch('/return-certs')
+    fetch('/app/return-certs')
       .then(response => response.json())
       .then(data => setCerts(data));
       },[]);

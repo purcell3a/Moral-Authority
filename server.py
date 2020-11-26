@@ -25,22 +25,22 @@ cloudinary.config(
 app = Flask(__name__)
 app.secret_key = 'SECRETKEY'
 
-@app.route('/')
-def show_homepage():
-    """Show the application's homepage."""
 
+@app.route('/', defaults={'input_path': ''}) #if this matches the URL
+@app.route('/<path:input_path>') #or if this does
+def show_homepage(input_path):
+    """Show the application's homepage."""
     return render_template('base.html')
 
 
-@app.route('/recently-added')
+@app.route('/app/recently-added')
 def recently_added_products():
-
     recentProducts = crud.get_recently_added_products()
 
     return jsonify(recentProducts)
 
 #! USER ACCOUNT ROUTES
-@app.route('/signup', methods=["POST"])
+@app.route('/app/signup', methods=["POST"])
 def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
     data = request.get_json()
@@ -51,15 +51,14 @@ def sign_up():
     password = data['password']
 
     existing_user = crud.does_user_exist(email)
-
-
     if existing_user == 'user exists':
         return jsonify('you already exist dingus')
     else:
         new_user = crud.create_user(fname,lname,email,password)
         return jsonify('account created')
 
-@app.route('/login', methods=["POST"])
+
+@app.route('/app/login', methods=["POST"])
 def login_user():
     '''verify user and login'''
     data = request.get_json()
@@ -70,14 +69,15 @@ def login_user():
 
     is_user = crud.validate_user(password,email)
 
-
     if is_user:
         return jsonify({'fname' : user['fname'], 'id':user['user_id'] })
 
     else:
         return jsonify('info does not match')
 
-@app.route('/change-user-data',methods=['POST'])
+
+
+@app.route('/app/change-user-data',methods=['POST'])
 def change_user_data():
 
     data = request.get_json()
@@ -87,13 +87,16 @@ def change_user_data():
     lname = data['lname']
     email = data['email']
     password = data['password']
-
     updatedUser = crud.change_user_data(user_id,password=password,fname=fname,lname=lname,email=email)
+    updated_user_info = {'fname': updatedUser.fname,
+                'id': updatedUser.user_id}
+    print('****************************************************************************')
+    print('updateUser=',user_id,password,fname,lname,email)
 
-    return jsonify ('Account Updated')
+    return jsonify ({'status':'Account Updated', 'user': updated_user_info})
 
 
-@app.route('/get-user-by-id',methods=["POST"])
+@app.route('/app/get-user-by-id',methods=["POST"])
 def get_user_by_id():
     ''' gets all user profile info by id'''
     data = request.get_json()
@@ -103,7 +106,7 @@ def get_user_by_id():
     return {'fname' : user.fname,'lname' : user.lname, 'id':user.user_id ,'email' : user.email, 'password' : user.password}
 
 #! USER FAVORITE ROUTES
-@app.route('/get-user-favorites', methods=['POST'])
+@app.route('/app/get-user-favorites', methods=['POST'])
 def get_user_favorites():
     data = request.get_json()
     user_id = data['user_id']
@@ -111,10 +114,9 @@ def get_user_favorites():
     favorite_product__list = crud.get_user_favorites(user_id)
     return jsonify(favorite_product__list)
 
-@app.route('/add-favorite',methods=['POST'])
+@app.route('/app/add-favorite',methods=['POST'])
 def add_user_favorite():
     data = request.get_json()
-
     user_id = data['user_id']
     product_id =data['product_id']
     #* GET EXISTING USER FAVORITES
@@ -128,21 +130,20 @@ def add_user_favorite():
         return jsonify('favorite added!!!!')
 
 #TODO THESE CAN BE MADE INTO ONE FUNCTION IF WE ADD ANIMATION TO THE FRONT
-@app.route('/remove-favorite',methods=['POST'])
+@app.route('/app/remove-favorite',methods=['POST'])
 def remove_user_favorite():
     data = request.get_json()
 
     user_id = data['user_id']
     product_id =data['product_id']
-    #* GET EXISTING USER FAVORITES
-
+    #* REMOVE FAVORITE
     favorite_removed = crud.remove_user_favorite(user_id,product_id)
 
     return jsonify('removed!!!!')
 
 
 #! GENERAL PRODUCT FILTERS
-@app.route('/return-certs')
+@app.route('/app/return-certs')
 def return_all_certs():
     ''' return all certs'''
     certs = crud.return_certifications()
@@ -150,7 +151,7 @@ def return_all_certs():
     return jsonify(certs)
 
 
-@app.route('/list-bcorps')
+@app.route('/app/list-bcorps')
 def return_bcorps():
     """return list of bcorps"""
 
@@ -158,7 +159,7 @@ def return_bcorps():
     return jsonify(bcorps)
 
 
-@app.route('/list-departments')
+@app.route('/app/list-departments')
 def return_list_departments():
     ''' return list of departments/categories'''
     departments= crud.return_departments()
@@ -166,7 +167,7 @@ def return_list_departments():
 
 
 #! PRODUCT SPECIFIC ROUTES LINE 
-@app.route('/product-info',methods=['POST'])
+@app.route('/app/product-info',methods=['POST'])
 def return_product_info():
     """Returns product info for Product page"""
     data = request.get_json()
@@ -174,21 +175,21 @@ def return_product_info():
     product_info = crud.get_product_info(productId)
     return jsonify(product_info)
 
-@app.route('/user-added-products', methods=['POST'])
+@app.route('/app/user-added-products', methods=['POST'])
 def return_products_added_by_user():
     data = request.get_json()
     user_id = data['user_id']
     products = crud.get_products_added_by_user(user_id)
     return jsonify(products)
 
-@app.route('/return-products')
+@app.route('/app/return-products')
 def return_products():
     """return all products"""
     result = crud.get_products()
     return jsonify(result)
 
 
-@app.route('/filter-products', methods=['POST'])
+@app.route('/app/filter-products', methods=['POST'])
 def filter_products():
     '''filter products and return to shop page'''
     product_ids = []
@@ -233,16 +234,10 @@ def filter_products():
     #* NOW LOOP THROUGH PRODUCT IDS AND RETURN PRODUCT OBJECTS 
     for productId in product_ids:
             product = crud.get_product_info(productId)
-            productObj= {'product_id': product.product_id,
-                        'title': product.title,
-                        'company': product.company,
-                        'description': product.description,
-                        'url': product.url,
-                        'img_id': 1}
-            products.append(productObj)
+            products.append(product)
     return jsonify(products)
 
-@app.route('/add-product', methods=["POST"])
+@app.route('/app/add-product', methods=["POST"])
 def add_product():
     '''adds new product to db'''
 

@@ -14,7 +14,7 @@ function Shop(){
 
     React.useEffect(() =>{
       console.log('****************** useEffect is running')
-      fetch('/return-products')
+      fetch('/app/return-products')
       .then(response => response.json())
       .then(data => setProductCard(data));
     },[]);
@@ -22,7 +22,7 @@ function Shop(){
 
 
     React.useEffect(() => {
-      fetch('/list-departments')
+      fetch('/app/list-departments')
       .then((response) => {
           return response.json();
         })
@@ -39,7 +39,7 @@ function Shop(){
   },[]);
 
   React.useEffect(() => {
-    fetch('/return-certs')
+    fetch('/app/return-certs')
       .then(response => response.json())
       .then(data => setCerts(data));
       },[]);
@@ -56,7 +56,7 @@ function Shop(){
     function HandleFavoriteClick(productId){
       console.log('productId=',productId,'user_id',userFromStorage.id)
       let data = {product_id:productId,user_id:userFromStorage.id}
-      fetch('/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
       .then(data => console.log(data));
@@ -78,7 +78,6 @@ function Shop(){
         ))
         return cards
     }
-
 
     function generateDepartments(){
       const depoptions = departments.deps.map((dep, index) => (
@@ -119,7 +118,7 @@ function Shop(){
       evt.preventDefault()
       console.log('selectedDepartment', selectedDepartment, 'selectedCerts:', certsForFilter)
         let data = {selectedDepartment:selectedDepartment,selectedCerts:certsForFilter}
-        fetch('/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
+        fetch('/app/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
               'Content-Type': 'application/json'}} )
         .then(response => response.json())
         .then(data => setProductCard(data))
@@ -134,15 +133,14 @@ function Shop(){
 
             <Col xs={6} md={4}>
               <Form onSubmit={handleSubmit} id="sidenav">
-                <Nav defaultActiveKey="/product-search" className="flex-column">
+                <Nav defaultActiveKey='/app/product-search' className="flex-column">
 
                     <Form.Group>
                       <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
                         {generateDepartments()}
                       </select>
                     </Form.Group>
-
-                      {/* #we can map this given categories in db */}
+                
                     <Form.Group>
                     {generateCertifications()}
                     </Form.Group>

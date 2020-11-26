@@ -25,5 +25,5 @@ const CardFooter = ReactBootstrap.CardFooter;
 const Icon = ReactBootstrap.Icon;
 const Jumbotron = ReactBootstrap.Jumbotron;
 const Badge = ReactBootstrap.Badge;
-const AutoResponsive = ReactBootstrap.AutoResponsive;
+
 

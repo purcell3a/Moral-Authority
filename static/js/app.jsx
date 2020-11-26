@@ -3,13 +3,13 @@ const Router = ReactRouterDOM.BrowserRouter;
 const { useHistory, useParams, Redirect, Switch, Prompt, Link, Route } = ReactRouterDOM;
 
 function App() {
-
+    const [user, setUser] = React.useState()
     React.useEffect(() => {
     const currentuser = JSON.parse(localStorage.getItem('user'));
     setUser(currentuser)
     console.log(user)
   },[]);
-  const [user, setUser] = React.useState()
+
 
 
     return (
@@ -20,22 +20,22 @@ function App() {
 
 
           <Switch>
-            <Route path="/login">
+            <Route path='/app/login'>
               <Login setUser={setUser}/>
             </Route>
-            <Route path="/signup">
+            <Route path='/app/signup'>
               <Signup setUser={setUser} user={user}/>
             </Route>
-             <Route path="/add-product">
+             <Route path='/app/add-product'>
               <AddProduct />
             </Route>
-            <Route path="/user-profile" setUser={setUser} user={user}>
-              <ShowProfile />
+            <Route path='/app/user-profile'>
+              <ShowProfile setUser={setUser} user={user}/>
             </Route>
-            <Route path="/shop">
+            <Route path='/app/shop'>
               <Shop />
             </Route>
-            <Route path="/product-page/:productId">
+            <Route path='/app/product-page/:productId'>
               <ProductPage />
             </Route>
             <Route path="/">

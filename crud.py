@@ -67,22 +67,22 @@ def change_user_data(user_id,fname,lname,email,password):
 
     if fname and user.fname != fname:
         user.fname = fname
-        #! user.update().values({"fname": fname})
+
     if lname and user.lname != lname:
         user.lname = lname
-        #! user.update().values({"lname": lname})
+
 
     if email and user.email != email:
         user.email = email
-        #! user.update().values({"email": email})
+
 
     if password and user.password != password:
         user.password = password
-        #! user.update().values({"password": password})
-
-    #! user.user_id = user_id
 
     db.session.commit()
+
+    return user
+
 
 def get_user_favorite_product_id_list(user_id):
 
@@ -341,7 +341,6 @@ def get_product_info(productId):
                 'img_id':image_url,
                 'company': product.company,
                 'url': product.url,}
-
     return product
 
 def get_products():

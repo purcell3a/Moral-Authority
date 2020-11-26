@@ -9,7 +9,7 @@ function Homepage() {
 
   React.useEffect(() =>{
     console.log('****************** useEffect is running')
-    fetch('/recently-added')
+    fetch('/app/recently-added')
     .then(response => response.json())
     .then(data => setProductCard(data));
   },[]);
@@ -38,6 +38,52 @@ function Homepage() {
 
 
 
+
+
+
+  // const url = 'https://www.instagram.com/graphql/query/?query_hash=d4d88dc1500312af6f937f7b804c68c3&variables={user_id:239369330125,include_chaining:false,include_reel:false,include_suggested_users:false,include_logged_out_extras:true,include_highlight_reels:true,include_live_status:true}';
+
+  // const cache = {
+  //   lastFetch: 0,
+  //   posts:[],
+  // };
+  
+  // async function getPosts(){
+  //   const timeSinceLastFetch = Date.now() - caches.lastFetch;
+  //   if (timeSinceLastFetch <= 1800000){
+  //     return caches.posts;
+  //   }
+  //   const data = await fetch(url).then(res = res.json());
+  //   cache.lastFetch = Date.now();
+  //   cache.posts = data;
+  //   return data;
+  // }
+  
+  
+  // function useInstagram(){
+  //   const [posts, setPosts] = React.useState([]);
+  //     React.useEffect(() => {
+  //       fetch(url)
+  //       .then (res => res.json())
+  //       .then(data =>{ data.map(data, index)
+  //         setPosts(data);
+  //       })
+  //     },[]);
+  //     return posts;
+  // }
+  
+  // function Instagram(){
+  //   const gramz = useInstagram();
+  //   return(
+  //     <div>
+  //       {gramz.map(gram => (
+  //         <a href={gram.url} key={gram.id}>
+  //         <img key={gram.id} src={gram.thumbnail} alt={gram.caption}/> </a>
+  //       ))}
+  //     </div>
+  //   )
+  // }
+
     return (
       <React.Fragment>
 
@@ -50,6 +96,8 @@ function Homepage() {
           </Row>
 
           <Row>{generateProductCards()}</Row>
+
+          {/* <Row>{Instagram()}</Row> */}
 
         </Container>
       </React.Fragment>

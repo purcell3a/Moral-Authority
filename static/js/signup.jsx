@@ -11,7 +11,7 @@
     function handleSubmit(evt){
       evt.preventDefault()
       let data = {email:email, password:password, fname:fname, lname:lname}
-      fetch('/signup',{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/app/signup',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
       .then(data => {

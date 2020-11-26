@@ -7,7 +7,7 @@ function ProductPage() {
     // when the page load
     React.useEffect(() =>{
         // send product title and description to server
-        fetch('/product-info', {method:"POST", body: JSON.stringify(data),headers: {
+        fetch('/app/product-info', {method:"POST", body: JSON.stringify(data),headers: {
             'Content-Type': 'application/json'}})
         //  take the rest of the product data returned and add to state
         .then(response => response.json())

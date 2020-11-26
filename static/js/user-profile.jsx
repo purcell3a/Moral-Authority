@@ -11,15 +11,15 @@ function ShowProfile(props) {
     const history = useHistory()
 
     const [userFromDb, setUserFromDb] = React.useState({})
-    const userFromStorage = JSON.parse(localStorage.getItem('user'));
-    console.log('userinfo=',userFromStorage)
-    console.log('userid=',userFromStorage.id)
+  
+    console.log('userinfo=',props.user)
+    console.log('userid=',props.user.id)
 
 
-//  GET PRODUCTS ADDED BY USER
+    //  GET PRODUCTS ADDED BY USER
     React.useEffect(() => {
-        let data = {user_id: userFromStorage.id}
-        fetch('/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+        let data = {'user_id' : props.user.id}
+        fetch('/app/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}})
           .then(response => response.json())
           // data is the user we are pulling from our db after verifying their info above
@@ -27,10 +27,10 @@ function ShowProfile(props) {
            })
     }, []);
 
-//  GET USER FAVORITES
+    //  GET USER FAVORITES
     React.useEffect(() => {
-        let data = {user_id: userFromStorage.id}
-        fetch('/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+        let data = {'user_id' : props.user.id}
+        fetch('/app/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}})
         .then(response => response.json())
         // data is the user we are pulling from our db after verifying their info above
@@ -75,8 +75,8 @@ function ShowProfile(props) {
 
     //  GET MAIN PROFILE DATA
     React.useEffect(() => {
-        let data = {user_id: userFromStorage.id}
-        fetch('/get-user-by-id' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+        let data = {'user_id': props.user.id}
+        fetch('/app/get-user-by-id' ,{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}})
           .then(response => response.json())
           // data is the user we are pulling from our db after verifying their info above
@@ -85,18 +85,18 @@ function ShowProfile(props) {
     }, []);
 
     function HandleFavoriteClick(productId){
-        console.log('productId=',productId,'user_id',userFromStorage.id)
-        let data = {product_id:productId,user_id:userFromStorage.id}
-        fetch('/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+        console.log('productId=',productId,'user_id',props.user.id)
+        let data = {product_id:productId,'user_id':props.user.id}
+        fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
         .then(data => console.log(data));
     }
 
     function handleRemoveFavorite(productId){
-        console.log('productId=',productId,'user_id',userFromStorage.id)
-        let data = {product_id:productId,user_id:userFromStorage.id}
-        fetch('/remove-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+        console.log('productId=',productId,'user_id',props.user.id)
+        let data = {product_id:productId,'user_id':props.user.id}
+        fetch('/app/remove-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
         .then(data => console.log(data));
@@ -104,15 +104,15 @@ function ShowProfile(props) {
 
     function handleSubmit(evt){
         evt.preventDefault()
-        console.log('data going to /change-user-data', fname, lname,email,password, userFromStorage.id)
-        let data = {fname:fname, lname:lname, email:email, password:password, user_id: userFromStorage.id}
-        fetch('/change-user-data',{method: "POST",  body: JSON.stringify(data),  headers: {
+        console.log('data going to /change-user-data', fname, lname,email,password, props.user.id)
+        let data = {fname:fname, lname:lname, email:email, password:password, 'user_id':props.user.id}
+        fetch('/app/change-user-data',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
         .then(data => {
-            if (data == 'Account Updated'){
-                props.setUser(JSON.stringify({'fname':fname, 'id': userFromStorage.id}))
-                localStorage.setItem('user',JSON.stringify({'fname':fname, 'id': userFromStorage.id}));
+            if (data.status == 'Account Updated'){
+                props.setUser({'fname':data.user.fname, 'id': data.user.id})
+                localStorage.setItem('user',JSON.stringify({'fname':data.user.fname, 'id': data.user.id}));
                 history.push('/');
             }else{
                 alert('Info not able to update')
