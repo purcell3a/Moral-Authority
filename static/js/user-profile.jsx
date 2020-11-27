@@ -9,9 +9,13 @@ function ShowProfile(props) {
     // const [productClicked, setProductClicked] =React.useState['']
     const [favorites, setFavorites] = React.useState([{}])
     const history = useHistory()
+    const [profilePhoto, setprofilePhoto] = React.useState(null)
+    const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ipialmwj',}, (error, result) => { if (result.event == "success") {
+      setprofilePhoto(result.info.url) // result.info contains data from upload
+    } })
 
     const [userFromDb, setUserFromDb] = React.useState({})
-  
+
     console.log('userinfo=',props.user)
     console.log('userid=',props.user.id)
 
@@ -105,7 +109,7 @@ function ShowProfile(props) {
     function handleSubmit(evt){
         evt.preventDefault()
         console.log('data going to /change-user-data', fname, lname,email,password, props.user.id)
-        let data = {fname:fname, lname:lname, email:email, password:password, 'user_id':props.user.id}
+        let data = {fname:fname, lname:lname, email:email, password:password, 'user_id':props.user.id, profilePhoto:profilePhoto}
         fetch('/app/change-user-data',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
@@ -148,48 +152,85 @@ function ShowProfile(props) {
     return (
      <React.Fragment>
        <Container>
-        <Form onSubmit={handleSubmit}>
 
-          <Row>
+                  <Col>
+                  <Card style={{ width: '18rem' }}>
+                  <div class="card profile-card-3">
+    		          <div class="background-block">
+    		            <Card.Img src={userFromDb.profile_img} alt="profile-sample1" class="background"/>
+    		          </div>
+    		          <div class="profile-thumb-block">
+    		            <img src={userFromDb.profile_img} alt="profile-image" class="profile"/>
+    		          </div>
+    		          <div class="card-content">
+                    <Card.Title>
+                    <h2>{userFromDb.fname} {userFromDb.lname}<small>Designer</small></h2>
+                    </Card.Title>
+                    <div class="icon-block"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"> <i class="fa fa-twitter"></i></a><a href="#"> <i class="fa fa-google-plus"></i></a></div>
+                    </div>
+                    </div>
+                  </Card>
 
-          <Col>
+                  {/* <Card style={{ width: '18rem' }}>
+  <Card.Img variant="top" src="holder.js/100px180" />
+  <Card.Body>
+    <Card.Title>Card Title</Card.Title>
+    <Card.Text>
+      Some quick example text to build on the card title and make up the bulk of
+      the card's content.
+    </Card.Text>
+    <Button variant="primary">Go somewhere</Button>
+  </Card.Body>
+</Card> */}
 
-                  <Form.Group>
-                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
-                  </Form.Group>
 
-                  <Form.Group>
-                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
-                  </Form.Group>
-
-                  <Form.Group>
-                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
-                  </Form.Group>
-
-                  <Form.Group>
-                  <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
-                  </Form.Group>
-                  <Form.Group>
-                  <Button type="submit">Save Changes</Button>
-                  </Form.Group>
                   </Col>
 
                   <Col>
+                      <Tabs defaultActiveKey="Account" id="uncontrolled-tab-example">
 
+                        <Tab eventKey="Account" title="Account">
 
-                      <Tabs defaultActiveKey="Products" id="uncontrolled-tab-example">
+                        <Form onSubmit={handleSubmit}>
+
+                        <Form.Group>
+                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
+                        </Form.Group>
+
+                        <Form.Group>
+                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
+                        </Form.Group>
+
+                        <Form.Group>
+                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
+                        </Form.Group>
+
+                        <Form.Group>
+                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
+                        </Form.Group>
+                        <Form.Group>
+                        <Button type="submit">Save Changes</Button>
+                        </Form.Group>
+                        </Form>
+                        <Button id="upload_widget" className="cloudinary-button"  onClick={()=> {myWidget.open()}}>Update Profile Photo</Button>
+                        </Tab>
+
                           <Tab eventKey="Favorites" title="Favorites">
                           {generateFavorites()}
                           </Tab>
+
                           <Tab eventKey="Products" title="Products">
                               {generateProductCards()}
+                          </Tab>
+
+                          <Tab eventKey="AddProduct" title="AddProduct">
+                          <AddProduct />
                           </Tab>
 
                       </Tabs>
 
                   </Col>
-          </Row>
-        </Form>
+
         </Container>
     </React.Fragment>
      );

@@ -15,7 +15,7 @@ function TopNav(props){
     }
 
     return(
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="md">
              <Navbar.Brand><Link to='/'><img
                     src="/static/img/logo.png"
                     width="250"
@@ -26,16 +26,14 @@ function TopNav(props){
             </Navbar.Brand>
 
 
-             <Nav.Link><Link to="app/shop"> Shop</Link></Nav.Link>
-            {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
+                <Nav.Link><Link to="/app/shop"> Shop</Link></Nav.Link>
                     <Nav className="mr-auto">
-                        {props.user?'':<Nav.Link><Link to="app/signup">Login | Signup</Link></Nav.Link>}
+                        {props.user?'':<Nav.Link><Link to="/app/signup">Login | Signup</Link></Nav.Link>}
                         {props.user?
                         <NavDropdown title= {props.user.fname} id="basic-nav-dropdown">
-                                <NavDropdown.Item><Link to="app/user-profile">Profile</Link></NavDropdown.Item>
-                                <NavDropdown.Item><Link to="app/add-product">AddProduct </Link></NavDropdown.Item>
-                                <NavDropdown.Divider />
+                                <NavDropdown.Item><Link to="/app/user-profile">Profile</Link></NavDropdown.Item>
                                 <NavDropdown.Item><Button onClick={handleSubmit} variant="light">Logout</Button></NavDropdown.Item>
                         </NavDropdown>:''}
                     </Nav>

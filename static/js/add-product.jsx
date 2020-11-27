@@ -30,6 +30,10 @@
       .then(data => console.log(data));
       alert('Product Created!')
       history.push('/')
+      // return (
+        // <Alert variant='dark'>Product Created!</Alert>
+
+      // )
     }
 
 
@@ -206,6 +210,7 @@
                             </InputGroup>
 
                               <Button type="submit">Submit for Review</Button>
+                              {/* <Alert variant='dark'>Product Created!</Alert> */}
                           </Col>
                     </Form.Row>
 

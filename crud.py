@@ -3,7 +3,7 @@
 from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification,ProductImage
 import datetime
 import random
-
+#TODO ADD DATE UPDATED TO UPDATE FUNCTIONS
 #  <================================ USER INFO ==================================>
 
 def get_users():
@@ -54,14 +54,14 @@ def get_user_by_id(user_id):
 
 def create_user(fname,lname,email,password):
     now = datetime.datetime.now()
-    new_user= User(fname=fname, lname=lname, email=email, password=password, date_added= now, date_modified= now)
+    new_user= User(fname=fname, lname=lname, email=email, password=password,profile_img ='static/img/stock-profile-img.png',date_added=now, date_modified= now)
 
     db.session.add(new_user)
     db.session.commit()
     return new_user
 
 
-def change_user_data(user_id,fname,lname,email,password):
+def change_user_data(user_id,fname,lname,email,password,profilePhoto):
     now = datetime.datetime.now()
     user = User.query.get(user_id)
 
@@ -78,6 +78,9 @@ def change_user_data(user_id,fname,lname,email,password):
 
     if password and user.password != password:
         user.password = password
+
+    if profilePhoto and user.profile_img != profilePhoto:
+        user.profile_img = profilePhoto
 
     db.session.commit()
 
@@ -172,7 +175,6 @@ def get_product_ids_made_by_bcorps():
     return result
 
 def return_bcorp():
-    # bcorps = db.session.query(Certification.company_certified.distinct()).filter(Certification.certification == 'Bcorp').order_by(Certification.company_certified.desc()).all()
 
     bcorps = []
     all_bcorps =  Certification.query.filter(Certification.certification == 'Bcorp').all()
@@ -246,15 +248,6 @@ def add_image(img_url,product_id):
 
     return new_image.image_id
 
-# def get_product_made_by_bcorp(company):
-#     #? get_product_made_by_bcorp('AV1')
-#     product = Product.query.filter(Product.company == company).first()
-#     if product:
-#         return product.product_id
-#     else:
-#         return 'no product'
-
-
 def get_product_id_by_cert_id(cert_id):
     product_id_list =[]
     result = ProductCertification.query.filter(ProductCertification.cert_id == cert_id).all()
@@ -269,18 +262,15 @@ def get_product_id(productName,user_id):
 
 def get_product_img(img_id):
     #*  This can be changed later to return multiple images 
-    image = db.session.query(ProductImage.url).select_from(ProductImage).filter(ProductImage.image_id == img_id).all()
+    image = db.session.query(ProductImage.url).select_from(ProductImage).filter(ProductImage.image_id == img_id).first()
     return list(image[0])
 
 def update_product_image(img_id,product_id):
 
     product = Product.query.filter(Product.product_id==product_id).first()
-    print('THIS IS THE PRODUCT***************************************',product)
     update_product = product.img_id = img_id
-    print('NEW ***************************************',product)
 
     db.session.commit()
-
     print('PRODUCT IMAGE UPDATED')
 
 def add_product(productName,productUrl,company,description,category_id,user_id=1,img_id=1):
@@ -307,11 +297,9 @@ def get_recently_added_products():
     productList= []
     recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
 
-    #TODO ADD IMAGES 
-
     for product in recent_products:
         product_image = get_product_img(product.img_id)
-        image_url = ' '.join(map(str, product_image))
+        image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,

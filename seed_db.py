@@ -63,6 +63,7 @@ with open(filename, 'r') as file:
                     lname ='user',
                     email = 'user@gmail.com',
                     password = 'user',
+                    profile_img = 'capstone/moralauthority/static/img/stock-profile-img.png',
                     date_added = '2020-11-21',
                     date_modified = '2020-11-21')
     db.session.add(new_user)
@@ -86,5 +87,4 @@ with open(filename, 'r') as file:
                                         date_modified = '2020-11-21')
         db.session.add(new_product_image)
     db.session.commit()
-
 # ***************************************************************************

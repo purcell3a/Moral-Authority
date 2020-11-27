@@ -12,9 +12,6 @@ import secrets
 #! USER FAVORITE ROUTES LINE 104
 #! GENERAL PRODUCT FILTERS LINE 154
 
-#TODO CHANGE ROUTES TO BEGIN WITH /API  + FETCH REQUEST URLS
-#TODO LET USERS HAVE PROFILE PHOTOS?
-#TODO FIX USER UPDATE INFO FUNCTION
 
 cloudinary.config(
   cloud_name = "ClOUDNAME",
@@ -87,7 +84,8 @@ def change_user_data():
     lname = data['lname']
     email = data['email']
     password = data['password']
-    updatedUser = crud.change_user_data(user_id,password=password,fname=fname,lname=lname,email=email)
+    profilePhoto = data['profilePhoto']
+    updatedUser = crud.change_user_data(user_id,password=password,fname=fname,lname=lname,email=email,profilePhoto=profilePhoto)
     updated_user_info = {'fname': updatedUser.fname,
                 'id': updatedUser.user_id}
     print('****************************************************************************')
@@ -103,7 +101,7 @@ def get_user_by_id():
 
     user_id = data['user_id']
     user = crud.get_user_by_id(user_id)
-    return {'fname' : user.fname,'lname' : user.lname, 'id':user.user_id ,'email' : user.email, 'password' : user.password}
+    return {'fname' : user.fname,'lname' : user.lname, 'id':user.user_id ,'email' : user.email, 'password' : user.password, 'profile_img':user.profile_img}
 
 #! USER FAVORITE ROUTES
 @app.route('/app/get-user-favorites', methods=['POST'])
@@ -216,7 +214,6 @@ def filter_products():
                 for product_id in bcorps_product_ids:
                         product_ids.append(product_id)
         #*  GET PRODUCTS ID'S WITH CERT IDS
-        #? I FEEL  LIKE A LOT OF THIS COULD BE DONE BETTER IN CRUD?
         for cert_id in cert_id_list:
             product_id_list_from_certs = crud.get_product_id_by_cert_id(cert_id)
             #* IF THERE ARE CERTIFICATIONS AND DEPARTMENTS

@@ -19,6 +19,7 @@ class User(db.Model):
     lname = db.Column(db.String,
                         nullable=False,
                         unique=False)
+    profile_img = db.Column(db.String)
     email = db.Column(db.String,
                         nullable=False,
                         unique=True)
