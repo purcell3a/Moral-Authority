@@ -15,7 +15,7 @@ function TopNav(props){
     }
 
     return(
-        <Navbar bg="light" expand="md">
+        <Navbar scrolling dark expand="md" fixed='top'>
              <Navbar.Brand><Link to='/'><img
                     src="/static/img/logo.png"
                     width="250"
@@ -39,6 +39,7 @@ function TopNav(props){
                     </Nav>
                 </Navbar.Collapse>
         </Navbar>
+
 
     );
 }

@@ -79,6 +79,31 @@ function Shop(){
         return cards
     }
 
+  //   const makePlantRows = (plantsArr) => {
+  //     let rows = [];
+  //     for(let i = 0; i < plantsArr.length; i=i+3) {
+  //         rows.push(
+  //             <Row>
+  //                 <Col sm={1}></Col>
+  //                 <Col sm={3}>
+  //                 {plantsArr[i]}
+  //                 </Col>
+  //                 <Col sm={4}>
+  //                 {plantsArr[i+1]}
+  //                 </Col>
+  //                 <Col sm={3}>
+  //                 {plantsArr[i+2]}
+  //                 </Col>
+  //                 <Col sm={1}></Col>
+  //             </Row>
+  //         );
+  //     }
+  //     return rows
+  // }
+
+
+
+
     function generateDepartments(){
       const depoptions = departments.deps.map((dep, index) => (
         <option key={index} value={dep.value}>
@@ -140,7 +165,7 @@ function Shop(){
                         {generateDepartments()}
                       </select>
                     </Form.Group>
-                
+
                     <Form.Group>
                     {generateCertifications()}
                     </Form.Group>

@@ -3,7 +3,7 @@
 from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification,ProductImage
 import datetime
 import random
-#TODO ADD DATE UPDATED TO UPDATE FUNCTIONS
+#TODO ADD DATE UPDATED TO UPDATE 
 #  <================================ USER INFO ==================================>
 
 def get_users():
@@ -337,7 +337,7 @@ def get_products():
     productList= []
     for product in all_products:
         product_image = get_product_img(product.img_id)
-        image_url = ' '.join(map(str, product_image))
+        image_url = ''.join(product_image)
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
@@ -352,7 +352,7 @@ def get_products_added_by_user(user_id):
     productList = []
     for product in products:
         product_image = get_product_img(product.img_id)
-        image_url = ' '.join(map(str, product_image))
+        image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,

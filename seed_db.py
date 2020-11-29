@@ -63,7 +63,7 @@ with open(filename, 'r') as file:
                     lname ='user',
                     email = 'user@gmail.com',
                     password = 'user',
-                    profile_img = 'capstone/moralauthority/static/img/stock-profile-img.png',
+                    profile_img = 'https://www.pakstockexchange.com/stock3/profile_pictures/no-profile-picture.png',
                     date_added = '2020-11-21',
                     date_modified = '2020-11-21')
     db.session.add(new_user)
@@ -87,4 +87,13 @@ with open(filename, 'r') as file:
                                         date_modified = '2020-11-21')
         db.session.add(new_product_image)
     db.session.commit()
+
+    def update_product_image(img_id,product_id):
+
+        product = Product.query.filter(Product.product_id==product_id).first()
+        update_product = product.img_id = img_id
+
+    update_product_image(1,1)
+    db.session.commit()
+
 # ***************************************************************************

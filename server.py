@@ -271,8 +271,9 @@ def add_product():
         company = bcorp
     new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
     product_id = crud.get_product_id(productName,user_id)
-    image_id = crud.add_image(img_url,product_id)
-    product = crud.update_product_image(image_id,product_id)
+    if img_url:
+        image_id = crud.add_image(img_url,product_id)
+        product = crud.update_product_image(image_id,product_id)
     print('new_product',product)
     #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
     for cert_id in cert_id_list:

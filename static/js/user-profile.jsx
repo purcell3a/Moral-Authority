@@ -52,8 +52,8 @@ function ShowProfile(props) {
                 <Card.Text>
                   {product.description}
                 </Card.Text>
-                <Button variant="primary" onClick={() => HandleFavoriteClick(product.product_id)}>Favorite</Button>
-              <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+                <Button className='button' variant="primary" onClick={() => HandleFavoriteClick(product.product_id)}>Favorite</Button>
+              <Button className='button' variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
             </Card.Body>
           </Card>
           ))
@@ -69,8 +69,8 @@ function ShowProfile(props) {
                 <Card.Text>
                   {product.description}
                 </Card.Text>
-                <Button variant="primary" onClick={() => handleRemoveFavorite(product.product_id)}> Remove Favorite</Button>
-              <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+                <Button className='button' variant="primary" onClick={() => handleRemoveFavorite(product.product_id)}> Remove Favorite</Button>
+              <Button className='button' variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
             </Card.Body>
           </Card>
           ))
@@ -151,42 +151,29 @@ function ShowProfile(props) {
 
     return (
      <React.Fragment>
-       <Container>
 
-                  <Col>
-                  <Card style={{ width: '18rem' }}>
-                  <div class="card profile-card-3">
-    		          <div class="background-block">
-    		            <Card.Img src={userFromDb.profile_img} alt="profile-sample1" class="background"/>
-    		          </div>
-    		          <div class="profile-thumb-block">
-    		            <img src={userFromDb.profile_img} alt="profile-image" class="profile"/>
-    		          </div>
-    		          <div class="card-content">
-                    <Card.Title>
-                    <h2>{userFromDb.fname} {userFromDb.lname}<small>Designer</small></h2>
-                    </Card.Title>
-                    <div class="icon-block"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"> <i class="fa fa-twitter"></i></a><a href="#"> <i class="fa fa-google-plus"></i></a></div>
-                    </div>
-                    </div>
-                  </Card>
+        <Jumbotron fluid>
+            <Container className="profilecontainer">
+                  <Row>
+                    <Col sm={4}>
+                      <Card style={{ width: '18rem' }} className="card profile-card-3">
 
-                  {/* <Card style={{ width: '18rem' }}>
-  <Card.Img variant="top" src="holder.js/100px180" />
-  <Card.Body>
-    <Card.Title>Card Title</Card.Title>
-    <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Button variant="primary">Go somewhere</Button>
-  </Card.Body>
-</Card> */}
+                            <div className="background-block">
+                                <Card.Img src={userFromDb.profile_img} alt="profile-sample1" className="background"/>
+                            </div>
 
+                            <div className="profile-thumb-block">
+                              <Image src={userFromDb.profile_img} alt="profile-image" className="profile"></Image>
+                            </div>
 
-                  </Col>
+                            <Card.Title className="card-content">
+                                <h2>{userFromDb.fname} {userFromDb.lname}</h2>
+                                <small>{userFromDb.email}</small>
+                            </Card.Title>
+                      </Card>
+                    </Col>
 
-                  <Col>
+                  <Col sm={8}>
                       <Tabs defaultActiveKey="Account" id="uncontrolled-tab-example">
 
                         <Tab eventKey="Account" title="Account">
@@ -194,25 +181,37 @@ function ShowProfile(props) {
                         <Form onSubmit={handleSubmit}>
 
                         <Form.Group>
-                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange}></input>
+                        <Form.Row>
+                            <Col>
+                              <Form.Control placeholder= {userFromDb.fname} value={fname} onChange={handleFnameChange} />
+                            </Col>
+                            <Col>
+                              <Form.Control  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange} />
+                            </Col>
+                          </Form.Row>
                         </Form.Group>
 
                         <Form.Group>
-                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.lname} value={lname} onChange={handleLnameChange}></input>
+                        <Form.Row>
+                          <Col>
+                          <Form.Control  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange} />
+                          </Col>
+                          <Col>
+                          <Form.Control  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange} />
+                          </Col>
+                            </Form.Row>
                         </Form.Group>
 
-                        <Form.Group>
-                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange}></input>
-                        </Form.Group>
-
-                        <Form.Group>
-                        <input type="text" name="product-name" className="form-control"  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange}></input>
-                        </Form.Group>
-                        <Form.Group>
-                        <Button type="submit">Save Changes</Button>
-                        </Form.Group>
+                          <Form.Group>
+                          <Form.Row>
+                          <Col>
+                             <Button className='button'type="submit">Save Changes</Button>
+                          </Col>
+                        </Form.Row>
+                          </Form.Group>
                         </Form>
-                        <Button id="upload_widget" className="cloudinary-button"  onClick={()=> {myWidget.open()}}>Update Profile Photo</Button>
+
+                        <Button className='button' id="upload_widget" className="cloudinary-button"  onClick={()=> {myWidget.open()}}>Update Profile Photo</Button>
                         </Tab>
 
                           <Tab eventKey="Favorites" title="Favorites">
@@ -228,10 +227,10 @@ function ShowProfile(props) {
                           </Tab>
 
                       </Tabs>
-
-                  </Col>
-
-        </Container>
+                    </Col>
+                </Row>
+            </Container>
+        </Jumbotron>
     </React.Fragment>
      );
    }

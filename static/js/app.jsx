@@ -16,8 +16,7 @@ function App() {
       <Router>
         <div>
           <TopNav user={user} setUser={setUser}/>
-
-
+          <BottomNav/>
 
           <Switch>
             <Route path='/app/login'>

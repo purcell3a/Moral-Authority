@@ -1,7 +1,13 @@
 /* =================  BODY =================== */
 
+
+html {
+    min-height: 100%;
+    min-width:100%;
+}
 body{
-    background-image: linear-gradient(to bottom,  #ffffff, #ebf0f3fd);
+    background-image: linear-gradient(to bottom,  #ffffff, #9abee7b0);
+    min-height:100%;
 }
 
 #sidenav{
@@ -9,26 +15,24 @@ body{
     color: black;
     box-shadow:10px 0px 20px rgba(0,0,0,0.2);
 }
-
-
-
-
-
-
-
-section{
-    float:left;
-    width:100%;
-    background: #fff;  /* fallback for old browsers */
-    padding:30px 0;
+.profilecontainer{
+  background-color:red;
+  min-width: 100%;
+  min-height:100%;
 }
-h1{float:left; width:100%; color:#232323; margin-bottom:30px; font-size: 14px;}
-h1 span{font-family: 'Libre Baskerville', serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
-h1 a{color:#131313; font-weight:bold;}
+.jumbotron{
+  background-color:orange; 
+  margin-top:8%;
+  min-height:100%;
+  padding:0%;
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  background-size: 100% 100%;
+}
 
 
-
-/*Profile Card 3*/
+/*PROFILE CARD */
 .profile-card-3 {
   font-family: 'Open Sans', Arial, sans-serif;
   position: relative;
@@ -123,4 +127,39 @@ h1 a{color:#131313; font-weight:bold;}
   background-color:#232323;
   color:#fff;
   text-decoration:none;
+}
+
+h2 {
+    font-style: normal;
+    font-weight: bold;
+    color: Black;
+    font-size: 5vh;
+    letter-spacing: 0.03em;
+}
+
+
+.button {
+        background: #098191;
+        transition: background ease .25s;
+        border-radius: 5px;
+        display: inline-block;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        margin: 0;
+        text-decoration: none;
+        color: #ffffff;
+        font-size: 1.2rem;
+        cursor: pointer;
+        text-align: center;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+}
+
+.button:hover {
+        background: #63b6b8
+}
+
+.button:focus {
+        outline: 1px solid #fff;
+        outline-offset: -4px;
 }
