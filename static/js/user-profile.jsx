@@ -151,9 +151,7 @@ function ShowProfile(props) {
 
     return (
      <React.Fragment>
-
-        <Jumbotron fluid>
-            <Container className="profilecontainer">
+            <Container className="page-container">
                   <Row>
                     <Col sm={4}>
                       <Card style={{ width: '18rem' }} className="card profile-card-3">
@@ -230,7 +228,6 @@ function ShowProfile(props) {
                     </Col>
                 </Row>
             </Container>
-        </Jumbotron>
     </React.Fragment>
      );
    }

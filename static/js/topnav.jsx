@@ -15,7 +15,7 @@ function TopNav(props){
     }
 
     return(
-        <Navbar scrolling dark expand="md" fixed='top'>
+        <Navbar scrolling="true" expand="md" fixed='top'>
              <Navbar.Brand><Link to='/'><img
                     src="/static/img/logo.png"
                     width="250"

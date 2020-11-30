@@ -1,4 +1,4 @@
-/* =================  BODY =================== */
+/* ======================================  BODY ======================================== */
 
 
 html {
@@ -10,29 +10,65 @@ body{
     min-height:100%;
 }
 
+.heart {
+  font-size: 25px;
+	color:red;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #525f6d;
+  border-color: #fd9d2b8a;
+}
+
+.recently-added-container{
+  margin-top:2rem;
+  margin-left:2rem;
+  margin-right:2rem;
+  margin-bottom:5rem;
+
+}
+.subtitle{
+  justify-content:center;
+}
+/* ============================ SHOP.JSX ========================== */
+.page-container {
+  margin-top: 7rem;
+  margin-left: 0rem;
+  margin-bottom:5rem;
+}
 #sidenav{
-    background:whitesmoke;
-    color: black;
-    box-shadow:10px 0px 20px rgba(0,0,0,0.2);
+  background:whitesmoke;
+  color: black;
+  box-shadow:10px 0px 20px rgba(0,0,0,0.2);
+  border-radius:10px;
+  margin-left:10px;
 }
-.profilecontainer{
-  background-color:red;
-  min-width: 100%;
-  min-height:100%;
-}
-.jumbotron{
-  background-color:orange; 
-  margin-top:8%;
-  min-height:100%;
-  padding:0%;
-  -webkit-background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
-  -o-background-size: 100% 100%;
-  background-size: 100% 100%;
+.sidenav-departments{
+  margin:10%;
 }
 
+.form-check {
+  position: relative;
+  display: block;
+  padding-left: 2.5rem;
+}
 
-/*PROFILE CARD */
+/* ============================ PRODUCT-PAGE.JSX ========================== */
+.productpageimage {
+  max-width: 25rem;
+  margin-left: 2rem;
+}
+
+.productpageinfo{
+  margin-top:1rem;
+}
+
+/* ============================ USER-PROFILE.JSX ========================== */
+
+
+/* ============================ PROFILE CARD ========================== */
+
 .profile-card-3 {
   font-family: 'Open Sans', Arial, sans-serif;
   position: relative;

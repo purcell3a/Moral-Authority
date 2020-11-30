@@ -3,6 +3,7 @@
 // *******************************************************************
 function Homepage() {
 
+  const userFromStorage = JSON.parse(localStorage.getItem('user'));
   const [productCards, setProductCard] = React.useState([{}])
   const history = useHistory()
 
@@ -24,7 +25,9 @@ function Homepage() {
             <Card.Text>
               {product.description}
             </Card.Text>
-            <Button variant="primary">Favorite</Button>
+            <Button className="btn btn-light">
+              <i className="heart fa fa-heart-o" onClick={() => HandleFavoriteClick(product.product_id)}></i>
+             Favorite</Button>
               <Button variant="primary" onClick={() => handleClick(product.product_id)}>More Info</Button>
         </Card.Body>
       </Card>
@@ -32,57 +35,30 @@ function Homepage() {
       return cards
   }
 
+//   <Button
+//   onClick={() => addFavorite(card, props.loggedUser)}
+//   bordered
+//   color={
+//     favorites.includes(card.id) ? "google plus" : "twitter"
+//   }
+//   icon={
+//     favorites.includes(card.id) ? "heart" : "heart outline"
+//   }
+// />
+
+  function HandleFavoriteClick(productId){
+    console.log('productId=',productId,'user_id',userFromStorage.id)
+    let data = {product_id:productId,user_id:userFromStorage.id}
+    fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+      'Content-Type': 'application/json'}} )
+    .then(response => response.json())
+    .then(data => console.log(data));
+  }
+
+
   function handleClick(productId){
     history.push({pathname:`/product-page/${productId}`});
   };
-
-
-
-
-
-
-  // const url = 'https://www.instagram.com/graphql/query/?query_hash=d4d88dc1500312af6f937f7b804c68c3&variables={user_id:239369330125,include_chaining:false,include_reel:false,include_suggested_users:false,include_logged_out_extras:true,include_highlight_reels:true,include_live_status:true}';
-
-  // const cache = {
-  //   lastFetch: 0,
-  //   posts:[],
-  // };
-  
-  // async function getPosts(){
-  //   const timeSinceLastFetch = Date.now() - caches.lastFetch;
-  //   if (timeSinceLastFetch <= 1800000){
-  //     return caches.posts;
-  //   }
-  //   const data = await fetch(url).then(res = res.json());
-  //   cache.lastFetch = Date.now();
-  //   cache.posts = data;
-  //   return data;
-  // }
-  
-  
-  // function useInstagram(){
-  //   const [posts, setPosts] = React.useState([]);
-  //     React.useEffect(() => {
-  //       fetch(url)
-  //       .then (res => res.json())
-  //       .then(data =>{ data.map(data, index)
-  //         setPosts(data);
-  //       })
-  //     },[]);
-  //     return posts;
-  // }
-  
-  // function Instagram(){
-  //   const gramz = useInstagram();
-  //   return(
-  //     <div>
-  //       {gramz.map(gram => (
-  //         <a href={gram.url} key={gram.id}>
-  //         <img key={gram.id} src={gram.thumbnail} alt={gram.caption}/> </a>
-  //       ))}
-  //     </div>
-  //   )
-  // }
 
     return (
       <React.Fragment>
@@ -116,15 +92,16 @@ function Homepage() {
                 </Carousel.Item>
           </Carousel>
 
-          <Row>
-              <h2 class='text-right' variant="secondary">Recently Added Products</h2>
+          <Row className="subtitle">
+              <h2 className='recently-added' variant="secondary">Recently Added Products</h2>
 
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-suit-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M8 6.236l.894-1.789c.222-.443.607-1.08 1.152-1.595C10.582 2.345 11.224 2 12 2c1.676 0 3 1.326 3 2.92 0 1.211-.554 2.066-1.868 3.37-.337.334-.721.695-1.146 1.093C10.878 10.423 9.5 11.717 8 13.447c-1.5-1.73-2.878-3.024-3.986-4.064-.425-.398-.81-.76-1.146-1.093C1.554 6.986 1 6.131 1 4.92 1 3.326 2.324 2 4 2c.776 0 1.418.345 1.954.852.545.515.93 1.152 1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
-              </svg>
+              <button type="button" className="btn btn-light"><i className="heart fa fa-heart-o"></i> Favorite</button>
+              <div>
+              <i className="heart fa fa-heart-o"></i>
+            </div>
           </Row>
 
-          <Jumbotron fluid>{generateProductCards()}</Jumbotron>
+          <Container className="recently-added-container">{generateProductCards()}</Container>
 
       </React.Fragment>
     );

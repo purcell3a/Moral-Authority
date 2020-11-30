@@ -102,7 +102,7 @@ def get_user_favorites(user_id):
 
     for product in products:
         product_image = get_product_img(product.img_id)
-        image_url = ' '.join(map(str, product_image))
+        image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
@@ -322,7 +322,7 @@ def get_product_info(productId):
 
     product = Product.query.filter(Product.product_id == productId).first()
     product_image = get_product_img(product.img_id)
-    image_url = ' '.join(map(str, product_image))
+    image_url = ''.join(map(str, product_image))
     product = {'title':product.title,
                 'description': product.description,
                 'product_id' : product.product_id,

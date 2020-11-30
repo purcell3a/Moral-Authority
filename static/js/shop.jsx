@@ -46,7 +46,7 @@ function Shop(){
 
     // when the product is clicked on - set that product id to state and send it with redirect
     function handleMoreInfoClick(productId){
-      history.push({pathname:`/product-page/${productId}`});
+      history.push({pathname:`/app/product-page/${productId}`});
     };
 
     function handleDepartmentSelect(evt){
@@ -66,6 +66,7 @@ function Shop(){
       const cards = productCards.map((product,index) =>(
         <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
           <Card.Img variant="top"  src={product.img_id} />
+          {console.log(product.img_id)}
           <Card.Body>
               <Card.Title>{product.title}</Card.Title>
               <Card.Text>
@@ -110,7 +111,9 @@ function Shop(){
           {dep.display}
         </option>
       ))
-      return depoptions
+      return ( <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
+                {depoptions}
+              </select>)
     }
 
 
@@ -152,7 +155,7 @@ function Shop(){
     return (
       <React.Fragment>
 
-        <Container>
+        <Container  className="page-container">
           <Row>
 
 
@@ -160,13 +163,11 @@ function Shop(){
               <Form onSubmit={handleSubmit} id="sidenav">
                 <Nav defaultActiveKey='/app/product-search' className="flex-column">
 
-                    <Form.Group>
-                      <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
+                    <Form.Group className='sidenav-departments'>
                         {generateDepartments()}
-                      </select>
                     </Form.Group>
 
-                    <Form.Group>
+                    <Form.Group className='sidenav-certs'>
                     {generateCertifications()}
                     </Form.Group>
 

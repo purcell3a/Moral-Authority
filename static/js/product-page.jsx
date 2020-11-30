@@ -17,16 +17,18 @@ function ProductPage() {
 
     return (
     <React.Fragment>
-        <Container>
+        <Container className="page-container">
             <Row>
                 <Col>
-                    <Image src={productInfo.img_id} rounded />
+                    <Image className="productpageimage" src={productInfo.img_id} rounded />
                 </Col>
                 <Col>
-                <div>{productInfo.title}</div>
-                <div>{productInfo.company}</div>
-                <div>{productInfo.url}</div>
-                <div>{productInfo.url}</div>
+                    <div className="productpageinfo">
+                    <h3>{productInfo.title}</h3>
+                    <h3><small>{productInfo.company}</small></h3>
+                    <h4><small>{productInfo.url}</small></h4>
+                    <h5><small>{productInfo.description}</small></h5>
+                    </div>
                 </Col>
             </Row>
         </Container>
