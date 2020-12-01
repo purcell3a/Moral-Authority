@@ -11,12 +11,16 @@ function Shop(){
     const certsForFilter = Array.from(selectedCerts)
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
-
-    React.useEffect(() =>{
-      console.log('****************** useEffect is running')
+    function get_all_products(){
       fetch('/app/return-products')
       .then(response => response.json())
       .then(data => setProductCard(data));
+    }
+
+
+    React.useEffect(() =>{
+      console.log('****************** useEffect is running')
+      get_all_products();
     },[]);
     console.log(selectedCerts)
 
@@ -59,21 +63,22 @@ function Shop(){
       fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => get_all_products());
     }
+    // TODO  REQUEST LIST OF FAVORITE PRODUCTS WITH HANDLE FAVORITE CLICK
 
     function generateProductCards(){
       const cards = productCards.map((product,index) =>(
-        <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-          <Card.Img variant="top"  src={product.img_id} />
+        <Card key={index} value={product.product_id}>
+          <Card.Img variant="top"  src={product.img_id}/>
           {console.log(product.img_id)}
           <Card.Body>
-              <Card.Title>{product.title}</Card.Title>
+              <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => HandleFavoriteClick(product.product_id)}></i></Card.Title> 
+              <small>{product.company}</small>
               <Card.Text>
                 {product.description}
               </Card.Text>
-              <Button variant="primary" onClick={() => HandleFavoriteClick(product.product_id)}>Favorite</Button>
-              <Button variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+              <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
           </Card.Body>
         </Card>
         ))
@@ -111,7 +116,7 @@ function Shop(){
           {dep.display}
         </option>
       ))
-      return ( <select name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
+      return ( <select className='sidenav-department' name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
                 {depoptions}
               </select>)
     }
@@ -159,11 +164,11 @@ function Shop(){
           <Row>
 
 
-            <Col xs={6} md={4}>
+            <Col xs={6} md={3}>
               <Form onSubmit={handleSubmit} id="sidenav">
                 <Nav defaultActiveKey='/app/product-search' className="flex-column">
 
-                    <Form.Group className='sidenav-departments'>
+                    <Form.Group>
                         {generateDepartments()}
                     </Form.Group>
 
@@ -172,14 +177,14 @@ function Shop(){
                     </Form.Group>
 
                   </Nav>
-                  <Button type='submit'>Search</Button>
+                  <Button className="sidenav-search-button" type='submit'>Search</Button>
               </Form>
             </Col>
 
             {/* <AutoResponsive ref="container"> */}
             {/* {generateProductCards()} */}
           {/* </AutoResponsive> */}
-            <Col xs={12} md={8}>{generateProductCards()}</Col>
+            <Col xs={12} md={9}>{generateProductCards()}</Col>
           </Row>
 
           <Row>

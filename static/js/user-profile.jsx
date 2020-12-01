@@ -45,34 +45,36 @@ function ShowProfile(props) {
 
     function generateProductCards(){
         const cards = products.map((product,index) =>(
-          <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-            <Card.Img variant="top"  src={product.img_id} />
-            <Card.Body>
-                <Card.Title>{product.title}</Card.Title>
-                <Card.Text>
-                  {product.description}
-                </Card.Text>
-                <Button className='button' variant="primary" onClick={() => HandleFavoriteClick(product.product_id)}>Favorite</Button>
-              <Button className='button' variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
-            </Card.Body>
-          </Card>
+          <Card key={index} value={product.product_id}>
+          <Card.Img variant="top"  src={product.img_id}/>
+          {console.log(product.img_id)}
+          <Card.Body>
+              <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => HandleFavoriteClick(product.product_id)}></i></Card.Title> 
+              <small>{product.company}</small>
+              <Card.Text>
+                {product.description}
+              </Card.Text>
+              <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+          </Card.Body>
+        </Card>
           ))
           return cards
       }
 
       function generateFavorites(){
         const cards = favorites.map((product,index) =>(
-          <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-            <Card.Img variant="top"  src={product.img_id} />
-            <Card.Body>
-                <Card.Title>{product.title}</Card.Title>
-                <Card.Text>
-                  {product.description}
-                </Card.Text>
-                <Button className='button' variant="primary" onClick={() => handleRemoveFavorite(product.product_id)}> Remove Favorite</Button>
-              <Button className='button' variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
-            </Card.Body>
-          </Card>
+          <Card key={index} value={product.product_id}>
+          <Card.Img variant="top"  src={product.img_id}/>
+          {console.log(product.img_id)}
+          <Card.Body>
+              <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => handleRemoveFavorite(product.product_id)}></i></Card.Title> 
+              <small>{product.company}</small>
+              <Card.Text>
+                {product.description}
+              </Card.Text>
+              <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+          </Card.Body>
+        </Card>
           ))
           return cards
       }
@@ -157,7 +159,7 @@ function ShowProfile(props) {
                       <Card style={{ width: '18rem' }} className="card profile-card-3">
 
                             <div className="background-block">
-                                <Card.Img src={userFromDb.profile_img} alt="profile-sample1" className="background"/>
+                                <Card.Img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-Yj7v5CcOdq0nh0hzNwRgAr8KWobqzvVDLw&usqp=CAU' alt="profile-sample1" className="background"/>
                             </div>
 
                             <div className="profile-thumb-block">
@@ -167,14 +169,16 @@ function ShowProfile(props) {
                             <Card.Title className="card-content">
                                 <h2>{userFromDb.fname} {userFromDb.lname}</h2>
                                 <small>{userFromDb.email}</small>
+                                <Button id="profile-photo-upload-button" onClick={()=> {myWidget.open()}}><small>Update Profile Photo</small></Button>
                             </Card.Title>
+
                       </Card>
                     </Col>
 
                   <Col sm={8}>
                       <Tabs defaultActiveKey="Account" id="uncontrolled-tab-example">
 
-                        <Tab eventKey="Account" title="Account">
+                        <Tab eventKey="Account" title="Account" className='tab-container'>
 
                         <Form onSubmit={handleSubmit}>
 
@@ -195,32 +199,31 @@ function ShowProfile(props) {
                           <Form.Control  placeholder= {userFromDb.email} value={email} onChange={handlEmailChange} />
                           </Col>
                           <Col>
-                          <Form.Control  placeholder= {userFromDb.password} value={password} onChange={handlePasswordChange} />
+                          <Form.Control  placeholder= "**********" value={password} onChange={handlePasswordChange} />
                           </Col>
                             </Form.Row>
                         </Form.Group>
 
                           <Form.Group>
-                          <Form.Row>
-                          <Col>
+                          <Form.Row id='save-profile-changes'>
                              <Button className='button'type="submit">Save Changes</Button>
-                          </Col>
                         </Form.Row>
                           </Form.Group>
+
+
                         </Form>
 
-                        <Button className='button' id="upload_widget" className="cloudinary-button"  onClick={()=> {myWidget.open()}}>Update Profile Photo</Button>
                         </Tab>
 
-                          <Tab eventKey="Favorites" title="Favorites">
-                          {generateFavorites()}
+                          <Tab eventKey="Favorites" title="Favorites" className='tab-container'>
+                          <Row>{generateFavorites()}</Row>
                           </Tab>
 
-                          <Tab eventKey="Products" title="Products">
-                              {generateProductCards()}
+                          <Tab eventKey="Products" title="Products" className='tab-container'>
+                          <Row>{generateProductCards()}</Row>
                           </Tab>
 
-                          <Tab eventKey="AddProduct" title="AddProduct">
+                          <Tab eventKey="AddProduct" title="AddProduct" className='tab-container'>
                           <AddProduct />
                           </Tab>
 

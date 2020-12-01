@@ -1,6 +1,17 @@
 /* ======================================  BODY ======================================== */
 
-
+#profile-photo-upload-button{
+  color: black;
+  width: 70%;
+  line-height: .5rem;
+  background: #ebebd2;
+  border: white;
+  margin: .5rem;
+}
+#save-profile-changes{
+  margin-right: .1rem;
+  justify-content: flex-end;
+}
 html {
     min-height: 100%;
     min-width:100%;
@@ -10,28 +21,48 @@ body{
     min-height:100%;
 }
 
-.heart {
-  font-size: 25px;
-	color:red;
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  color: maroon;
+  margin-left: .5rem;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #525f6d;
+  background-color: #323a45;
   border-color: #fd9d2b8a;
+}
+.h5, h5 {
+  font-size: 1.2rem;
+}
+
+
+a {
+  color: black;
+  font-style: inherit;
+  text-decoration: none;
+  background-color: transparent;
 }
 
 .recently-added-container{
-  margin-top:2rem;
-  margin-left:2rem;
-  margin-right:2rem;
-  margin-bottom:5rem;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  justify-content: center;
 
 }
 .subtitle{
   justify-content:center;
+  margin-top: 2rem;
 }
 /* ============================ SHOP.JSX ========================== */
+.container{
+  width: inherit;
+}
 .page-container {
   margin-top: 7rem;
   margin-left: 0rem;
@@ -44,8 +75,14 @@ body{
   border-radius:10px;
   margin-left:10px;
 }
-.sidenav-departments{
-  margin:10%;
+select {
+  margin: 5%;
+  width: 90%;
+}
+
+.sidenav-search-button{
+  width:90%;
+  margin:5%;
 }
 
 .form-check {
@@ -54,6 +91,66 @@ body{
   padding-left: 2.5rem;
 }
 
+.card {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 14rem;
+  max-width: 16rem;
+  word-wrap: break-word;
+  background-color:whitesmoke;
+  color: black;
+  box-shadow:10px 0px 20px rgba(0,0,0,0.2);
+  border-radius:20px;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .50rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+
+.card-title {
+  margin-bottom: 0rem;
+}
+
+.card-img, .card-img-top {
+  /* border-top-left-radius: calc(.25rem - 1px); */
+  /* border-top-right-radius: calc(.25rem - 1px); */
+  border-radius: inherit;
+}
+
+.more-info-button{
+  margin-top:0rem;
+  margin-bottom:0rem;
+  width:99%;
+}
+.favorite-button{
+  margin:.75rem;
+  margin-top:0rem;
+  margin-bottom:0rem;
+}
+
+.card-body {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: .75rem;
+}
+
+.row {
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: inherit;
+}
+
+.col-12 {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
 /* ============================ PRODUCT-PAGE.JSX ========================== */
 .productpageimage {
   max-width: 25rem;
@@ -66,7 +163,27 @@ body{
 
 /* ============================ USER-PROFILE.JSX ========================== */
 
-
+.tab-container{
+  margin:1.5rem;
+}
+.btn-primary{
+  color: #fff;
+  background-color: #323a45;
+  border-color: #fd9d2b8a;
+}
+#upload_widget {
+  background-color: #323a45;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 20px;
+  height: 28x;
+  cursor: pointer;
+  font-weight: normal;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 8px 8px;
+}
 /* ============================ PROFILE CARD ========================== */
 
 .profile-card-3 {
@@ -78,6 +195,8 @@ body{
   text-align: center;
   height:368px;
   border:none;
+  background-color:transparent;
+  margin:2rem;
 }
 .profile-card-3 .background-block {
     float: left;
@@ -99,7 +218,7 @@ body{
   padding: 15px 25px;
   color:#232323;
   float:left;
-  background:#efefef;
+  background:transparent;
   height:50%;
   border-radius:0 0 5px 5px;
   position: relative;
@@ -107,7 +226,7 @@ body{
 }
 .profile-card-3 .card-content::before {
     content: '';
-    background: #efefef;
+    background:linear-gradient(to bottom, #323a45, #d8e8fb00); ;
     width: 120%;
     height: 100%;
     left: 11px;
@@ -163,39 +282,4 @@ body{
   background-color:#232323;
   color:#fff;
   text-decoration:none;
-}
-
-h2 {
-    font-style: normal;
-    font-weight: bold;
-    color: Black;
-    font-size: 5vh;
-    letter-spacing: 0.03em;
-}
-
-
-.button {
-        background: #098191;
-        transition: background ease .25s;
-        border-radius: 5px;
-        display: inline-block;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        margin: 0;
-        text-decoration: none;
-        color: #ffffff;
-        font-size: 1.2rem;
-        cursor: pointer;
-        text-align: center;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-}
-
-.button:hover {
-        background: #63b6b8
-}
-
-.button:focus {
-        outline: 1px solid #fff;
-        outline-offset: -4px;
 }

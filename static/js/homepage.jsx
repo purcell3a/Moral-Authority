@@ -18,33 +18,22 @@ function Homepage() {
 
   function generateProductCards(){
     const cards = productCards.map((product,index) =>(
-      <Card style={{ width: '18rem' }} key={index} value={product.product_id}>
-        <Card.Img variant="top"  src={product.img_id} />
-        <Card.Body>
-            <Card.Title>{product.title}</Card.Title>
-            <Card.Text>
-              {product.description}
-            </Card.Text>
-            <Button className="btn btn-light">
-              <i className="heart fa fa-heart-o" onClick={() => HandleFavoriteClick(product.product_id)}></i>
-             Favorite</Button>
-              <Button variant="primary" onClick={() => handleClick(product.product_id)}>More Info</Button>
-        </Card.Body>
-      </Card>
+      <Card key={index} value={product.product_id}>
+      <Card.Img variant="top"  src={product.img_id}/>
+      {console.log(product.img_id)}
+      <Card.Body>
+          <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => HandleFavoriteClick(product.product_id)}></i></Card.Title> 
+          <small>{product.company}</small>
+          <Card.Text>
+            {product.description}
+          </Card.Text>
+          <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
+      </Card.Body>
+    </Card>
       ))
       return cards
   }
 
-//   <Button
-//   onClick={() => addFavorite(card, props.loggedUser)}
-//   bordered
-//   color={
-//     favorites.includes(card.id) ? "google plus" : "twitter"
-//   }
-//   icon={
-//     favorites.includes(card.id) ? "heart" : "heart outline"
-//   }
-// />
 
   function HandleFavoriteClick(productId){
     console.log('productId=',productId,'user_id',userFromStorage.id)
@@ -94,14 +83,9 @@ function Homepage() {
 
           <Row className="subtitle">
               <h2 className='recently-added' variant="secondary">Recently Added Products</h2>
-
-              <button type="button" className="btn btn-light"><i className="heart fa fa-heart-o"></i> Favorite</button>
-              <div>
-              <i className="heart fa fa-heart-o"></i>
-            </div>
           </Row>
 
-          <Container className="recently-added-container">{generateProductCards()}</Container>
+          <Row className="recently-added-container">{generateProductCards()}</Row>
 
       </React.Fragment>
     );
