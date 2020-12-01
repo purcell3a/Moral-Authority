@@ -126,7 +126,9 @@
           {dep.display}
         </option>
       ))
-      return depoptions
+      return (<select required name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
+              {depoptions}
+            </select>)
     }
 
     // function handleFileChange(evt){
@@ -164,58 +166,49 @@
       return (
         <React.Fragment>
           <Container>
+            <Row>
+            <Col>
+                  <Image id='upload-product-image' src={file}></Image>
+                  <Button id="upload-product-image-button"  onClick={()=> {myWidget.open()}}>Upload Product Image</Button>
 
-                  <Form onSubmit={handleSubmit}>
-                    <Form.Row>
-                        <Col>
+                  <Form.Group id="submit-product-description-group">
+                      <textarea placeholder="Product Description" required className="form-control" rows="4" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
+                  </Form.Group>
+              </Col>
 
-                          <Form.Group>
-                          <label>Product Notes</label>
-                          <textarea required className="form-control" rows="5" id="comment" value={description} onChange={handleDescriptionChange}></textarea>
-                          </Form.Group>
-                        </Col>
+              <Col>
 
-                        <Col>
-                            <Form.Group>
-                                <input required type="text" name="product-name" className="form-control"  placeholder= "product name" value={productName} onChange={handleProductNameChange}></input>
-                            </Form.Group>
+                  <Form.Group>
+                      <input required type="text" name="product-name" className="form-control"  placeholder= "Product Name" value={productName} onChange={handleProductNameChange}></input>
+                  </Form.Group>
 
-                            <Form.Group>
-                                <input required type="text" name="product-company" className="form-control" placeholder= "company" value={company} onChange={handleCompanyChange}></input>
-                            </Form.Group>
+                  <Form.Group>
+                      <input required type="text" name="product-company" className="form-control" placeholder= "Product Company" value={company} onChange={handleCompanyChange}></input>
+                  </Form.Group>
 
-                            <Form.Group>
-                                <input required type="text" name="product-url" className="form-control" placeholder= "product url" value={productUrl} onChange={handleProductUrlChange}></input>
-                            </Form.Group>
+                  <Form.Group>
+                      <input required type="text" name="product-url" className="form-control" placeholder= "Link to Product" value={productUrl} onChange={handleProductUrlChange}></input>
+                  </Form.Group>
 
-                            <Form.Group required>
-                            <select required name="departments"onChange={handleDepartmentSelect} value={selectedDepartment}>
-                                {generateDepartments()}
-                                </select>
-                            </Form.Group>
+                  <Form.Group required>
+                      {generateDepartments()}
+                  </Form.Group>
 
-                            <Form.Group>
-                            {generateCertifications()}
-                            </Form.Group>
+                  <Form.Group>
+                    {generateCertifications()}
+                  </Form.Group>
 
-                            <Form.Group>
-                                        {generateOptions()}
-                            </Form.Group>
+                  <Form.Group>
+                    {generateOptions()}
+                  </Form.Group>
 
-                            <InputGroup className="mb-3">
-                            <InputGroup.Prepend>
-                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
-                            </InputGroup.Prepend>
-                            <FormControl placeholder="placeholder" aria-label="Text input with checkbox" />
-                            </InputGroup>
+                  <Form.Group id="submit-product-button-group">
+                  <Button id="submit-product-button" onClick={handleSubmit} type="submit">Add Product</Button>
+                  </Form.Group>
 
-                              <Button type="submit">Submit for Review</Button>
-                              {/* <Alert variant='dark'>Product Created!</Alert> */}
-                          </Col>
-                    </Form.Row>
+              </Col>
+            </Row>
 
-                  </Form>
-                  <Button id="upload_widget" className="cloudinary-button"  onClick={()=> {myWidget.open()}}>Upload files</Button>
           </Container>
 
     </React.Fragment>

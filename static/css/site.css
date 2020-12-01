@@ -8,10 +8,13 @@
   border: white;
   margin: .5rem;
 }
+
 #save-profile-changes{
   margin-right: .1rem;
   justify-content: flex-end;
 }
+
+
 html {
     min-height: 100%;
     min-width:100%;
@@ -58,6 +61,22 @@ a {
 .subtitle{
   justify-content:center;
   margin-top: 2rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #dacece14;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 /* ============================ SHOP.JSX ========================== */
 .container{
@@ -282,4 +301,34 @@ select {
   background-color:#232323;
   color:#fff;
   text-decoration:none;
+}
+
+/* ============================ ADD-PRODUCT.JSX ========================== */
+#submit-product-button-group{
+  justify-content: right;
+}
+
+#submit-product-button{
+  width:100%
+}
+
+#submit-product-description-group{
+  margin-top:.5rem;
+}
+
+#upload-product-image{
+  background-image: url('https://www.chillinoodle.co.uk/skin/frontend/chillinoodle/default/images/catalog/product/placeholder/image.jpg');
+  background-position: center; /* Center the image */
+  min-width:16rem;
+  min-height:16rem;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-left: 0rem;
+  margin-bottom: .5rem;
+}
+
+#upload-product-image-button{
+  color:white;
+  width: 100%;
 }
