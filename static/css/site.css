@@ -34,7 +34,14 @@ body{
   margin-left: .5rem;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.btn-light {
+  color: #212529;
+  background-color: #fae5c0;
+  border-color: #f8f9fa;
+  width: 100%;
+  margin: 0rem;
+  padding: .2rem;
+}
 .btn-primary {
   color: #fff;
   background-color: #323a45;
@@ -42,6 +49,39 @@ body{
 }
 .h5, h5 {
   font-size: 1.2rem;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  margin: .125rem 0 0;
+  padding:.25rem;
+  font-size: 1rem;
+  color: #212529;
+  text-align: center;
+  list-style: none;
+  background-color: #ffffff;
+  background-clip: padding-box;
+  border: 1px solid #d2e1f2;
+  border-radius: .25rem;
+  width: -webkit-fill-available;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: .25rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
 }
 
 
