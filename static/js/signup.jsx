@@ -48,16 +48,13 @@
       return (
 
         <React.Fragment>
-
-            <Container>
-              <Row>
-                1 of 3
-              </Row>
-              <Row>
-                <Col>
+            <Row className="login-signup-row">
+                <Col id='login-column'>
                 <Login setUser={props.setUser}/>
                 </Col>
-                <Col>
+
+
+                <Col id='signup-column'>
                   <Form onSubmit={handleSubmit}>
 
                       <Form.Group controlId="formBasicfname">
@@ -76,18 +73,16 @@
                         <Form.Control type="password" name="password"  placeholder="password" value={password} onChange={handlePasswordChange}></Form.Control>
                       </Form.Group>
 
-                      <Button variant="primary" type="submit">
+                    <Row id='register-button-row'>
+                    <Button  id='register-button'
+                     variant="primary" type="submit">
                         Register
                       </Button>
+                    </Row>
 
                   </Form>
                 </Col>
-              </Row>
-              <Row>
-                3 of 3
-              </Row>
-
-            </Container>
+                </Row>
           </React.Fragment>
         );
 }

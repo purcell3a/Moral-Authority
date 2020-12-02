@@ -165,7 +165,6 @@
 
       return (
         <React.Fragment>
-          <Container>
             <Row>
             <Col>
                   <Image id='upload-product-image' src={file}></Image>
@@ -208,8 +207,6 @@
 
               </Col>
             </Row>
-
-          </Container>
 
     </React.Fragment>
   );

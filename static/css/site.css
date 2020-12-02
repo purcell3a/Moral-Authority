@@ -1,30 +1,47 @@
-/* ======================================  BODY ======================================== */
+/* ====================================== GLOBAL CSS ======================================== */
 
-#profile-photo-upload-button{
-  color: black;
-  width: 70%;
-  line-height: .5rem;
-  background: #ebebd2;
-  border: white;
-  margin: .5rem;
+.btn:hover {
+  color:rgb(247, 247, 248);
+  background:#006989;
 }
 
-#save-profile-changes{
-  margin-right: .1rem;
-  justify-content: flex-end;
+.row {
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: inherit;
+
+}
+.container {
+  width: max-content;
 }
 
 
+#app{
+  min-height: 100%;
+  min-width:100%;
+}
 html {
     min-height: 100%;
     min-width:100%;
 }
 body{
-    background-image: linear-gradient(to bottom,  #ffffff, #9abee7b0);
+    background-image: linear-gradient(to bottom,  #ffffff, rbga(233, 241, 247));
     min-height:100%;
+    min-width:100%;
 }
+.white{
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  margin-left: .5rem;
+  -moz-osx-font-smoothing: grayscale;
+  color: #adb5bd;
 
-.fa {
+}
+.red {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -50,6 +67,55 @@ body{
 .h5, h5 {
   font-size: 1.2rem;
 }
+
+a {
+  color: black;
+  font-style: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.subtitle{
+  justify-content:center;
+  margin-top: 2rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #323a455e;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+/* ============================HOMEPAGE.JSX ========================== */
+
+.recently-added-container{
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  justify-content: center;
+
+}
+
+/* ============================ TOPNAV.JSX ========================== */
+
+
+.about-link-a{
+  color:white;
+}
+
+
+.navbar-light .navbar-brand {
+  color: white;
+}
+
 
 .dropdown-menu {
   position: absolute;
@@ -83,56 +149,44 @@ body{
   background-color: transparent;
   border: 0;
 }
-
-
-a {
-  color: black;
-  font-style: inherit;
-  text-decoration: none;
-  background-color: transparent;
-}
-
-.recently-added-container{
-  margin-top: 1rem;
-  margin-bottom: 5rem;
-  justify-content: center;
-
-}
-.subtitle{
-  justify-content:center;
-  margin-top: 2rem;
-}
-
-.form-control {
-  display: block;
+/* ============================ BOTTOMNAV.JSX ========================== */
+/* #bottomnav{
+  bottom: 0;
   width: 100%;
-  height: calc(1.5em + .75rem + 2px);
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #dacece14;
-  border-radius: .25rem;
-  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
+  justify-content: center;
+} */
 /* ============================ SHOP.JSX ========================== */
 .container{
-  width: inherit;
+  width: 100vw;
+  width:max-content;
+  width:100%;
 }
-.page-container {
+.product-row{
+  margin:.5rem;
   margin-top: 7rem;
-  margin-left: 0rem;
   margin-bottom:5rem;
+  width: 100vw;
+  width:max-content;
+  width:100%;
+  height: auto;
+
+}
+
+.page-container {
+  margin:.5rem;
+  margin-top: 7rem;
+  margin-bottom:5rem;
+  width: 100vw;
+  width:max-content;
+  width:100%;
 }
 #sidenav{
   background:whitesmoke;
   color: black;
   box-shadow:10px 0px 20px rgba(0,0,0,0.2);
   border-radius:10px;
-  margin-left:10px;
+  margin-left: .5rem;
+  max-width: fit-content;
 }
 select {
   margin: 5%;
@@ -198,13 +252,6 @@ select {
   padding: .75rem;
 }
 
-.row {
-  display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  width: inherit;
-}
-
 .col-12 {
   display: flex;
   flex-wrap: wrap;
@@ -222,8 +269,39 @@ select {
 
 /* ============================ USER-PROFILE.JSX ========================== */
 
+#profile-card-column{
+  margin:0
+}
+
+#tabs-column{
+  margin-top:2.5rem;
+}
+#profile-photo-upload-button{
+  color: black;
+  width: 70%;
+  line-height: .5rem;
+  background: #ebebd2;
+  border: white;
+  margin: .5rem;
+}
+
+#save-profile-changes{
+  margin-right: .1rem;
+  justify-content: flex-end;
+}
+.nav-tabs {
+  border-bottom: 1px solid #d9dfe4;
+  width: max-content;
+}
+
+.login-form{
+  max-width: 40rem;
+}
+
 .tab-container{
-  margin:1.5rem;
+  margin:2rem;
+  margin-top:1.5rem;
+  margin-right:4rem;
 }
 .btn-primary{
   color: #fff;
@@ -371,4 +449,41 @@ select {
 #upload-product-image-button{
   color:white;
   width: 100%;
+}
+
+/* ffad05 */
+
+/* ============================ SIGNUP.JSX ========================== */
+.login-signup-row{
+  margin:.5rem;
+  margin-top: 7rem;
+  margin-bottom:5rem;
+  width: 100vw;
+  width:max-content;
+  width:100%;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+
+}
+
+#login-button-row{
+  justify-content: center;
+}
+#login-column{
+  background-color:tan;
+}
+
+#signup-column{
+  background-color:tan;
+}
+#login-button{
+  width:94%;
+}
+#register-button-row{
+  justify-content: center;
+}
+
+#register-button{
+  width:94%;
 }

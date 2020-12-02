@@ -107,38 +107,31 @@ def get_user_by_id():
 @app.route('/app/get-user-favorites', methods=['POST'])
 def get_user_favorites():
     data = request.get_json()
-    user_id = data['user_id']
+    user_id = int(data['user_id'])
     #* GET USER FAVORITES
-    favorite_product__list = crud.get_user_favorites(user_id)
-    return jsonify(favorite_product__list)
+    favorite_product_list = crud.get_user_favorites(user_id)
+    return jsonify(favorite_product_list)
 
-@app.route('/app/add-favorite',methods=['POST'])
+@app.route('/app/toggle-favorite',methods=['POST'])
 def add_user_favorite():
     data = request.get_json()
-    user_id = data['user_id']
-    product_id =data['product_id']
+    user_id = int(data['user_id'])
+    product_id =int(data['product_id'])
     #* GET EXISTING USER FAVORITES
     existing_favorites = crud.get_user_favorite_product_id_list(user_id)
-    #* IF PRODUCT_ID PRESENT DO NOT ADD
+    print('!*******************************************************************************')
+    print('!*******************************************************************************')
+    print('!*******************************************************************************')
+    print('existing favorites', existing_favorites)
+    print('product id', product_id)
+    #* IF PRODUCT_ID PRESENT THEN REMOVE
     if product_id in existing_favorites:
-        return jsonify('already exists')
+        favorite_removed = crud.remove_user_favorite(user_id,product_id)
+        return jsonify('favorite removed')
     else:
         user_favorite =  crud.add_user_favorite(user_id,product_id)
         print(user_favorite)
         return jsonify('favorite added!!!!')
-
-#TODO THESE CAN BE MADE INTO ONE FUNCTION IF WE ADD ANIMATION TO THE FRONT
-@app.route('/app/remove-favorite',methods=['POST'])
-def remove_user_favorite():
-    data = request.get_json()
-
-    user_id = data['user_id']
-    product_id =data['product_id']
-    #* REMOVE FAVORITE
-    favorite_removed = crud.remove_user_favorite(user_id,product_id)
-
-    return jsonify('removed!!!!')
-
 
 #! GENERAL PRODUCT FILTERS
 @app.route('/app/return-certs')
@@ -180,10 +173,13 @@ def return_products_added_by_user():
     products = crud.get_products_added_by_user(user_id)
     return jsonify(products)
 
-@app.route('/app/return-products')
+@app.route('/app/return-products', methods=['POST'])
 def return_products():
     """return all products"""
-    result = crud.get_products()
+    data = request.get_json()
+    user_id = data['user_id']
+    
+    result = crud.get_products(user_id)
     return jsonify(result)
 
 

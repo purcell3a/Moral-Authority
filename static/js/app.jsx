@@ -16,7 +16,6 @@ function App() {
       <Router>
         <div>
           <TopNav user={user} setUser={setUser}/>
-          <BottomNav/>
 
           <Switch>
             <Route path='/app/login'>
@@ -41,7 +40,9 @@ function App() {
               <Homepage />
             </Route>
           </Switch>
+
         </div>
+        {/* <BottomNav/> */}
       </Router>
     );
 }

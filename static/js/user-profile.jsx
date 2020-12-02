@@ -6,8 +6,7 @@ function ShowProfile(props) {
     const [email, setEmail] = React.useState('')
     const [password, setDescription] = React.useState('')
     const [products, setProducts] = React.useState([{}])
-    // const [productClicked, setProductClicked] =React.useState['']
-    const [favorites, setFavorites] = React.useState([{}])
+    const [favorites, setFavorites] = React.useState([])
     const history = useHistory()
     const [profilePhoto, setprofilePhoto] = React.useState(null)
     const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ipialmwj',}, (error, result) => { if (result.event == "success") {
@@ -26,30 +25,29 @@ function ShowProfile(props) {
         fetch('/app/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}})
           .then(response => response.json())
-          // data is the user we are pulling from our db after verifying their info above
-          .then(data => {setProducts(data);
-           })
+          .then(data => setProducts(data))
+          .then(get_user_favorites());
     }, []);
 
-    //  GET USER FAVORITES
-    React.useEffect(() => {
-        let data = {'user_id' : props.user.id}
-        fetch('/app/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
-        'Content-Type': 'application/json'}})
-        .then(response => response.json())
-        // data is the user we are pulling from our db after verifying their info above
-        .then(data => {setFavorites(data);
-        })
-    }, []);
-
+    function get_user_favorites(){
+      console.log('GET USER FAVORITE IS RUNNING')
+      let data = {'user_id' : props.user.id}
+      fetch('/app/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+      'Content-Type': 'application/json'}})
+      .then(response => response.json())
+      .then(data => {console.log('DATA COMING FROM GET USER FAVORITES',data)
+         setFavorites(data)});
+    }
 
     function generateProductCards(){
         const cards = products.map((product,index) =>(
           <Card key={index} value={product.product_id}>
           <Card.Img variant="top"  src={product.img_id}/>
-          {console.log(product.img_id)}
+          {console.log('GENERATING PRODUCT CARDS',product.product_favorite, product.title)}
           <Card.Body>
-              <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => HandleFavoriteClick(product.product_id)}></i></Card.Title> 
+              <Card.Title>{product.title}
+                  <i className={product.product_favorite === 'True'? "red fa-heart":"white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
+              </Card.Title>
               <small>{product.company}</small>
               <Card.Text>
                 {product.description}
@@ -63,11 +61,13 @@ function ShowProfile(props) {
 
       function generateFavorites(){
         const cards = favorites.map((product,index) =>(
-          <Card key={index} value={product.product_id}>
+          <div>
+          {console.log('PRODUCT',product)}
+          <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
           <Card.Img variant="top"  src={product.img_id}/>
-          {console.log(product.img_id)}
           <Card.Body>
-              <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => handleRemoveFavorite(product.product_id)}></i></Card.Title> 
+              <Card.Title>{product.title}<i className={product.product_favorite === 'True'? "red fa-heart":"white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
+              </Card.Title>
               <small>{product.company}</small>
               <Card.Text>
                 {product.description}
@@ -75,6 +75,7 @@ function ShowProfile(props) {
               <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
           </Card.Body>
         </Card>
+        </div>
           ))
           return cards
       }
@@ -90,22 +91,13 @@ function ShowProfile(props) {
            })
     }, []);
 
-    function HandleFavoriteClick(productId){
-        console.log('productId=',productId,'user_id',props.user.id)
-        let data = {product_id:productId,'user_id':props.user.id}
-        fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+    function handleFavoriteClick(productId){
+        console.log('calling handle favorite', productId)
+        let data = {'product_id':productId,'user_id':props.user.id}
+        fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
-        .then(data => console.log(data));
-    }
-
-    function handleRemoveFavorite(productId){
-        console.log('productId=',productId,'user_id',props.user.id)
-        let data = {product_id:productId,'user_id':props.user.id}
-        fetch('/app/remove-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
-          'Content-Type': 'application/json'}} )
-        .then(response => response.json())
-        .then(data => console.log(data));
+        .then(get_user_favorites());
     }
 
     function handleSubmit(evt){
@@ -128,7 +120,7 @@ function ShowProfile(props) {
     }
 
     function handleMoreInfoClick(productId){
-        history.push({pathname:`/product-page/${productId}`});
+        history.push({pathname:`/app/product-page/${productId}`});
     };
 
     function handleFnameChange(evt){
@@ -153,9 +145,8 @@ function ShowProfile(props) {
 
     return (
      <React.Fragment>
-            <Container className="page-container">
-                  <Row>
-                    <Col sm={4}>
+                  <Row className="page-container">
+                    <Col sm={3} id='profile-card-column'>
                       <Card style={{ width: '18rem' }} className="card profile-card-3">
 
                             <div className="background-block">
@@ -175,12 +166,12 @@ function ShowProfile(props) {
                       </Card>
                     </Col>
 
-                  <Col sm={8}>
-                      <Tabs defaultActiveKey="Account" id="uncontrolled-tab-example">
+                  <Col sm={9} md={8} id='tabs-column'>
+                      <Tabs defaultActiveKey="Account" id="tabs">
 
                         <Tab eventKey="Account" title="Account" className='tab-container'>
 
-                        <Form onSubmit={handleSubmit}>
+                        <Form id='login-form' onSubmit={handleSubmit}>
 
                         <Form.Group>
                         <Form.Row>
@@ -230,7 +221,7 @@ function ShowProfile(props) {
                       </Tabs>
                     </Col>
                 </Row>
-            </Container>
+
     </React.Fragment>
      );
    }

@@ -98,7 +98,7 @@ def get_user_favorite_product_id_list(user_id):
 def get_user_favorites(user_id):
 
     result = []
-    products = db.session.query(Product).select_from(Product).join(Favorite, Favorite.user_id == Product.user_id).filter(Favorite.user_id == user_id).all()
+    products = db.session.query(Product).select_from(Product).join(Favorite, Favorite.product_id == Product.product_id).filter(Favorite.user_id == user_id).all()
 
     for product in products:
         product_image = get_product_img(product.img_id)
@@ -108,7 +108,8 @@ def get_user_favorites(user_id):
                     'product_id' : product.product_id,
                     'img_id':image_url,
                     'company': product.company,
-                    'url': product.url,}
+                    'url': product.url,
+                    'product_favorite': 'True'}
         result.append(productObject)
     return result
 
@@ -295,7 +296,8 @@ def add_product(productName,productUrl,company,description,category_id,user_id=1
 
 def get_recently_added_products():
     productList= []
-    recent_products = Product.query.order_by(Product.date_added.desc()).limit(3).all()
+    # favorite_product_ids = get_user_favorite_product_id_list(user_id)
+    recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
 
     for product in recent_products:
         product_image = get_product_img(product.img_id)
@@ -331,12 +333,18 @@ def get_product_info(productId):
                 'url': product.url,}
     return product
 
-def get_products():
+def get_products(user_id=0):
 #TODO IF THIS PRODUCT IS FAVORITE INCLUDE FAVORITE ID (OR MAKE ANOTHER ENDPOINT)
 #TODO PASS USER ID IN AS OPTIONAL ARGUMENT
-    all_products =  Product.query.all()
     productList= []
+    all_products =  Product.query.all()
+    favorite_product_ids = get_user_favorite_product_id_list(user_id)
+
     for product in all_products:
+        if user_id != 0 and product.product_id in favorite_product_ids:
+            product_favorite = 'True'
+        else:
+            product_favorite = 'False'
         product_image = get_product_img(product.img_id)
         image_url = ''.join(product_image)
         productObject = {'title':product.title,
@@ -344,14 +352,20 @@ def get_products():
                     'product_id' : product.product_id,
                     'img_id':image_url,
                     'company': product.company,
-                    'url': product.url }
+                    'url': product.url,
+                    'product_favorite':product_favorite}
         productList.append(productObject)
     return productList
 
 def get_products_added_by_user(user_id):
+    favorite_product_ids = get_user_favorite_product_id_list(user_id)
     products = Product.query.filter(Product.user_id == user_id).all()
     productList = []
     for product in products:
+        if product.product_id in favorite_product_ids:
+            product_favorite = 'True'
+        else:
+            product_favorite = 'False'
         product_image = get_product_img(product.img_id)
         image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
@@ -359,7 +373,8 @@ def get_products_added_by_user(user_id):
                     'product_id' : product.product_id,
                     'img_id':image_url,
                     'company': product.company,
-                    'url': product.url,}
+                    'url': product.url,
+                    'product_favorite':product_favorite}
         productList.append(productObject)
     return productList
 

@@ -43,9 +43,6 @@ function Login(props) {
     return (
 
       <React.Fragment>
-          <Container>
-            <Row>
-              <Col>
                 <Form onSubmit={handleSubmit}>
 
                   <Form.Group controlId="formBasicEmail">
@@ -56,14 +53,12 @@ function Login(props) {
                     <Form.Control type="password" name="login-password"  placeholder="Password" value={password} onChange={handlePasswordChange}></Form.Control>
                   </Form.Group>
 
-                  <Button variant="primary" type="submit">
+                  <Row id='login-button-row'>
+                  <Button id='login-button' variant="primary" type="submit">
                     Login
                   </Button>
+                  </Row>
                 </Form>
-
-              </Col>
-            </Row>
-          </Container>
       </React.Fragment>
     );
   }

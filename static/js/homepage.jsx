@@ -22,7 +22,9 @@ function Homepage() {
       <Card.Img variant="top"  src={product.img_id}/>
       {console.log(product.img_id)}
       <Card.Body>
-          <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => HandleFavoriteClick(product.product_id)}></i></Card.Title> 
+          <Card.Title>{product.title} 
+          <i className={product.product_favorite === 'True'?  "red fa-heart" : "white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
+          </Card.Title>
           <small>{product.company}</small>
           <Card.Text>
             {product.description}
@@ -35,18 +37,18 @@ function Homepage() {
   }
 
 
-  function HandleFavoriteClick(productId){
+  function handleFavoriteClick(productId){
     console.log('productId=',productId,'user_id',userFromStorage.id)
     let data = {product_id:productId,user_id:userFromStorage.id}
-    fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+    fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
       'Content-Type': 'application/json'}} )
     .then(response => response.json())
     .then(data => console.log(data));
   }
 
 
-  function handleClick(productId){
-    history.push({pathname:`/product-page/${productId}`});
+  function handleMoreInfoClick(productId){
+    history.push({pathname:`/app/product-page/${productId}`});
   };
 
     return (

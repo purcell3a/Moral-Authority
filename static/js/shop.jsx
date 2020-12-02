@@ -2,7 +2,7 @@
 
 function Shop(){
 
-    const [productCards, setProductCard] = React.useState([{}])
+    const [productCards, setProductCards] = React.useState([])
     const [selectedDepartment, setselectedDepartment] = React.useState('');
     const [departments, setDepartments] = React.useState({deps:[]});
     const [certs, setCerts] = React.useState([]);
@@ -12,9 +12,11 @@ function Shop(){
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
     function get_all_products(){
-      fetch('/app/return-products')
+      let data = {user_id: userFromStorage? userFromStorage.id:'0'}
+      fetch('/app/return-products',{method: "POST",  body: JSON.stringify(data),  headers: {
+        'Content-Type': 'application/json'}})
       .then(response => response.json())
-      .then(data => setProductCard(data));
+      .then(data => setProductCards(data));
     }
 
 
@@ -22,7 +24,7 @@ function Shop(){
       console.log('****************** useEffect is running')
       get_all_products();
     },[]);
-    console.log(selectedCerts)
+    // console.log(selectedCerts)
 
 
     React.useEffect(() => {
@@ -57,23 +59,24 @@ function Shop(){
       setselectedDepartment(evt.target.value)
     }
 
-    function HandleFavoriteClick(productId){
+    function handleFavoriteClick(productId){
       console.log('productId=',productId,'user_id',userFromStorage.id)
       let data = {product_id:productId,user_id:userFromStorage.id}
-      fetch('/app/add-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
-      .then(data => get_all_products());
+      .then(get_all_products());
     }
-    // TODO  REQUEST LIST OF FAVORITE PRODUCTS WITH HANDLE FAVORITE CLICK
+
 
     function generateProductCards(){
       const cards = productCards.map((product,index) =>(
-        <Card key={index} value={product.product_id}>
+        <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
           <Card.Img variant="top"  src={product.img_id}/>
-          {console.log(product.img_id)}
           <Card.Body>
-              <Card.Title>{product.title} <i className="fa fa-heart" onClick={() => HandleFavoriteClick(product.product_id)}></i></Card.Title> 
+              <Card.Title>{product.title}
+              <i className={product.product_favorite === 'True'?  "red fa-heart" : "white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
+                </Card.Title>
               <small>{product.company}</small>
               <Card.Text>
                 {product.description}
@@ -84,30 +87,6 @@ function Shop(){
         ))
         return cards
     }
-
-  //   const makePlantRows = (plantsArr) => {
-  //     let rows = [];
-  //     for(let i = 0; i < plantsArr.length; i=i+3) {
-  //         rows.push(
-  //             <Row>
-  //                 <Col sm={1}></Col>
-  //                 <Col sm={3}>
-  //                 {plantsArr[i]}
-  //                 </Col>
-  //                 <Col sm={4}>
-  //                 {plantsArr[i+1]}
-  //                 </Col>
-  //                 <Col sm={3}>
-  //                 {plantsArr[i+2]}
-  //                 </Col>
-  //                 <Col sm={1}></Col>
-  //             </Row>
-  //         );
-  //     }
-  //     return rows
-  // }
-
-
 
 
     function generateDepartments(){
@@ -149,19 +128,17 @@ function Shop(){
 
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log('selectedDepartment', selectedDepartment, 'selectedCerts:', certsForFilter)
+      // console.log('selectedDepartment', selectedDepartment, 'selectedCerts:', certsForFilter)
         let data = {selectedDepartment:selectedDepartment,selectedCerts:certsForFilter}
         fetch('/app/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
               'Content-Type': 'application/json'}} )
         .then(response => response.json())
-        .then(data => setProductCard(data))
+        .then(data => setProductCards(data))
       }
 
     return (
       <React.Fragment>
-
-        <Container  className="page-container">
-          <Row>
+          <Row className="product-row">
 
 
             <Col xs={6} md={3}>
@@ -185,12 +162,7 @@ function Shop(){
             {/* {generateProductCards()} */}
           {/* </AutoResponsive> */}
             <Col xs={12} md={9}>{generateProductCards()}</Col>
-          </Row>
-
-          <Row>
-          </Row>
-        </Container>
-
+        </Row>
       </React.Fragment>
     );
 }

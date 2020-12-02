@@ -80,7 +80,7 @@ with open(filename, 'r') as file:
     db.session.add(new_product)
     db.session.commit()
 
-    for photo in ["https://ak1.ostkcdn.com/images/products/is/images/direct/253a2005917bd95dc5e7d696323012f2aa5164b6/Team-Fortress-2-Balloonicorn-11%22-Plush-Doll.jpg"]:
+    for photo in ["https://www.chillinoodle.co.uk/skin/frontend/chillinoodle/default/images/catalog/product/placeholder/image.jpg"]:
         new_product_image = ProductImage(product_id = 1,
                                         url = photo,
                                         date_added = '2020-11-21',
