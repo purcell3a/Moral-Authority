@@ -113,6 +113,12 @@ def get_user_favorites(user_id):
         result.append(productObject)
     return result
 
+def get_user_favorite(user_id, product_id):
+
+    user_favorite = Favorite.query.filter(Favorite.user_id == user_id , Favorite.product_id == product_id).first()
+
+    return user_favorite
+
 
 def add_user_favorite(user_id,product_id):
 
@@ -125,11 +131,15 @@ def add_user_favorite(user_id,product_id):
     db.session.commit()
 
 def remove_user_favorite(user_id,product_id):
-
+    all_favs = Favorite.query.all()
+    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+    print('all_favs',len(all_favs))
     favorite = Favorite.query.filter(Favorite.user_id == user_id, Favorite.product_id == product_id).first()
-
+    print('favorites',favorite)
     db.session.delete(favorite)
     db.session.commit()
+    new_favs= Favorite.query.all()
+    print('new_favs',len(new_favs))
 
 
 #  <================================ DEPARTMENTS AND CERTIFICATIONS ==================================>
@@ -157,7 +167,7 @@ def get_category_id(title):
     result = Category.query.filter(Category.title == title).first()
 
     return result.category_id
-    # get_category_id('Beauty & Health')
+
 
 def filter_by_department(category_id):
     product_id_list = []
@@ -275,7 +285,6 @@ def update_product_image(img_id,product_id):
     print('PRODUCT IMAGE UPDATED')
 
 def add_product(productName,productUrl,company,description,category_id,user_id=1,img_id=1):
-    #TODO CHANGE USER ID INPUT
 
     now = datetime.datetime.now()
     new_product= Product(title=productName,
@@ -296,10 +305,14 @@ def add_product(productName,productUrl,company,description,category_id,user_id=1
 
 def get_recently_added_products():
     productList= []
-    # favorite_product_ids = get_user_favorite_product_id_list(user_id)
+
     recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
 
     for product in recent_products:
+        if product.favorite:
+            product_favorite = 'True'
+        else:
+            product_favorite = 'False'
         product_image = get_product_img(product.img_id)
         image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
@@ -307,7 +320,8 @@ def get_recently_added_products():
                     'product_id' : product.product_id,
                     'img_id':image_url,
                     'company': product.company,
-                    'url': product.url,}
+                    'url': product.url,
+                    'product_favorite':product_favorite}
         productList.append(productObject)
     return productList
 
@@ -334,14 +348,13 @@ def get_product_info(productId):
     return product
 
 def get_products(user_id=0):
-#TODO IF THIS PRODUCT IS FAVORITE INCLUDE FAVORITE ID (OR MAKE ANOTHER ENDPOINT)
-#TODO PASS USER ID IN AS OPTIONAL ARGUMENT
+    # ! To scale would need to paginate
+
     productList= []
     all_products =  Product.query.all()
-    favorite_product_ids = get_user_favorite_product_id_list(user_id)
 
     for product in all_products:
-        if user_id != 0 and product.product_id in favorite_product_ids:
+        if product.favorite:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
@@ -356,6 +369,23 @@ def get_products(user_id=0):
                     'product_favorite':product_favorite}
         productList.append(productObject)
     return productList
+# test_left_join(1)
+
+# def test_left_join(user_id):
+    # product = Product.query.filter(Product.product_id == 1).first()
+
+    # product_list = []
+    # artist = Artist.query.add_columns(slugify(Artist.Name).label("name_slug")).all()
+# .filter(Favorite.user_id == user_id)
+    # left_join = Product.query.add_columns().label('favorite')
+    # left_join = Product.query.outerjoin(Favorite).filter(Favorite.user_id == user_id).all()
+    # print(left_join[0])
+    # print(dir(left_join))
+    # for product in left_join:
+        # print('\n' + str(dir(product)))
+        # product_list.append(product.product)
+    # return 'none'
+
 
 def get_products_added_by_user(user_id):
     favorite_product_ids = get_user_favorite_product_id_list(user_id)

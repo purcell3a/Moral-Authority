@@ -1,12 +1,18 @@
 // "use strict";
 
 // *******************************************************************
-function Homepage() {
+function Homepage(props) {
 
-  const userFromStorage = JSON.parse(localStorage.getItem('user'));
   const [productCards, setProductCard] = React.useState([{}])
   const history = useHistory()
 
+
+  function get_recently_added_products(){
+    console.log('****************** useEffect is running')
+    fetch('/app/recently-added')
+    .then(response => response.json())
+    .then(data => setProductCard(data));
+  } 
 
   React.useEffect(() =>{
     console.log('****************** useEffect is running')
@@ -38,12 +44,13 @@ function Homepage() {
 
 
   function handleFavoriteClick(productId){
-    console.log('productId=',productId,'user_id',userFromStorage.id)
-    let data = {product_id:productId,user_id:userFromStorage.id}
+    console.log('productId=',productId,'user_id',props.user.id)
+    let data = {'product_id':productId,'user_id':props.user.id}
     fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
       'Content-Type': 'application/json'}} )
     .then(response => response.json())
-    .then(data => console.log(data));
+    .then(data => {console.log(data)
+      get_recently_added_products()});
   }
 
 

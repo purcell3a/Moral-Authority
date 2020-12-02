@@ -1,6 +1,7 @@
 "use strict";
 
-function Shop(){
+function Shop(props){
+  console.log('shop component running')
 
     const [productCards, setProductCards] = React.useState([])
     const [selectedDepartment, setselectedDepartment] = React.useState('');
@@ -9,14 +10,17 @@ function Shop(){
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
     const certsForFilter = Array.from(selectedCerts)
-    const userFromStorage = JSON.parse(localStorage.getItem('user'));
 
     function get_all_products(){
-      let data = {user_id: userFromStorage? userFromStorage.id:'0'}
+      console.log('user=',props.user)
+      let user_id = props.user? props.user.id:'0'
+      let data = {user_id}
       fetch('/app/return-products',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}})
       .then(response => response.json())
-      .then(data => setProductCards(data));
+      .then(data => {console.log('GET-ALL-PRODUCTS-DATA',data)
+        setProductCards(data)});
+
     }
 
 
@@ -60,12 +64,13 @@ function Shop(){
     }
 
     function handleFavoriteClick(productId){
-      console.log('productId=',productId,'user_id',userFromStorage.id)
-      let data = {product_id:productId,user_id:userFromStorage.id}
+      console.log('productId=',productId,'user_id',props.user.id)
+      let data = {product_id:productId,user_id: props.user.id}
       fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
-      .then(get_all_products());
+      .then(data => {console.log(data)
+        get_all_products()});
     }
 
 
@@ -158,9 +163,6 @@ function Shop(){
               </Form>
             </Col>
 
-            {/* <AutoResponsive ref="container"> */}
-            {/* {generateProductCards()} */}
-          {/* </AutoResponsive> */}
             <Col xs={12} md={9}>{generateProductCards()}</Col>
         </Row>
       </React.Fragment>

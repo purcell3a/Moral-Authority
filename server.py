@@ -114,24 +114,25 @@ def get_user_favorites():
 
 @app.route('/app/toggle-favorite',methods=['POST'])
 def add_user_favorite():
+
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
     user_id = int(data['user_id'])
-    product_id =int(data['product_id'])
-    #* GET EXISTING USER FAVORITES
-    existing_favorites = crud.get_user_favorite_product_id_list(user_id)
-    print('!*******************************************************************************')
-    print('!*******************************************************************************')
-    print('!*******************************************************************************')
-    print('existing favorites', existing_favorites)
-    print('product id', product_id)
-    #* IF PRODUCT_ID PRESENT THEN REMOVE
-    if product_id in existing_favorites:
+    product_id= int(data['product_id'])
+    # ****************************** #
+
+    # CHECK IF FAVORITE EXITS
+    favorite = crud.get_user_favorite(user_id, product_id)
+
+    # IF FAVORITE THEN REMOVE
+    if favorite:
         favorite_removed = crud.remove_user_favorite(user_id,product_id)
-        return jsonify('favorite removed')
+        return jsonify('Favorite Removed')
     else:
-        user_favorite =  crud.add_user_favorite(user_id,product_id)
+        user_favorite = crud.add_user_favorite(user_id,product_id)
         print(user_favorite)
-        return jsonify('favorite added!!!!')
+        return jsonify('Favorite Added!!!!')
 
 #! GENERAL PRODUCT FILTERS
 @app.route('/app/return-certs')
@@ -177,8 +178,8 @@ def return_products_added_by_user():
 def return_products():
     """return all products"""
     data = request.get_json()
-    user_id = data['user_id']
-    
+    user_id = int(data['user_id'])
+
     result = crud.get_products(user_id)
     return jsonify(result)
 

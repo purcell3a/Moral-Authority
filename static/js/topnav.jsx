@@ -9,7 +9,7 @@ function TopNav(props){
     function handleSubmit(evt){
       evt.preventDefault()
       localStorage.removeItem('user');
-      props.setUser()
+      props.setUser(undefined)
       console.log('logged out')
       history.push('/');
     }

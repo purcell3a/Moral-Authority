@@ -148,7 +148,9 @@ class Product(db.Model):
                         nullable=False)
     date_added = db.Column(db.DateTime,nullable=False,)
     date_modified = db.Column(db.DateTime,nullable=False,)
-    # certifications = db.relationship("Certification", secondary="ProductCertification")
+
+    favorite = db.relationship("Favorite")
+
 
     def __repr__(self):
         return f'<Product product_id={self.product_id} title={self.title} company={self.company} description={self.description} url={self.url} img_id={self.img_id} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
