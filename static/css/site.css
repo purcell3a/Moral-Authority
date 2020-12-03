@@ -150,11 +150,18 @@ a {
   border: 0;
 }
 /* ============================ BOTTOMNAV.JSX ========================== */
-/* #bottomnav{
-  bottom: 0;
-  width: 100%;
-  justify-content: center;
-} */
+footer {
+  background: black;
+  text-align: center;
+  line-height: 20px;
+  padding: .75rem;
+  min-width: max-content;
+  height: 3rem;
+}
+
+footer a{
+  padding:1rem;
+}
 /* ============================ SHOP.JSX ========================== */
 .container{
   width: 100vw;

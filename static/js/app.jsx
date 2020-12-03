@@ -8,7 +8,7 @@ function App() {
     React.useEffect(() => {
       const currentuser = JSON.parse(localStorage.getItem('user'));
       setUser(currentuser)
-      console.log(user)
+      console.log('USER FROM APP =',user)
     },[]);
 
     // TODO GET RID OF USERFROMSTORAGE IN COMPONENTS
@@ -20,22 +20,22 @@ function App() {
           <TopNav user={user} setUser={setUser}/>
 
           <Switch>
-            <Route path='/app/login'>
+            <Route path='/login'>
               <Login user={user} setUser={setUser}/>
             </Route>
-            <Route path='/app/signup'>
+            <Route path='/signup'>
               <Signup setUser={setUser} user={user}/>
             </Route>
-             <Route path='/app/add-product'>
+             <Route path='/add-product'>
               <AddProduct user={user} />
             </Route>
-            <Route path='/app/user-profile'>
+            <Route path='/user-profile'>
               <ShowProfile setUser={setUser} user={user}/>
             </Route>
-            <Route path='/app/shop'>
+            <Route path='/shop'>
               <Shop user={user} />
             </Route>
-            <Route path='/app/product-page/:productId'>
+            <Route path='/product-page/:productId'>
               <ProductPage user={user} />
             </Route>
             <Route path="/">
@@ -44,7 +44,7 @@ function App() {
           </Switch>
 
         </div>
-        {/* <BottomNav/> */}
+        <Footer/>
       </Router>
     );
 }

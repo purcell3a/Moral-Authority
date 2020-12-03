@@ -5,34 +5,38 @@ function ShowProfile(props) {
     const [lname, setLname] = React.useState('')
     const [email, setEmail] = React.useState('')
     const [password, setDescription] = React.useState('')
-    const [products, setProducts] = React.useState([{}])
+    const [products, setProducts] = React.useState([])
     const [favorites, setFavorites] = React.useState([])
     const history = useHistory()
     const [profilePhoto, setprofilePhoto] = React.useState(null)
+    const [userFromDb, setUserFromDb] = React.useState({})
     const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ipialmwj',}, (error, result) => { if (result.event == "success") {
       setprofilePhoto(result.info.url) // result.info contains data from upload
     } })
-
-    const [userFromDb, setUserFromDb] = React.useState({})
-
-    console.log('userinfo=',props.user)
-    console.log('userid=',props.user.id)
 
 
     //  GET PRODUCTS ADDED BY USER
     React.useEffect(() => {
         let data = {'user_id' : props.user.id}
-        fetch('/app/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+        fetch('/api/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}})
           .then(response => response.json())
           .then(data => setProducts(data))
           .then(get_user_favorites());
     }, []);
 
+    function get_products_added_by_user(){
+      let data = {'user_id' : props.user.id}
+        fetch('/api/user-added-products' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+          'Content-Type': 'application/json'}})
+          .then(response => response.json())
+          .then(data => setProducts(data))
+    }
+
     function get_user_favorites(){
       console.log('GET USER FAVORITE IS RUNNING')
       let data = {'user_id' : props.user.id}
-      fetch('/app/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/api/get-user-favorites' ,{method: "POST",  body: JSON.stringify(data),  headers: {
       'Content-Type': 'application/json'}})
       .then(response => response.json())
       .then(data => {console.log('DATA COMING FROM GET USER FAVORITES',data)
@@ -62,7 +66,7 @@ function ShowProfile(props) {
       function generateFavorites(){
         const cards = favorites.map((product,index) =>(
           <div>
-          {console.log('PRODUCT',product)}
+
           <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
           <Card.Img variant="top"  src={product.img_id}/>
           <Card.Body>
@@ -83,7 +87,7 @@ function ShowProfile(props) {
     //  GET MAIN PROFILE DATA
     React.useEffect(() => {
         let data = {'user_id': props.user.id}
-        fetch('/app/get-user-by-id' ,{method: "POST",  body: JSON.stringify(data),  headers: {
+        fetch('/api/get-user-by-id' ,{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}})
           .then(response => response.json())
           // data is the user we are pulling from our db after verifying their info above
@@ -92,19 +96,23 @@ function ShowProfile(props) {
     }, []);
 
     function handleFavoriteClick(productId){
-        console.log('calling handle favorite', productId)
+        console.log('HANDLE FAVORITE CLICK PRODUCT ID =', productId)
         let data = {'product_id':productId,'user_id':props.user.id}
-        fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+        fetch('/api/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
-        .then(get_user_favorites());
+        .then(data => {
+          console.log('DATA FROM user-profile handle favorite click=', data)
+          get_user_favorites()
+          get_products_added_by_user()
+        });
     }
 
     function handleSubmit(evt){
         evt.preventDefault()
         console.log('data going to /change-user-data', fname, lname,email,password, props.user.id)
         let data = {fname:fname, lname:lname, email:email, password:password, 'user_id':props.user.id, profilePhoto:profilePhoto}
-        fetch('/app/change-user-data',{method: "POST",  body: JSON.stringify(data),  headers: {
+        fetch('/api/change-user-data',{method: "POST",  body: JSON.stringify(data),  headers: {
           'Content-Type': 'application/json'}} )
         .then(response => response.json())
         .then(data => {
@@ -120,7 +128,7 @@ function ShowProfile(props) {
     }
 
     function handleMoreInfoClick(productId){
-        history.push({pathname:`/app/product-page/${productId}`});
+        history.push({pathname:`/product-page/${productId}`});
     };
 
     function handleFnameChange(evt){
@@ -215,9 +223,8 @@ function ShowProfile(props) {
                           </Tab>
 
                           <Tab eventKey="AddProduct" title="AddProduct" className='tab-container'>
-                          <AddProduct />
+                          <AddProduct/>
                           </Tab>
-
                       </Tabs>
                     </Col>
                 </Row>

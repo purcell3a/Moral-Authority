@@ -15,7 +15,7 @@ function Shop(props){
       console.log('user=',props.user)
       let user_id = props.user? props.user.id:'0'
       let data = {user_id}
-      fetch('/app/return-products',{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/api/return-products',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}})
       .then(response => response.json())
       .then(data => {console.log('GET-ALL-PRODUCTS-DATA',data)
@@ -32,7 +32,7 @@ function Shop(props){
 
 
     React.useEffect(() => {
-      fetch('/app/list-departments')
+      fetch('/api/list-departments')
       .then((response) => {
           return response.json();
         })
@@ -49,14 +49,14 @@ function Shop(props){
   },[]);
 
   React.useEffect(() => {
-    fetch('/app/return-certs')
+    fetch('/api/return-certs')
       .then(response => response.json())
       .then(data => setCerts(data));
       },[]);
 
     // when the product is clicked on - set that product id to state and send it with redirect
     function handleMoreInfoClick(productId){
-      history.push({pathname:`/app/product-page/${productId}`});
+      history.push({pathname:`/product-page/${productId}`});
     };
 
     function handleDepartmentSelect(evt){
@@ -66,7 +66,7 @@ function Shop(props){
     function handleFavoriteClick(productId){
       console.log('productId=',productId,'user_id',props.user.id)
       let data = {product_id:productId,user_id: props.user.id}
-      fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+      fetch('/api/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())
       .then(data => {console.log(data)
@@ -135,7 +135,7 @@ function Shop(props){
       evt.preventDefault()
       // console.log('selectedDepartment', selectedDepartment, 'selectedCerts:', certsForFilter)
         let data = {selectedDepartment:selectedDepartment,selectedCerts:certsForFilter}
-        fetch('/app/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
+        fetch('/api/filter-products',{method: "POST",  body: JSON.stringify(data),  headers: {
               'Content-Type': 'application/json'}} )
         .then(response => response.json())
         .then(data => setProductCards(data))
@@ -148,7 +148,7 @@ function Shop(props){
 
             <Col xs={6} md={3}>
               <Form onSubmit={handleSubmit} id="sidenav">
-                <Nav defaultActiveKey='/app/product-search' className="flex-column">
+                <Nav defaultActiveKey='/product-search' className="flex-column">
 
                     <Form.Group>
                         {generateDepartments()}

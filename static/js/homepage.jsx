@@ -3,28 +3,26 @@
 // *******************************************************************
 function Homepage(props) {
 
-  const [productCards, setProductCard] = React.useState([{}])
+  const [productCards, setProductCard] = React.useState([])
   const history = useHistory()
 
 
-  function get_recently_added_products(){
-    console.log('****************** useEffect is running')
-    fetch('/app/recently-added')
-    .then(response => response.json())
-    .then(data => setProductCard(data));
-  } 
-
   React.useEffect(() =>{
-    console.log('****************** useEffect is running')
-    fetch('/app/recently-added')
+    fetch('/api/recently-added')
     .then(response => response.json())
     .then(data => setProductCard(data));
   },[]);
 
+  function get_recently_added_products(){
+    fetch('/api/recently-added')
+    .then(response => response.json())
+    .then(data => setProductCard(data));
+  }
+
 
   function generateProductCards(){
     const cards = productCards.map((product,index) =>(
-      <Card key={index} value={product.product_id}>
+      <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
       <Card.Img variant="top"  src={product.img_id}/>
       {console.log(product.img_id)}
       <Card.Body>
@@ -46,7 +44,7 @@ function Homepage(props) {
   function handleFavoriteClick(productId){
     console.log('productId=',productId,'user_id',props.user.id)
     let data = {'product_id':productId,'user_id':props.user.id}
-    fetch('/app/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
+    fetch('/api/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
       'Content-Type': 'application/json'}} )
     .then(response => response.json())
     .then(data => {console.log(data)
@@ -55,7 +53,7 @@ function Homepage(props) {
 
 
   function handleMoreInfoClick(productId){
-    history.push({pathname:`/app/product-page/${productId}`});
+    history.push({pathname:`/product-page/${productId}`});
   };
 
     return (
@@ -100,5 +98,3 @@ function Homepage(props) {
     );
   }
 
-//   ReactDOM.render(<App />, document.getElementById('app'));
-// ******************************************************************* */

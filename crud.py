@@ -129,17 +129,22 @@ def add_user_favorite(user_id,product_id):
                             date_modified = now)
     db.session.add(new_favorite)
     db.session.commit()
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    print('new_favorite IN CRUD_ADD_USER_FAVORITE',new_favorite)
 
 def remove_user_favorite(user_id,product_id):
+
     all_favs = Favorite.query.all()
     print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-    print('all_favs',len(all_favs))
+    print('all_favs IN CRUD_REMOVE_USER_FAVORITE',len(all_favs))
+
     favorite = Favorite.query.filter(Favorite.user_id == user_id, Favorite.product_id == product_id).first()
-    print('favorites',favorite)
+    print('FAVORITE IN CRUD_REMOVE_USER_FAVORITE',favorite)
+
     db.session.delete(favorite)
     db.session.commit()
     new_favs= Favorite.query.all()
-    print('new_favs',len(new_favs))
+    print('new_favs in CRUD_REMOVE_USER_FAVORITE',len(new_favs))
 
 
 #  <================================ DEPARTMENTS AND CERTIFICATIONS ==================================>
