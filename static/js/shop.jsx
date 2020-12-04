@@ -64,8 +64,8 @@ function Shop(props){
     }
 
     function handleFavoriteClick(productId){
-      console.log('productId=',productId,'user_id',props.user.id)
-      let data = {product_id:productId,user_id: props.user.id}
+      let user_id = props.user? props.user.id:alert('Please Log In To Favorite')
+      let data = {'product_id':productId,'user_id':user_id}
       fetch('/api/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())

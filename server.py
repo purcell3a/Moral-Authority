@@ -30,9 +30,15 @@ def show_homepage(input_path):
     return render_template('base.html')
 
 
-@app.route('/api/recently-added')
+@app.route('/api/recently-added', methods=["POST"])
 def recently_added_products():
-    recentProducts = crud.get_recently_added_products()
+
+    data = request.get_json()
+    user_id = int(data['user_id'])
+    print('*******************************************************************************************')
+    print(user_id)
+
+    recentProducts = crud.get_recently_added_products(user_id)
 
     return jsonify(recentProducts)
 
@@ -124,19 +130,12 @@ def add_user_favorite():
 
     # CHECK IF FAVORITE EXITS
     favorite = crud.get_user_favorite(user_id, product_id)
-    print('**************************************************************************************')
-    print('FAVORITE',favorite)
-    print('**************************************************************************************')
 
     # IF FAVORITE THEN REMOVE
     if favorite:
-        print('**************************************************************************************')
-        print('REMOVING FAVORITE')
         favorite_removed = crud.remove_user_favorite(user_id,product_id)
         return jsonify('Favorite Removed')
     else:
-        print('**************************************************************************************')
-        print('ADDED FAVORITE')
         user_favorite = crud.add_user_favorite(user_id,product_id)
         print(user_favorite)
         return jsonify('Favorite Added!!!!')

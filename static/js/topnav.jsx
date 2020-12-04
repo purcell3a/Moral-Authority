@@ -15,7 +15,7 @@ function TopNav(props){
     }
 
     return(
-        <Navbar scrolling="true" expand="md" fixed='top'>
+        <Navbar scrolling="true" expand="sm" fixed='top' id='topnav'>
              <Navbar.Brand><Link to='/'><img
                     src="/static/img/logo.png"
                     width="250"

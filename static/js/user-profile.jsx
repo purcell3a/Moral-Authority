@@ -153,7 +153,7 @@ function ShowProfile(props) {
 
     return (
      <React.Fragment>
-                  <Row className="page-container">
+                  <Row className="profile-page-container">
                     <Col sm={3} id='profile-card-column'>
                       <Card style={{ width: '18rem' }} className="card profile-card-3">
 

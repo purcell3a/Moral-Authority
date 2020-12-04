@@ -88,12 +88,12 @@ with open(filename, 'r') as file:
         db.session.add(new_product_image)
     db.session.commit()
 
-    def update_product_image(img_id,product_id):
+    # def update_product_image(img_id,product_id):
 
-        product = Product.query.filter(Product.product_id==product_id).first()
-        update_product = product.img_id = img_id
+    #     product = Product.query.filter(Product.product_id==product_id).first()
+    #     update_product = product.img_id = img_id
 
-    update_product_image(1,1)
-    db.session.commit()
+    # update_product_image(1,1)
+    # db.session.commit()
 
 # ***************************************************************************

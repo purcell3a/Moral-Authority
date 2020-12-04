@@ -8,19 +8,26 @@ function Homepage(props) {
 
 
   React.useEffect(() =>{
-    fetch('/api/recently-added')
+    let user_id = props.user? props.user.id:'0'
+    let data = {user_id}
+    fetch('/api/recently-added',{method: "POST",  body: JSON.stringify(data),  headers: {
+      'Content-Type': 'application/json'}})
     .then(response => response.json())
     .then(data => setProductCard(data));
   },[]);
 
   function get_recently_added_products(){
-    fetch('/api/recently-added')
+    let user_id = props.user? props.user.id:'0'
+    let data = {user_id}
+    fetch('/api/recently-added',{method: "POST",  body: JSON.stringify(data),  headers: {
+      'Content-Type': 'application/json'}})
     .then(response => response.json())
     .then(data => setProductCard(data));
   }
 
 
   function generateProductCards(){
+    // console.log(productCards)
     const cards = productCards.map((product,index) =>(
       <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
       <Card.Img variant="top"  src={product.img_id}/>
@@ -42,8 +49,8 @@ function Homepage(props) {
 
 
   function handleFavoriteClick(productId){
-    console.log('productId=',productId,'user_id',props.user.id)
-    let data = {'product_id':productId,'user_id':props.user.id}
+    let user_id = props.user? props.user.id:alert('Please Log In To Favorite')
+    let data = {'product_id':productId,'user_id':user_id}
     fetch('/api/toggle-favorite',{method: "POST",  body: JSON.stringify(data),  headers: {
       'Content-Type': 'application/json'}} )
     .then(response => response.json())

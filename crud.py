@@ -3,6 +3,12 @@
 from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification,ProductImage
 import datetime
 import random
+
+import logging
+
+logger = logging.getLogger(__name__)
+# TODO LEARN ABOUT LOGGER
+logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE 
 #  <================================ USER INFO ==================================>
 
@@ -95,23 +101,23 @@ def get_user_favorite_product_id_list(user_id):
         favorite_product_id_list.append(favorite.product_id)
     return favorite_product_id_list
 
+
 def get_user_favorites(user_id):
 
     result = []
     products = db.session.query(Product).select_from(Product).join(Favorite, Favorite.product_id == Product.product_id).filter(Favorite.user_id == user_id).all()
 
     for product in products:
-        product_image = get_product_img(product.img_id)
-        image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':image_url,
+                    'img_id':product.image[0].url,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite': 'True'}
         result.append(productObject)
     return result
+
 
 def get_user_favorite(user_id, product_id):
 
@@ -129,23 +135,16 @@ def add_user_favorite(user_id,product_id):
                             date_modified = now)
     db.session.add(new_favorite)
     db.session.commit()
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-    print('new_favorite IN CRUD_ADD_USER_FAVORITE',new_favorite)
+
 
 def remove_user_favorite(user_id,product_id):
 
     all_favs = Favorite.query.all()
-    print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-    print('all_favs IN CRUD_REMOVE_USER_FAVORITE',len(all_favs))
 
     favorite = Favorite.query.filter(Favorite.user_id == user_id, Favorite.product_id == product_id).first()
-    print('FAVORITE IN CRUD_REMOVE_USER_FAVORITE',favorite)
 
     db.session.delete(favorite)
     db.session.commit()
-    new_favs= Favorite.query.all()
-    print('new_favs in CRUD_REMOVE_USER_FAVORITE',len(new_favs))
-
 
 #  <================================ DEPARTMENTS AND CERTIFICATIONS ==================================>
 
@@ -161,6 +160,7 @@ def get_bcorps():
 
 
 def filter_by_department_and_certification(category_id,product_id):
+
     product_id_list = []
     result =  Product.query.filter(Product.category_id == category_id, Product.product_id == product_id).all()
     for products in result:
@@ -175,12 +175,12 @@ def get_category_id(title):
 
 
 def filter_by_department(category_id):
-    product_id_list = []
-    result =  Product.query.filter(Product.category_id == category_id).all()
-    for products in result:
-        product_id_list.append(products.product_id)
-    return product_id_list
 
+    product_id_list = []
+    result = db.session.query(Product.product_id).filter(Product.category_id == category_id).all()
+    for product_id in result:
+        product_id_list = product_id_list + (list(product_id))
+    return product_id_list
 
 def get_product_ids_made_by_bcorps():
 
@@ -284,10 +284,9 @@ def get_product_img(img_id):
 def update_product_image(img_id,product_id):
 
     product = Product.query.filter(Product.product_id==product_id).first()
-    update_product = product.img_id = img_id
+    update_product = product.image[0].url = img_id
 
     db.session.commit()
-    print('PRODUCT IMAGE UPDATED')
 
 def add_product(productName,productUrl,company,description,category_id,user_id=1,img_id=1):
 
@@ -308,26 +307,25 @@ def add_product(productName,productUrl,company,description,category_id,user_id=1
     return new_product
 
 
-def get_recently_added_products():
+def get_recently_added_products(user_id):
     productList= []
 
     recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
 
     for product in recent_products:
-        if product.favorite:
+        if product.favorite and product.favorite.user_id == user_id:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
-        product_image = get_product_img(product.img_id)
-        image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':image_url,
+                    'img_id':product.image[0].url,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}
         productList.append(productObject)
+
     return productList
 
 def add_product_certifications(product_id,cert_id):
@@ -342,12 +340,10 @@ def add_product_certifications(product_id,cert_id):
 def get_product_info(productId):
 
     product = Product.query.filter(Product.product_id == productId).first()
-    product_image = get_product_img(product.img_id)
-    image_url = ''.join(map(str, product_image))
     product = {'title':product.title,
                 'description': product.description,
                 'product_id' : product.product_id,
-                'img_id':image_url,
+                'img_id':product.image[0].url,
                 'company': product.company,
                 'url': product.url,}
     return product
@@ -359,54 +355,37 @@ def get_products(user_id=0):
     all_products =  Product.query.all()
 
     for product in all_products:
-        if product.favorite:
+        if product.favorite[0].user_id == user_id:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
-        product_image = get_product_img(product.img_id)
-        image_url = ''.join(product_image)
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':image_url,
+                    'img_id':product.image[0].url,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}
         productList.append(productObject)
     return productList
-# test_left_join(1)
-
-# def test_left_join(user_id):
-    # product = Product.query.filter(Product.product_id == 1).first()
-
-    # product_list = []
-    # artist = Artist.query.add_columns(slugify(Artist.Name).label("name_slug")).all()
-# .filter(Favorite.user_id == user_id)
-    # left_join = Product.query.add_columns().label('favorite')
-    # left_join = Product.query.outerjoin(Favorite).filter(Favorite.user_id == user_id).all()
-    # print(left_join[0])
-    # print(dir(left_join))
-    # for product in left_join:
-        # print('\n' + str(dir(product)))
-        # product_list.append(product.product)
-    # return 'none'
 
 
 def get_products_added_by_user(user_id):
-    favorite_product_ids = get_user_favorite_product_id_list(user_id)
+    # TODO img url can cause problems due to [0] if image ever gets deleted
+
     products = Product.query.filter(Product.user_id == user_id).all()
+
     productList = []
+
     for product in products:
-        if product.product_id in favorite_product_ids:
+        if product.favorite[0].user_id == user_id:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
-        product_image = get_product_img(product.img_id)
-        image_url = ''.join(map(str, product_image))
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':image_url,
+                    'img_id':product.image[0].url,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}

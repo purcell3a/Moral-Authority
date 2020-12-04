@@ -1,8 +1,9 @@
 /* ====================================== GLOBAL CSS ======================================== */
 
 .btn:hover {
-  color:rgb(247, 247, 248);
-  background:#006989;
+  color:rgb(3, 3, 3);
+  background:#ffdfae;
+  border: white;
 }
 
 .row {
@@ -18,17 +19,20 @@
 
 
 #app{
-  min-height: 100%;
+  min-height: 100vh;
   min-width:100%;
+  overflow-x:hidden;
 }
+
+
 html {
-    min-height: 100%;
+    min-height: 100vh;
     min-width:100%;
 }
 body{
     background-image: linear-gradient(to bottom,  #ffffff, rbga(233, 241, 247));
-    min-height:100%;
     min-width:100%;
+    overflow-x:hidden;
 }
 .white{
   display: inline-block;
@@ -52,8 +56,8 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 .btn-light {
-  color: #212529;
-  background-color: #fae5c0;
+  color: whitesmoke;
+  background-color: #0e2f5a;
   border-color: #f8f9fa;
   width: 100%;
   margin: 0rem;
@@ -61,16 +65,18 @@ body{
 }
 .btn-primary {
   color: #fff;
-  background-color: #323a45;
-  border-color: #fd9d2b8a;
+  background-color: #0e2f5a;
+  border-color: #faf9f88a;
 }
 .h5, h5 {
   font-size: 1.2rem;
 }
 
 a {
+  font-family: 'Lato', sans-serif;
+  text-align: right;
   color: black;
-  font-style: inherit;
+  font-style: lovelo;
   text-decoration: none;
   background-color: transparent;
 }
@@ -106,12 +112,17 @@ a {
 
 /* ============================ TOPNAV.JSX ========================== */
 
-
-.about-link-a{
-  color:white;
+#topnav{
+  background-color:transparent;
 }
 
-
+.navbar-nav .nav-link {
+  padding-right: 1rem;
+  text-align: right;
+}
+.navbar-light .navbar-nav .nav-link {
+  color: #212529;
+}
 .navbar-light .navbar-brand {
   color: white;
 }
@@ -120,10 +131,10 @@ a {
 .dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  right: 0;
   z-index: 1000;
   display: none;
-  float: left;
+  float: right;
   margin: .125rem 0 0;
   padding:.25rem;
   font-size: 1rem;
@@ -151,16 +162,24 @@ a {
 }
 /* ============================ BOTTOMNAV.JSX ========================== */
 footer {
+
+  position:fixed;
+  bottom: 0;
+  width: 100%;
   background: black;
   text-align: center;
   line-height: 20px;
   padding: .75rem;
-  min-width: max-content;
+
   height: 3rem;
 }
 
 footer a{
   padding:1rem;
+}
+
+.about-link-a{
+  color:white;
 }
 /* ============================ SHOP.JSX ========================== */
 .container{
@@ -180,6 +199,7 @@ footer a{
 }
 
 .page-container {
+  position:fixed;
   margin:.5rem;
   margin-top: 7rem;
   margin-bottom:5rem;
@@ -276,12 +296,23 @@ select {
 
 /* ============================ USER-PROFILE.JSX ========================== */
 
+.profile-page-container{
+  position:fixed;
+  margin:.5rem;
+  margin-top: 7rem;
+  margin-bottom:5rem;
+  width:max-content;
+  height: max-content;
+  width:100%;
+}
+
 #profile-card-column{
   margin:0
 }
 
 #tabs-column{
   margin-top:2.5rem;
+  overflow: auto;
 }
 #profile-photo-upload-button{
   color: black;
@@ -297,12 +328,9 @@ select {
   justify-content: flex-end;
 }
 .nav-tabs {
+  margin-left:2rem;
   border-bottom: 1px solid #d9dfe4;
   width: max-content;
-}
-
-.login-form{
-  max-width: 40rem;
 }
 
 .tab-container{
@@ -329,6 +357,19 @@ select {
   padding: 8px 8px;
 }
 /* ============================ PROFILE CARD ========================== */
+#profile-photo-upload-button {
+  color: whitesmoke;
+  width: 70%;
+  line-height: .5rem;
+  background: #323a45;
+  border: white;
+  margin: .5rem;
+}
+
+#profile-photo-upload-button:hover{
+  color: gold;
+  background: black;
+}
 
 .profile-card-3 {
   font-family: 'Open Sans', Arial, sans-serif;
@@ -362,7 +403,7 @@ select {
   padding: 15px 25px;
   color:#232323;
   float:left;
-  background:transparent;
+  background:linear-gradient(to bottom, #eeedd1, #d8e8fb00);
   height:50%;
   border-radius:0 0 5px 5px;
   position: relative;
@@ -370,7 +411,7 @@ select {
 }
 .profile-card-3 .card-content::before {
     content: '';
-    background:linear-gradient(to bottom, #323a45, #d8e8fb00); ;
+    background: linear-gradient(to bottom, #eeedd1, #d8e8fb00); 
     width: 120%;
     height: 100%;
     left: 11px;
@@ -458,39 +499,88 @@ select {
   width: 100%;
 }
 
-/* ffad05 */
-
 /* ============================ SIGNUP.JSX ========================== */
+
+#loginform{
+    display: block;
+    margin-top: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.login-form{
+  max-width: 40rem;
+}
+
 .login-signup-row{
-  margin:.5rem;
-  margin-top: 7rem;
-  margin-bottom:5rem;
+  position:fixed;
   width: 100vw;
-  width:max-content;
-  width:100%;
-  height: 80vh;
+  width: -webkit-fill-available;
+  height: 100vh;
   justify-content: center;
   align-items: center;
 
 }
 
 #login-button-row{
-  justify-content: center;
+  margin: 1rem;
+  margin-left: 20%;
 }
 #login-column{
-  background-color:tan;
+  background-color: whitesmoke;
+  height: 100%;
 }
 
 #signup-column{
-  background-color:tan;
+  /* background-color:transparent */
+  background-color:#323a45;
+  height: 100vh;
 }
 #login-button{
   width:94%;
 }
 #register-button-row{
   justify-content: center;
+  margin: 1rem;
+  margin-left: 20%;
 }
 
 #register-button{
   width:94%;
+
+}
+#signupform{
+  display: block;
+  margin-top: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+
+/* ============================ ABOUT.JSX ========================== */
+#aboutmecard{
+  background-color:pink;
+  flex-direction: row;
+}
+
+#aboutmeimage{
+  background-color: red;
+}
+
+#aboutmebody{
+  background-color: yellow;
+}
+
+#aboutmetext{
+ background-color: green;
+}
+
+.aboutme-page-container{
+  align-content: center;
+  justify-content: center;
+  background-color: #0e2f5a;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  position:fixed;
 }

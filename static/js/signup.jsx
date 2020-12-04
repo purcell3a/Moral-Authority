@@ -55,7 +55,7 @@
 
 
                 <Col id='signup-column'>
-                  <Form onSubmit={handleSubmit}>
+                  <Form id='signupform' onSubmit={handleSubmit}>
 
                       <Form.Group controlId="formBasicfname">
                         <Form.Control type="text" name="fname" placeholder="First" value={fname} onChange={handleFnameChange}></Form.Control>
