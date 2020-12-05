@@ -299,7 +299,7 @@ select {
 .profile-page-container{
   position:fixed;
   margin:.5rem;
-  margin-top: 7rem;
+  margin-top: 5rem;
   margin-bottom:5rem;
   width:max-content;
   height: max-content;
@@ -310,9 +310,14 @@ select {
   margin:0
 }
 
+.tab-content{
+  margin-bottom:1rem;
+}
+
 #tabs-column{
-  margin-top:2.5rem;
-  overflow: auto;
+  margin-top: 2.2rem;
+  overflow: hidden;
+  margin-left: 8%;
 }
 #profile-photo-upload-button{
   color: black;
@@ -559,27 +564,20 @@ select {
 }
 
 /* ============================ ABOUT.JSX ========================== */
-#aboutmecard{
-  background-color:pink;
-  flex-direction: row;
-}
-
-#aboutmeimage{
-  background-color: red;
-}
-
-#aboutmebody{
-  background-color: yellow;
-}
 
 #aboutmetext{
- background-color: green;
+  color:black;
+  background-color: linear-gradient(to bottom,  #ffffff, rbga(233, 241, 247));
+  width: 50%;
+  height: fit-content;
+  line-height: 1.3;
+  margin: 3rem;
 }
 
 .aboutme-page-container{
   align-content: center;
   justify-content: center;
-  background-color: #0e2f5a;
+  background-image: linear-gradient(to bottom,  #ffffff, rbga(233, 241, 247));
   width: -webkit-fill-available;
   height: -webkit-fill-available;
   position:fixed;
