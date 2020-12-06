@@ -1,5 +1,19 @@
 /* ====================================== GLOBAL CSS ======================================== */
 
+.truncate-description{
+  width: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  resize: horizontal;
+  font-size: initial;
+  }
+
+.certlogo{
+  width: initial;
+  height: 10rem;
+  padding: 1rem;
+}
 .btn:hover {
   color:rgb(3, 3, 3);
   background:#ffdfae;
@@ -182,6 +196,8 @@ footer a{
   color:white;
 }
 /* ============================ SHOP.JSX ========================== */
+
+
 .container{
   width: 100vw;
   width:max-content;
@@ -199,7 +215,6 @@ footer a{
 }
 
 .page-container {
-  position:fixed;
   margin:.5rem;
   margin-top: 7rem;
   margin-bottom:5rem;
@@ -257,9 +272,10 @@ select {
 }
 
 .card-img, .card-img-top {
-  /* border-top-left-radius: calc(.25rem - 1px); */
-  /* border-top-right-radius: calc(.25rem - 1px); */
-  border-radius: inherit;
+    max-height: 16rem;
+    /* border-top-left-radius: calc(.25rem - 1px); */
+    /* border-top-right-radius: calc(.25rem - 1px); */
+    border-radius: inherit;
 }
 
 .more-info-button{
@@ -297,7 +313,6 @@ select {
 /* ============================ USER-PROFILE.JSX ========================== */
 
 .profile-page-container{
-  position:fixed;
   margin:.5rem;
   margin-top: 5rem;
   margin-bottom:5rem;

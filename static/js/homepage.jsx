@@ -33,11 +33,11 @@ function Homepage(props) {
       <Card.Img variant="top"  src={product.img_id}/>
       {console.log(product.img_id)}
       <Card.Body>
-          <Card.Title>{product.title} 
+          <Card.Title className='truncate-description'>{product.title} 
           <i className={product.product_favorite === 'True'?  "red fa-heart" : "white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
           </Card.Title>
           <small>{product.company}</small>
-          <Card.Text>
+          <Card.Text className='truncate-description'>
             {product.description}
           </Card.Text>
           <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
@@ -100,6 +100,15 @@ function Homepage(props) {
           </Row>
 
           <Row className="recently-added-container">{generateProductCards()}</Row>
+
+          <Row className="recently-added-container">
+            <Image className='certlogo' src="static/img/logos/bcorplogo.png"></Image>
+            <Image className='certlogo' src="static/img/logos/ewgologo.png"></Image>
+            <Image className='certlogo' src="static/img/logos/fairtradelogo.png"></Image>
+            <Image className='certlogo' src="static/img/logos/leapingbunnylogo.png"></Image>
+            <Image className='certlogo' src="static/img/logos/mbe.png"></Image>
+          
+          </Row>
 
       </React.Fragment>
     );

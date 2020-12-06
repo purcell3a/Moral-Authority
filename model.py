@@ -140,9 +140,9 @@ class Product(db.Model):
     category_id = db.Column(db.Integer,
                         db.ForeignKey('categories.category_id'),
                         nullable=True) # TODO change back to false after testing
-    # img_id = db.Column(db.Integer,
-    #                     db.ForeignKey('productimages.image_id'),
-    #                     nullable=True) # TODO change back to false after testing
+    img_id = db.Column(db.Integer,
+                        db.ForeignKey('productimages.image_id'),
+                        nullable=True) # TODO change back to false after testing
     user_id = db.Column(db.Integer,
                         db.ForeignKey('users.user_id'),
                         nullable=False)
@@ -150,17 +150,10 @@ class Product(db.Model):
     date_modified = db.Column(db.DateTime,nullable=False,)
 
     favorite = db.relationship("Favorite")
-    image = db.relationship('ProductImage')
-
-    # def img_url(self):
-    #     self.image[0].url
-
-    # def product_to_dict(self):
-    #     "make a dictionary"
 
 
     def __repr__(self):
-        return f'<Product product_id={self.product_id} title={self.title} company={self.company} description={self.description} url={self.url} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
+        return f'<Product product_id={self.product_id} title={self.title} img_id={self.img_id} company={self.company} description={self.description} url={self.url} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
 
 
 class ProductImage(db.Model):

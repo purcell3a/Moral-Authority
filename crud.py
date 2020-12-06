@@ -11,6 +11,44 @@ logger = logging.getLogger(__name__)
 logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE 
 #  <================================ USER INFO ==================================>
+# https://res.cloudinary.com/purcella/image/upload/v1607230569/testFolder/SPF_dotwack_580x_2x_m3ejhg.jpg
+def delete_product():
+
+    product1 = Product.query.filter(Product.product_id == 1)
+    product2 = Product.query.filter(Product.product_id == 2)
+
+    Product.query.filter(Product.product_id == 1).delete()
+    db.session.commit()
+
+def add_product_image(product_id, url):
+    # add_product_image(2,'https://res.cloudinary.com/purcella/image/upload/v1607233258/testFolder/Sensitive-Skin-Extra-Gentle-_-Volumizing-Shampoo-Fragrance-free-60101_en_FRONT_1000x_pzfqpd.jpg')
+
+    new_product_image = ProductImage(product_id = product_id,
+                                        url = url,
+                                        date_added = '2020-11-21',
+                                        date_modified = '2020-11-21')
+    db.session.add(new_product_image)
+    new_image = ProductImage.query.filter(ProductImage.product_id == product_id, ProductImage.url == url)
+    nid = new_image[0].image_id
+    product = Product.query.filter(Product.product_id==product_id).first()
+    update_product(nid,'Volumizing Shampoo','Attitude','https://attitudeliving.com/collections/hair-care/products/sensitive-skin-shampoo-fragrance-free','Fragrance-free Extra Gentle & Volumizing Natural Shampoo',product_id)
+
+    db.session.commit()
+
+
+def update_product(img_id,title,company,url,description,product_id):
+
+    product = db.session.query(Product).get(product_id)
+    product.title=title
+    product.company = company
+    product.url = url
+    product.description = description
+    product.img_id = img_id
+
+    db.session.commit()
+
+    return product.img_id
+
 
 def get_users():
     """Returns users in db."""
@@ -108,10 +146,11 @@ def get_user_favorites(user_id):
     products = db.session.query(Product).select_from(Product).join(Favorite, Favorite.product_id == Product.product_id).filter(Favorite.user_id == user_id).all()
 
     for product in products:
+        img = get_product_img(product.img_id)
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.image[0].url,
+                    'img_id':img,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite': 'True'}
@@ -279,12 +318,12 @@ def get_product_id(productName,user_id):
 def get_product_img(img_id):
     #*  This can be changed later to return multiple images 
     image = db.session.query(ProductImage.url).select_from(ProductImage).filter(ProductImage.image_id == img_id).first()
-    return list(image[0])
+    return image[0]
 
 def update_product_image(img_id,product_id):
 
     product = Product.query.filter(Product.product_id==product_id).first()
-    update_product = product.image[0].url = img_id
+    update_product = product.img_id = img_id
 
     db.session.commit()
 
@@ -311,8 +350,8 @@ def get_recently_added_products(user_id):
     productList= []
 
     recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
-
     for product in recent_products:
+        img = get_product_img(product.img_id)
         if product.favorite and product.favorite.user_id == user_id:
             product_favorite = 'True'
         else:
@@ -320,7 +359,7 @@ def get_recently_added_products(user_id):
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.image[0].url,
+                    'img_id':img,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}
@@ -340,10 +379,11 @@ def add_product_certifications(product_id,cert_id):
 def get_product_info(productId):
 
     product = Product.query.filter(Product.product_id == productId).first()
+    img = get_product_img(product.img_id)
     product = {'title':product.title,
                 'description': product.description,
                 'product_id' : product.product_id,
-                'img_id':product.image[0].url,
+                'img_id':img,
                 'company': product.company,
                 'url': product.url,}
     return product
@@ -355,14 +395,15 @@ def get_products(user_id=0):
     all_products =  Product.query.all()
 
     for product in all_products:
-        if product.favorite[0].user_id == user_id:
+        img = get_product_img(product.img_id)
+        if product.favorite and user_id != 0:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.image[0].url,
+                    'img_id':img,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}
@@ -378,14 +419,15 @@ def get_products_added_by_user(user_id):
     productList = []
 
     for product in products:
-        if product.favorite[0].user_id == user_id:
+        img = get_product_img(product.img_id)
+        if product.favorite and user_id != 0:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
         productObject = {'title':product.title,
                     'description': product.description,
                     'product_id' : product.product_id,
-                    'img_id':product.image[0].url,
+                    'img_id':img,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}

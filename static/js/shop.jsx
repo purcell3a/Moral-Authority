@@ -79,11 +79,11 @@ function Shop(props){
         <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
           <Card.Img variant="top"  src={product.img_id}/>
           <Card.Body>
-              <Card.Title>{product.title}
+              <Card.Title className='truncate-description'>{product.title}
               <i className={product.product_favorite === 'True'?  "red fa-heart" : "white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
                 </Card.Title>
               <small>{product.company}</small>
-              <Card.Text>
+              <Card.Text className='truncate-description'>
                 {product.description}
               </Card.Text>
               <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>

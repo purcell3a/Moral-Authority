@@ -240,7 +240,6 @@ def filter_products():
 @app.route('/api/add-product', methods=["POST"])
 def add_product():
     '''adds new product to db'''
-
     # GET BASIC INFO FROM DATA
     data = request.get_json()
 

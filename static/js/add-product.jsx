@@ -30,10 +30,6 @@
       .then(data => console.log(data));
       alert('Product Created!')
       history.push('/')
-      // return (
-        // <Alert variant='dark'>Product Created!</Alert>
-
-      // )
     }
 
 
@@ -131,9 +127,6 @@
             </select>)
     }
 
-    // function handleFileChange(evt){
-    //   setSelectedFile(evt.target.value)
-    // }
     function handleDepartmentSelect(evt){
       setselectedDepartment(evt.target.value)
       }

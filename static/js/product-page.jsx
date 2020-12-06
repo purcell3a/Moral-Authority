@@ -26,7 +26,7 @@ function ProductPage() {
                     <div className="productpageinfo">
                     <h3>{productInfo.title}</h3>
                     <h3><small>{productInfo.company}</small></h3>
-                    <h4><small>{productInfo.url}</small></h4>
+                    <h4><small><a href={productInfo.url}>purchase</a></small></h4>
                     <h5><small>{productInfo.description}</small></h5>
                     </div>
                 </Col>
