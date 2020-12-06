@@ -21,7 +21,6 @@ def delete_product():
     db.session.commit()
 
 def add_product_image(product_id, url):
-    # add_product_image(2,'https://res.cloudinary.com/purcella/image/upload/v1607233258/testFolder/Sensitive-Skin-Extra-Gentle-_-Volumizing-Shampoo-Fragrance-free-60101_en_FRONT_1000x_pzfqpd.jpg')
 
     new_product_image = ProductImage(product_id = product_id,
                                         url = url,
@@ -226,7 +225,8 @@ def get_product_ids_made_by_bcorps():
     result = []
     product_tuples = db.session.query(Product.product_id).select_from(Product).join(Certification, Product.company == Certification.company_certified).filter(Certification.certification == 'Bcorp').all()
     for product_id in product_tuples:
-        result.append(product_id[0])
+        if product_id[0] not in result:
+            result.append(product_id[0])
     return result
 
 def return_bcorp():
@@ -349,7 +349,7 @@ def add_product(productName,productUrl,company,description,category_id,user_id=1
 def get_recently_added_products(user_id):
     productList= []
 
-    recent_products = Product.query.order_by(Product.date_added.desc()).limit(4).all()
+    recent_products = Product.query.order_by(Product.date_added.desc()).limit(3).all()
     for product in recent_products:
         img = get_product_img(product.img_id)
         if product.favorite and product.favorite.user_id == user_id:
@@ -412,7 +412,6 @@ def get_products(user_id=0):
 
 
 def get_products_added_by_user(user_id):
-    # TODO img url can cause problems due to [0] if image ever gets deleted
 
     products = Product.query.filter(Product.user_id == user_id).all()
 
