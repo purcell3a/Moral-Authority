@@ -2,20 +2,24 @@
 
 function TopNav(props){
 
+  const history = useHistory()
 
-    const history = useHistory()
-
-
-    function handleSubmit(evt){
-      evt.preventDefault()
-      localStorage.removeItem('user');
-      props.setUser(undefined)
-      console.log('logged out')
-      history.push('/');
-    }
+  function handleSubmit(evt){
+    evt.preventDefault()
+    localStorage.removeItem('user');
+    props.setUser(undefined)
+    console.log('logged out')
+    history.push('/');
+  }
 
     return(
-        <Navbar scrolling="true" expand="sm" fixed='top' id='topnav'>
+        <Navbar
+        scrolling="true"
+        expand="sm"
+        fixed='top'
+        id='topnav'>
+
+
              <Navbar.Brand><Link to='/'><img
                     src="/static/img/logo.png"
                     width="250"

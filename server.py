@@ -8,7 +8,7 @@ import secrets
 
 
 #! PRODUCT SPECIFIC ROUTES LINE 177
-#! USER ACCOUNT ROUTES LINE 41
+#! USER ACCOUNT ROUTES LINE 45
 #! USER FAVORITE ROUTES LINE 104
 #! GENERAL PRODUCT FILTERS LINE 154
 
@@ -42,7 +42,7 @@ def recently_added_products():
 
     return jsonify(recentProducts)
 
-#! USER ACCOUNT ROUTES
+#!============================= USER ACCOUNT ROUTES =============================
 @app.route('/api/signup', methods=["POST"])
 def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
@@ -109,7 +109,11 @@ def get_user_by_id():
     user = crud.get_user_by_id(user_id)
     return {'fname' : user.fname,'lname' : user.lname, 'id':user.user_id ,'email' : user.email, 'password' : user.password, 'profile_img':user.profile_img}
 
-#! USER FAVORITE ROUTES
+
+
+#! ============================= USER FAVORITE ROUTES =============================
+
+
 @app.route('/api/get-user-favorites', methods=['POST'])
 def get_user_favorites():
     data = request.get_json()
@@ -117,6 +121,8 @@ def get_user_favorites():
     #* GET USER FAVORITES
     favorite_product_list = crud.get_user_favorites(user_id)
     return jsonify(favorite_product_list)
+
+
 
 @app.route('/api/toggle-favorite',methods=['POST'])
 def add_user_favorite():
@@ -140,7 +146,9 @@ def add_user_favorite():
         print(user_favorite)
         return jsonify('Favorite Added!!!!')
 
-#! GENERAL PRODUCT FILTERS
+
+
+#! =============================  GENERAL PRODUCT FILTERS =============================
 @app.route('/api/return-certs')
 def return_all_certs():
     ''' return all certs'''
@@ -164,7 +172,7 @@ def return_list_departments():
     return jsonify(departments)
 
 
-#! PRODUCT SPECIFIC ROUTES LINE 
+#! ============================= PRODUCT SPECIFIC ROUTES LINE  =============================
 @app.route('/api/product-info',methods=['POST'])
 def return_product_info():
     """Returns product info for Product page"""
@@ -173,12 +181,14 @@ def return_product_info():
     product_info = crud.get_product_info(productId)
     return jsonify(product_info)
 
+
 @app.route('/api/user-added-products', methods=['POST'])
 def return_products_added_by_user():
     data = request.get_json()
     user_id = data['user_id']
     products = crud.get_products_added_by_user(user_id)
     return jsonify(products)
+
 
 @app.route('/api/return-products', methods=['POST'])
 def return_products():

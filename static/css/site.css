@@ -1,3 +1,14 @@
+
+/* ============================HOMEPAGE.JSX ==========================line 137*/
+/* ============================ TOPNAV.JSX ========================== line 151*/
+/* ============================ BOTTOMNAV.JSX ========================line 208*/
+/* ============================ SHOP.JSX =============================line 229*/
+/* ============================ PRODUCT-PAGE.JSX =====================line 336*/
+/* ============================ USER-PROFILE.JSX =====================line 346*/
+/* ============================ PROFILE CARD =========================line 412*/
+/* ============================ ADD-PRODUCT.JSX ======================line 548*/
+/* ============================ SIGNUP.JSX ===========================line 585*/
+/* ============================ ABOUT.JSX ============================line 654*/
 /* ====================================== GLOBAL CSS ======================================== */
 
 .truncate-description{
@@ -7,18 +18,22 @@
   text-overflow: ellipsis;
   resize: horizontal;
   font-size: initial;
-  }
+}
+
 
 .certlogo{
   width: initial;
   height: 10rem;
   padding: 1rem;
 }
+
+
 .btn:hover {
   color:rgb(3, 3, 3);
   background:#ffdfae;
   border: white;
 }
+
 
 .row {
   display: flex;
@@ -27,6 +42,8 @@
   width: inherit;
 
 }
+
+
 .container {
   width: max-content;
 }
@@ -38,37 +55,59 @@
   overflow-x:hidden;
 }
 
-
 html {
     min-height: 100vh;
     min-width:100%;
 }
+
+
 body{
     background-image: linear-gradient(to bottom,  #ffffff, rbga(233, 241, 247));
     min-width:100%;
     overflow-x:hidden;
 }
+
+
 .white{
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
-  text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  margin-left: .5rem;
   -moz-osx-font-smoothing: grayscale;
-  color: #adb5bd;
-
+  color: #f5f5f5;
+  position: absolute;
+  top: 3%;
+  z-index: 1000;
+  top: 6%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #323a45;
+  padding: 5px;
+  border-radius: 5px;
 }
+
+
 .red {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
-  text-rendering: auto;
   -webkit-font-smoothing: antialiased;
-  color: maroon;
-  margin-left: .5rem;
   -moz-osx-font-smoothing: grayscale;
+  color: maroon;
+  position: absolute;
+  top: 3%;
+  z-index: 1000;
+  top: 6%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #323a45;
+  padding: 5px;
+  border-radius: 5px;
 }
+
+
 .btn-light {
   color: whitesmoke;
   background-color: #0e2f5a;
@@ -77,14 +116,19 @@ body{
   margin: 0rem;
   padding: .2rem;
 }
+
+
 .btn-primary {
   color: #fff;
   background-color: #0e2f5a;
   border-color: #faf9f88a;
 }
+
+
 .h5, h5 {
   font-size: 1.2rem;
 }
+
 
 a {
   font-family: 'Lato', sans-serif;
@@ -95,10 +139,12 @@ a {
   background-color: transparent;
 }
 
+
 .subtitle{
   justify-content:center;
   margin-top: 2rem;
 }
+
 
 .form-control {
   display: block;
@@ -115,28 +161,41 @@ a {
   border-radius: .25rem;
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+
+
 /* ============================HOMEPAGE.JSX ========================== */
+
 
 .recently-added-container{
   margin-top: 1rem;
+  justify-content: center;
+}
+
+.certification-container{
+  margin-top: 1rem;
   margin-bottom: 5rem;
   justify-content: center;
-
 }
 
 /* ============================ TOPNAV.JSX ========================== */
+
 
 #topnav{
   background-color:transparent;
 }
 
+
 .navbar-nav .nav-link {
   padding-right: 1rem;
   text-align: right;
 }
+
+
 .navbar-light .navbar-nav .nav-link {
   color: #212529;
 }
+
+
 .navbar-light .navbar-brand {
   color: white;
 }
@@ -174,9 +233,12 @@ a {
   background-color: transparent;
   border: 0;
 }
-/* ============================ BOTTOMNAV.JSX ========================== */
-footer {
 
+
+/* ============================ BOTTOMNAV.JSX ========================== */
+
+
+footer {
   position:fixed;
   bottom: 0;
   width: 100%;
@@ -184,17 +246,20 @@ footer {
   text-align: center;
   line-height: 20px;
   padding: .75rem;
-
   height: 3rem;
 }
+
 
 footer a{
   padding:1rem;
 }
 
+
 .about-link-a{
   color:white;
 }
+
+
 /* ============================ SHOP.JSX ========================== */
 
 
@@ -203,6 +268,8 @@ footer a{
   width:max-content;
   width:100%;
 }
+
+
 .product-row{
   margin:.5rem;
   margin-top: 7rem;
@@ -214,6 +281,7 @@ footer a{
 
 }
 
+
 .page-container {
   margin:.5rem;
   margin-top: 7rem;
@@ -222,6 +290,8 @@ footer a{
   width:max-content;
   width:100%;
 }
+
+
 #sidenav{
   background:whitesmoke;
   color: black;
@@ -230,21 +300,26 @@ footer a{
   margin-left: .5rem;
   max-width: fit-content;
 }
+
+
 select {
   margin: 5%;
   width: 90%;
 }
+
 
 .sidenav-search-button{
   width:90%;
   margin:5%;
 }
 
+
 .form-check {
   position: relative;
   display: block;
   padding-left: 2.5rem;
 }
+
 
 .card {
   position: relative;
@@ -267,27 +342,33 @@ select {
   margin-top: 0;
 }
 
+
 .card-title {
   margin-bottom: 0rem;
+  flex-direction: right;
+  flex-wrap:wrap;
 }
 
+
 .card-img, .card-img-top {
-    max-height: 16rem;
-    /* border-top-left-radius: calc(.25rem - 1px); */
-    /* border-top-right-radius: calc(.25rem - 1px); */
-    border-radius: inherit;
+   max-height: 16rem;
+  border-radius: inherit;
 }
+
 
 .more-info-button{
   margin-top:0rem;
   margin-bottom:0rem;
   width:99%;
 }
+
+
 .favorite-button{
   margin:.75rem;
   margin-top:0rem;
   margin-bottom:0rem;
 }
+
 
 .card-body {
   -ms-flex: 1 1 auto;
@@ -295,22 +376,29 @@ select {
   padding: .75rem;
 }
 
+
 .col-12 {
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
 }
+
+
 /* ============================ PRODUCT-PAGE.JSX ========================== */
+
 .productpageimage {
   max-width: 25rem;
   margin-left: 2rem;
 }
 
+
 .productpageinfo{
   margin-top:1rem;
 }
 
+
 /* ============================ USER-PROFILE.JSX ========================== */
+
 
 .profile-page-container{
   margin:.5rem;
@@ -321,19 +409,24 @@ select {
   width:100%;
 }
 
+
 #profile-card-column{
   margin:0
 }
 
+
 .tab-content{
   margin-bottom:1rem;
 }
+
 
 #tabs-column{
   margin-top: 2.2rem;
   overflow: hidden;
   margin-left: 8%;
 }
+
+
 #profile-photo-upload-button{
   color: black;
   width: 70%;
@@ -343,26 +436,34 @@ select {
   margin: .5rem;
 }
 
+
 #save-profile-changes{
   margin-right: .1rem;
   justify-content: flex-end;
 }
+
+
 .nav-tabs {
   margin-left:2rem;
   border-bottom: 1px solid #d9dfe4;
   width: max-content;
 }
 
+
 .tab-container{
   margin:2rem;
   margin-top:1.5rem;
   margin-right:4rem;
 }
+
+
 .btn-primary{
   color: #fff;
   background-color: #323a45;
   border-color: #fd9d2b8a;
 }
+
+
 #upload_widget {
   background-color: #323a45;
   color: #FFFFFF;
@@ -376,7 +477,10 @@ select {
   border-radius: 5px;
   padding: 8px 8px;
 }
+
+
 /* ============================ PROFILE CARD ========================== */
+
 #profile-photo-upload-button {
   color: whitesmoke;
   width: 70%;
@@ -386,10 +490,12 @@ select {
   margin: .5rem;
 }
 
+
 #profile-photo-upload-button:hover{
   color: gold;
   background: black;
 }
+
 
 .profile-card-3 {
   font-family: 'Open Sans', Arial, sans-serif;
@@ -398,17 +504,22 @@ select {
   overflow: hidden;
   width: 100%;
   text-align: center;
-  height:368px;
-  border:none;
-  background-color:transparent;
-  margin:2rem;
+  height: 368px;
+  border: none;
+  background-color: transparent;
+  margin: 2rem;
+  margin-top: 6.2rem;
 }
+
+
 .profile-card-3 .background-block {
     float: left;
     width: 100%;
     height: 200px;
     overflow: hidden;
 }
+
+
 .profile-card-3 .background-block .background {
   width:100%;
   vertical-align: top;
@@ -418,6 +529,8 @@ select {
    -webkit-transform: scale(1.8);
   transform: scale(2.8);
 }
+
+
 .profile-card-3 .card-content {
   width: 100%;
   padding: 15px 25px;
@@ -429,17 +542,21 @@ select {
   position: relative;
   z-index: 9999;
 }
+
+
 .profile-card-3 .card-content::before {
-    content: '';
-    background: linear-gradient(to bottom, #eeedd1, #d8e8fb00); 
-    width: 120%;
-    height: 100%;
-    left: 11px;
-    bottom: 51px;
-    position: absolute;
-    z-index: -1;
-    transform: rotate(-13deg);
+  content: '';
+  background: linear-gradient(to bottom, #eeedd1, #d8e8fb00);
+  width: 120%;
+  height: 100%;
+  left: 11px;
+  bottom: 51px;
+  position: absolute;
+  z-index: -1;
+  transform: rotate(-13deg);
 }
+
+
 .profile-card-3 .profile {
   border-radius: 50%;
   position: absolute;
@@ -453,36 +570,48 @@ select {
   transform: translate(-50%, 0%);
   z-index:99999;
 }
+
+
 .profile-card-3 h2 {
   margin: 0 0 5px;
   font-weight: 600;
   font-size:25px;
 }
+
+
 .profile-card-3 h2 small {
   display: block;
   font-size: 15px;
   margin-top:10px;
 }
+
+
 .profile-card-3 i {
   display: inline-block;
-    font-size: 16px;
-    color: #232323;
-    text-align: center;
-    border: 1px solid #232323;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 50%;
-    margin:0 5px;
+  font-size: 16px;
+  color: #232323;
+  text-align: center;
+  border: 1px solid #232323;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  margin:0 5px;
 }
+
+
 .profile-card-3 .icon-block{
     float:left;
     width:100%;
     margin-top:15px;
 }
+
+
 .profile-card-3 .icon-block a{
     text-decoration:none;
 }
+
+
 .profile-card-3 i:hover {
   background-color:#232323;
   color:#fff;
@@ -490,17 +619,23 @@ select {
 }
 
 /* ============================ ADD-PRODUCT.JSX ========================== */
+
+
+
 #submit-product-button-group{
   justify-content: right;
 }
+
 
 #submit-product-button{
   width:100%
 }
 
+
 #submit-product-description-group{
   margin-top:.5rem;
 }
+
 
 #upload-product-image{
   background-image: url('https://www.chillinoodle.co.uk/skin/frontend/chillinoodle/default/images/catalog/product/placeholder/image.jpg');
@@ -514,24 +649,29 @@ select {
   margin-bottom: .5rem;
 }
 
+
 #upload-product-image-button{
   color:white;
   width: 100%;
 }
 
-/* ============================ SIGNUP.JSX ========================== */
+
+/* ============================ SIGNUP.JSX ==========================*/
+
 
 #loginform{
-    display: block;
-    margin-top: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
+  display: block;
+  margin-top: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
 }
+
 
 .login-form{
   max-width: 40rem;
 }
+
 
 .login-signup-row{
   position:fixed;
@@ -540,36 +680,43 @@ select {
   height: 100vh;
   justify-content: center;
   align-items: center;
-
 }
+
 
 #login-button-row{
   margin: 1rem;
   margin-left: 20%;
 }
+
+
 #login-column{
   background-color: whitesmoke;
   height: 100%;
 }
 
 #signup-column{
-  /* background-color:transparent */
   background-color:#323a45;
   height: 100vh;
 }
+
+
 #login-button{
   width:94%;
 }
+
+
 #register-button-row{
   justify-content: center;
   margin: 1rem;
   margin-left: 20%;
 }
 
+
 #register-button{
   width:94%;
-
 }
+
+
 #signupform{
   display: block;
   margin-top: 40%;
@@ -578,7 +725,8 @@ select {
   width: 60%;
 }
 
-/* ============================ ABOUT.JSX ========================== */
+
+/* ============================ ABOUT.JSX ==========================  */
 
 #aboutmetext{
   color:black;
@@ -589,6 +737,7 @@ select {
   margin: 3rem;
 }
 
+
 .aboutme-page-container{
   align-content: center;
   justify-content: center;
@@ -596,4 +745,18 @@ select {
   width: -webkit-fill-available;
   height: -webkit-fill-available;
   position:fixed;
+}
+
+
+.about-profile-card{
+  font-family: 'Open Sans', Arial, sans-serif;
+  position: relative;
+  float: left;
+  overflow: hidden;
+  width: 100%;
+  text-align: center;
+  height: 368px;
+  border: none;
+  background-color: transparent;
+  margin: 2rem;
 }

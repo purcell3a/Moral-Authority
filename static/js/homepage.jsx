@@ -10,8 +10,8 @@ function Homepage(props) {
   React.useEffect(() =>{
     let user_id = props.user? props.user.id:'0'
     let data = {user_id}
-    fetch('/api/recently-added',{method: "POST",  body: JSON.stringify(data),  headers: {
-      'Content-Type': 'application/json'}})
+    fetch('/api/recently-added',
+    {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
     .then(response => response.json())
     .then(data => setProductCard(data));
   },[]);
@@ -19,30 +19,40 @@ function Homepage(props) {
   function get_recently_added_products(){
     let user_id = props.user? props.user.id:'0'
     let data = {user_id}
-    fetch('/api/recently-added',{method: "POST",  body: JSON.stringify(data),  headers: {
-      'Content-Type': 'application/json'}})
+    fetch('/api/recently-added',
+    {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
     .then(response => response.json())
     .then(data => setProductCard(data));
   }
 
 
   function generateProductCards(){
-    // console.log(productCards)
     const cards = productCards.map((product,index) =>(
-      <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
-      <Card.Img variant="top"  src={product.img_id}/>
-      {console.log(product.img_id)}
-      <Card.Body>
-          <Card.Title className='truncate-description'>{product.title} 
-          <i className={product.product_favorite === 'True'?  "red fa-heart" : "white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
-          </Card.Title>
-          <small>{product.company}</small>
-          <Card.Text className='truncate-description'>
-            {product.description}
-          </Card.Text>
-          <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>More Info</Button>
-      </Card.Body>
-    </Card>
+
+          <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
+
+            <Card.Img variant="top"  src={product.img_id}/>
+
+            <Card.Body>
+
+              <Card.Title>
+                <i className={product.product_favorite === 'True'?  "red fa-heart" : "white fa-heart"} onClick={() => handleFavoriteClick(product.product_id)}></i>
+                <div className='truncate-description'>{product.title}</div>
+              </Card.Title>
+
+              <small>{product.company}</small>
+
+              <Card.Text className='truncate-description'>
+                {product.description}
+              </Card.Text>
+
+              <Button className="more-info-button" variant="primary" onClick={() => handleMoreInfoClick(product.product_id)}>
+                More Info
+              </Button>
+
+            </Card.Body>
+
+          </Card>
       ))
       return cards
   }
@@ -65,8 +75,6 @@ function Homepage(props) {
 
     return (
       <React.Fragment>
-
-
 
           <Carousel>
                 <Carousel.Item>
@@ -101,13 +109,17 @@ function Homepage(props) {
 
           <Row className="recently-added-container">{generateProductCards()}</Row>
 
-          <Row className="recently-added-container">
+          <Row className="subtitle">
+              <h2 className='recently-added' variant="secondary">Trusted Certifications</h2>
+          </Row>
+
+          <Row className="certification-container">
             <Image className='certlogo' src="static/img/logos/bcorplogo.png"></Image>
             <Image className='certlogo' src="static/img/logos/ewgologo.png"></Image>
             <Image className='certlogo' src="static/img/logos/fairtradelogo.png"></Image>
             <Image className='certlogo' src="static/img/logos/leapingbunnylogo.png"></Image>
             <Image className='certlogo' src="static/img/logos/mbe.png"></Image>
-          
+
           </Row>
 
       </React.Fragment>

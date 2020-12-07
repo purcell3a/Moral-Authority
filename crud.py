@@ -351,8 +351,9 @@ def get_recently_added_products(user_id):
 
     recent_products = Product.query.order_by(Product.date_added.desc()).limit(3).all()
     for product in recent_products:
+        favorite = list(product.favorite)
         img = get_product_img(product.img_id)
-        if product.favorite and product.favorite.user_id == user_id:
+        if favorite and favorite[0].user_id == user_id:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
@@ -395,8 +396,9 @@ def get_products(user_id=0):
     all_products =  Product.query.all()
 
     for product in all_products:
+        favorite = product.favorite
         img = get_product_img(product.img_id)
-        if product.favorite and user_id != 0:
+        if favorite and user_id != 0:
             product_favorite = 'True'
         else:
             product_favorite = 'False'
@@ -413,14 +415,16 @@ def get_products(user_id=0):
 
 def get_products_added_by_user(user_id):
 
-    products = Product.query.filter(Product.user_id == user_id).all()
+    #TODO fix this with a join query this is too slow for scaling
 
+    products = Product.query.filter(Product.user_id == user_id).all()
     productList = []
 
     for product in products:
+        is_favorite = Favorite.query.filter(Favorite.product_id == product.product_id, Favorite.user_id == user_id).first()
         img = get_product_img(product.img_id)
-        if product.favorite and user_id != 0:
-            product_favorite = 'True'
+        if is_favorite:
+            product_favorite = 'True' 
         else:
             product_favorite = 'False'
         productObject = {'title':product.title,

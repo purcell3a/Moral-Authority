@@ -77,13 +77,10 @@
 
 
       function toggleCertFilter(cert) {
-        // new set is new set + existing selections
         const newSet = new Set(selectedCerts);
-        //  if selection already present delete it from add
         if (selectedCerts.has(cert)) {
           newSet.delete(cert);
           setSelectedCerts(newSet);
-        // else add new cert and set selected certs to new set
         } else {
           newSet.add(cert);
           setSelectedCerts(newSet);
@@ -171,15 +168,30 @@
               <Col>
 
                   <Form.Group>
-                      <input required type="text" name="product-name" className="form-control"  placeholder= "Product Name" value={productName} onChange={handleProductNameChange}></input>
+                      <input required type="text"
+                              name="product-name"
+                              className="form-control"
+                              placeholder= "Product Name"
+                              value={productName}
+                              onChange={handleProductNameChange}></input>
                   </Form.Group>
 
                   <Form.Group>
-                      <input required type="text" name="product-company" className="form-control" placeholder= "Product Company" value={company} onChange={handleCompanyChange}></input>
+                      <input required type="text"
+                              name="product-company"
+                              className="form-control"
+                              placeholder= "Product Company"
+                              value={company}
+                              onChange={handleCompanyChange}></input>
                   </Form.Group>
 
                   <Form.Group>
-                      <input required type="text" name="product-url" className="form-control" placeholder= "Link to Product" value={productUrl} onChange={handleProductUrlChange}></input>
+                      <input required type="text"
+                              name="product-url"
+                              className="form-control"
+                              placeholder= "Link to Product"
+                              value={productUrl}
+                              onChange={handleProductUrlChange}></input>
                   </Form.Group>
 
                   <Form.Group required>
@@ -195,7 +207,9 @@
                   </Form.Group>
 
                   <Form.Group id="submit-product-button-group">
-                  <Button id="submit-product-button" onClick={handleSubmit} type="submit">Add Product</Button>
+                  <Button id="submit-product-button"
+                          onClick={handleSubmit}
+                          type="submit">Add Product</Button>
                   </Form.Group>
 
               </Col>
