@@ -23,3 +23,8 @@ React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | P
 2. Password recovery using Twilio API
 3. Database Re-design, pagination, more specific queries for larger product load
 
+# To use:
+Download File
+Insert own access key for Cloudinary API
+Run seed_db.py
+Run server.py
