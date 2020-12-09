@@ -1,5 +1,5 @@
 """CRUD operations."""
-# from flask import Flask, render_template, request, flash, session, redirect ,jsonify
+from flask import Flask, render_template, request, flash, session, redirect ,jsonify
 from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification,ProductImage
 import datetime
 import random
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE 
 #  <================================ USER INFO ==================================>
-# https://res.cloudinary.com/purcella/image/upload/v1607230569/testFolder/SPF_dotwack_580x_2x_m3ejhg.jpg
+
 def delete_product():
 
     product1 = Product.query.filter(Product.product_id == 1)
@@ -27,12 +27,9 @@ def add_product_image(product_id, url):
                                         date_added = '2020-11-21',
                                         date_modified = '2020-11-21')
     db.session.add(new_product_image)
-    new_image = ProductImage.query.filter(ProductImage.product_id == product_id, ProductImage.url == url)
-    nid = new_image[0].image_id
-    product = Product.query.filter(Product.product_id==product_id).first()
-    update_product(nid,'Volumizing Shampoo','Attitude','https://attitudeliving.com/collections/hair-care/products/sensitive-skin-shampoo-fragrance-free','Fragrance-free Extra Gentle & Volumizing Natural Shampoo',product_id)
 
     db.session.commit()
+    return new_product_image
 
 
 def update_product(img_id,title,company,url,description,product_id):
@@ -316,7 +313,6 @@ def get_product_id(productName,user_id):
     return product_id.product_id
 
 def get_product_img(img_id):
-    #*  This can be changed later to return multiple images 
     image = db.session.query(ProductImage.url).select_from(ProductImage).filter(ProductImage.image_id == img_id).first()
     return image[0]
 

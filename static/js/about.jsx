@@ -7,7 +7,7 @@ function About(){
         <React.Fragment>
 
             <Row className='aboutme-page-container'>
-
+{/* 
                 <Card style={{ width: '18rem' }} className="about-profile-card">
 
                     <div className="background-block">
@@ -24,7 +24,7 @@ function About(){
                         <Button id="profile-photo-upload-button" href='https://www.linkedin.com/in/purcell3a/'><small>Linked In</small></Button>
                     </Card.Title>
 
-                </Card>
+                </Card> */}
 
                 <Card.Text id='aboutmetext'>
                     <p>This project is dedicated to the disparity of our most valuable resource, Time.</p> 
@@ -39,8 +39,6 @@ function About(){
                     <p>I built Moral Authority as a public resource, for individuals to easily find companies and products which match their
                         values. As Moral Authority grows I see it becoming a source of trusted information empowering individuals to have impact with their
                         purchases.</p>
-
-                    <p> After All, Every Dollar Is A Vote.</p>
 
                 </Card.Text>
 

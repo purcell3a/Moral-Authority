@@ -27,13 +27,12 @@ class User(db.Model):
                         nullable=False)
     date_added = db.Column(db.DateTime,nullable=False)
     date_modified = db.Column(db.DateTime,nullable=False)
-    # rating = db.Column(db.Integer,
-    #                     nullable=True)
 
     def __repr__(self):
         return (f'<User user_id={self.user_id} fname ={self.fname} lname={self.lname} '
                 f'email={self.email} password={self.password} date_added={self.date_added} date_modified={self.date_modified}>')
-# ! why does my repr always give me issues when i try to make it multiple lines SOS
+
+
 class Favorite(db.Model):
     """A users favorite product."""
 
@@ -51,7 +50,9 @@ class Favorite(db.Model):
 
 
     def __repr__(self):
-        return f'<Favorite favorite_id ={self.favorite_id } user_id={self.user_id} product_id={self.product_id} date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<Favorite favorite_id ={self.favorite_id } user_id={self.user_id} product_id={self.product_id}'
+                f'date_added={self.date_added} date_modified={self.date_modified}>')
+
 
 class Category(db.Model):
     """A category."""
@@ -68,7 +69,9 @@ class Category(db.Model):
     date_modified = db.Column(db.DateTime,nullable=False)
 
     def __repr__(self):
-        return f'<Category category_id={self.category_id} title={self.title} subcategory={self.subcategory} date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<Category category_id={self.category_id} title={self.title} subcategory={self.subcategory}'
+                f' date_added={self.date_added} date_modified={self.date_modified}>')
+
 
 class Subcategory(db.Model):
     """A category."""
@@ -88,7 +91,8 @@ class Subcategory(db.Model):
     date_modified = db.Column(db.DateTime, nullable=False,)
 
     def __repr__(self):
-        return f'<Subcategory subcategory_id ={self.subcategory_id } title={self.title} category_id={self.category_id} product_id={self.product_id } date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<Subcategory subcategory_id ={self.subcategory_id } title={self.title} category_id={self.category_id}'
+                f'product_id={self.product_id } date_added={self.date_added} date_modified={self.date_modified}>')
 
 
 class Certification(db.Model):
@@ -110,12 +114,9 @@ class Certification(db.Model):
     date_added = db.Column(db.DateTime,nullable=False,)
     date_modified = db.Column(db.DateTime,nullable=False,)
 
-
-    # productcertification = db.relationship('ProductCertification')
-    # user = db.relationship('User', backref='ratings')
-
     def __repr__(self):
-        return f'<Certification cert_id={self.cert_id} company_certified={self.company_certified} rating={self.rating} max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<Certification cert_id={self.cert_id} company_certified={self.company_certified} rating={self.rating}'
+                f'max_rating={self.max_rating} date_added={self.date_added} date_modified={self.date_modified}>')
 
 
 
@@ -153,7 +154,8 @@ class Product(db.Model):
 
 
     def __repr__(self):
-        return f'<Product product_id={self.product_id} title={self.title} img_id={self.img_id} company={self.company} description={self.description} url={self.url} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<Product product_id={self.product_id} title={self.title} img_id={self.img_id} company={self.company}'
+                f'description={self.description} url={self.url} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>')
 
 
 class ProductImage(db.Model):
@@ -174,6 +176,7 @@ class ProductImage(db.Model):
     def __repr__(self):
         return f'<ProductImage product_id={self.product_id} image_id={self.image_id} url={self.url} date_added={self.date_added} date_modified={self.date_modified}>'
 
+
 class ProductCertification(db.Model):
     """A category."""
 
@@ -193,7 +196,9 @@ class ProductCertification(db.Model):
     date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return f'<ProductCertification productcert_id={self.productcert_id} product_id={self.product_id} cert_id ={self.cert_id} date_added={self.date_added} date_modified={self.date_modified}>'
+        return (f'<ProductCertification productcert_id={self.productcert_id} product_id={self.product_id} cert_id ={self.cert_id}'
+                f'date_added={self.date_added} date_modified={self.date_modified}>')
+
 
 def connect_to_db(flask_app, db_uri='postgresql:///moralauthority', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -219,4 +224,4 @@ if __name__ == '__main__':
     # you in a state of being able to work with the database directly.
 
     connect_to_db(app)
-    # print("Connected to DB.")
+    print("Connected to DB.")

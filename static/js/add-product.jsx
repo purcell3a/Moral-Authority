@@ -156,7 +156,7 @@
       return (
         <React.Fragment>
             <Row>
-            <Col>
+            <Col className="left-add-column">
                   <Image id='upload-product-image' src={file}></Image>
                   <Button id="upload-product-image-button"  onClick={()=> {myWidget.open()}}>Upload Product Image</Button>
 
@@ -165,7 +165,7 @@
                   </Form.Group>
               </Col>
 
-              <Col>
+              <Col className="left-add-column">
 
                   <Form.Group>
                       <input required type="text"
