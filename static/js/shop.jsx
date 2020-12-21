@@ -2,35 +2,16 @@
 
 function Shop(props){
 
+    let { dep } = useParams();
     const [productCards, setProductCards] = React.useState([])
-    const [selectedDepartment, setselectedDepartment] = React.useState('');
-    const [departments, setDepartments] = React.useState({deps:[]});
     const [certs, setCerts] = React.useState([]);
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
     const certsForFilter = Array.from(selectedCerts)
-
+    console.log('allshp')
 
     React.useEffect(() =>{
       get_all_products();
-    },[]);
-
-
-    React.useEffect(() => {
-      fetch('/api/list-departments')
-      .then((response) => {
-          return response.json();
-        })
-      .then(data => {
-          let departmentlist = data.map(dep =>{
-            return {value:dep, display:dep}
-          });
-          setDepartments({
-          deps: [{value: '', display: '(Select a Department)'}].concat(departmentlist)
-        });
-      }).catch(error => {
-        console.log(error);
-      });
     },[]);
 
 
@@ -43,11 +24,12 @@ function Shop(props){
 
     function get_all_products(){
       let user_id = props.user? props.user.id:'0'
-      let data = {user_id}
+      let data = {user_id,dep}
+      console.log('data',data)
       fetch('/api/return-products',
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
-      .then(data => {console.log('GET-ALL-PRODUCTS-DATA',data)
+      .then(data => {console.log('GET-ALL-PRODUCTS-IN-DEP',data)
       setProductCards(data)});
 
     }
@@ -56,9 +38,6 @@ function Shop(props){
       history.push({pathname:`/product-page/${productId}`});
     };
 
-    function handleDepartmentSelect(evt){
-      setselectedDepartment(evt.target.value)
-    }
 
     function handleFavoriteClick(productId){
       let user_id = props.user? props.user.id:alert('Please Log In To Favorite')
@@ -105,22 +84,6 @@ function Shop(props){
     }
 
 
-    function generateDepartments(){
-      const depoptions = departments.deps.map((dep, index) => (
-        <option key={index} value={dep.value}>
-          {dep.display}
-        </option>
-      ))
-      return (
-              <select className='sidenav-department' 
-                      name="departments"
-                      onChange={handleDepartmentSelect} 
-                      value={selectedDepartment}>
-              {depoptions}
-              </select>)
-    }
-
-
     function toggleCertFilter(cert) {
       const newSet = new Set(selectedCerts);
       if (selectedCerts.has(cert)) {
@@ -162,17 +125,13 @@ function Shop(props){
                 <Form onSubmit={handleSubmit} id="sidenav">
                     <Nav defaultActiveKey='/product-search' className="flex-column">
 
-                    <Form.Group>
-                        {generateDepartments()}
-                    </Form.Group>
-
                     <Form.Group className='sidenav-certs'>
                     {generateCertifications()}
                     </Form.Group>
 
                     </Nav>
 
-                  <Button className="sidenav-search-button" 
+                  <Button className="sidenav-search-button"
                           type='submit'>
                           Search
                   </Button>

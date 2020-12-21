@@ -16,56 +16,50 @@ function App() {
       <Router>
 
           <TopNav user={user} setUser={setUser}/>
+          <DepartmentNav/>
 
           <Switch>
                   <Route path="/about">
                       <About/>
-                      <Footer/>
                   </Route>
 
 
                   <Route path='/login'>
                       <Login user={user} setUser={setUser}/>
-                      <Footer/>
                   </Route>
 
 
                   <Route path='/signup'>
                       <Signup setUser={setUser} user={user}/>
-                      <Footer/>
                   </Route>
 
 
                   <Route path='/add-product'>
                       <AddProduct user={user} />
-                      <Footer/>
                   </Route>
 
 
                   <Route path='/user-profile'>
                       <ShowProfile setUser={setUser} user={user}/>
-                      <Footer/>
                   </Route>
 
 
-                  <Route path='/shop'>
+                  <Route path='/shop/:dep'>
                       <Shop user={user} />
-                      <Footer/>
                   </Route>
-
 
                   <Route path='/product-page/:productId'>
                       <ProductPage user={user} />
-                      <Footer/>
                   </Route>
 
 
                   <Route path="/">
                       <Homepage user={user} />
-                      <Footer/>
                   </Route>
 
           </Switch>
+
+          <Footer/>
 
       </Router>
 

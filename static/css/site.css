@@ -185,6 +185,7 @@ a {
 
 #topnav{
   background-color:transparent;
+  height: 8%;
 }
 
 
@@ -235,6 +236,12 @@ a {
   white-space: nowrap;
   background-color: transparent;
   border: 0;
+}
+
+/* ============================ DEPARTMENT-NAV.JSX ========================== */
+
+#department-nav{
+  margin-top: 8%;
 }
 
 
@@ -302,6 +309,7 @@ footer a{
   border-radius:10px;
   margin-left: 6rem;
   max-width: fit-content;
+  min-width: 13rem;
 }
 
 

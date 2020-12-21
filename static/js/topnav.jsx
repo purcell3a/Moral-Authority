@@ -13,6 +13,7 @@ function TopNav(props){
   }
 
     return(
+        <React.Fragment>
         <Navbar
         scrolling="true"
         expand="sm"
@@ -44,6 +45,6 @@ function TopNav(props){
                 </Navbar.Collapse>
         </Navbar>
 
-
+        </React.Fragment>
     );
 }

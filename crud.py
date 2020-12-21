@@ -385,13 +385,14 @@ def get_product_info(productId):
                 'url': product.url,}
     return product
 
-def get_products(user_id=0):
+def get_products_by_department(department,user_id=0):
     # ! To scale would need to paginate
 
     productList= []
-    all_products =  Product.query.all()
 
-    for product in all_products:
+    product_tuples = db.session.query(Product).select_from(Product).join(Category, Product.category_id == Category.category_id).filter(Category.title == department).all()
+
+    for product in product_tuples:
         favorite = product.favorite
         img = get_product_img(product.img_id)
         if favorite and user_id != 0:

@@ -49,7 +49,7 @@ with open(filename, 'r') as file:
         db.session.commit()
 
 
-    for certification in ['EWG', 'FairTrade', 'Leaping Bunny','Plastic Free','Vegan','Minority Owned','Organic']:
+    for certification in ['EWG', 'FairTrade', 'Leaping Bunny','Plastic Free','Vegan','LGBTQ+ Owned','Woman Owned','BIPOC-owned','Organic']:
         new_certification = Certification(company_certified = 'might delete this column',
                                     certification = certification,
                                     rating = 100,

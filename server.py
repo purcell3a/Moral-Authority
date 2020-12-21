@@ -33,10 +33,11 @@ def show_homepage(input_path):
 @app.route('/api/recently-added', methods=["POST"])
 def recently_added_products():
 
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
     user_id = int(data['user_id'])
-    print('*******************************************************************************************')
-    print(user_id)
+    # ****************************** #
 
     recentProducts = crud.get_recently_added_products(user_id)
 
@@ -46,12 +47,15 @@ def recently_added_products():
 @app.route('/api/signup', methods=["POST"])
 def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
-    data = request.get_json()
 
+    #  GET DATA
+    # ****************************** #
+    data = request.get_json()
     fname = data['fname']
     lname = data['lname']
     email = data['email']
     password = data['password']
+    # ****************************** #
 
     existing_user = crud.does_user_exist(email)
     if existing_user == 'user exists':
@@ -64,11 +68,15 @@ def sign_up():
 @app.route('/api/login', methods=["POST"])
 def login_user():
     '''verify user and login'''
+
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
 
     email = data['email']
     password = data['password']
     user = crud.get_user_by_email(email)
+    # ****************************** #
 
     is_user = crud.validate_user(password,email)
 
@@ -83,6 +91,8 @@ def login_user():
 @app.route('/api/change-user-data',methods=['POST'])
 def change_user_data():
 
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
 
     user_id = data['user_id']
@@ -91,11 +101,11 @@ def change_user_data():
     email = data['email']
     password = data['password']
     profilePhoto = data['profilePhoto']
+    # ****************************** #
+
     updatedUser = crud.change_user_data(user_id,password=password,fname=fname,lname=lname,email=email,profilePhoto=profilePhoto)
     updated_user_info = {'fname': updatedUser.fname,
                 'id': updatedUser.user_id}
-    print('****************************************************************************')
-    print('updateUser=',user_id,password,fname,lname,email)
 
     return jsonify ({'status':'Account Updated', 'user': updated_user_info})
 
@@ -103,10 +113,15 @@ def change_user_data():
 @app.route('/api/get-user-by-id',methods=["POST"])
 def get_user_by_id():
     ''' gets all user profile info by id'''
+
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
 
     user_id = data['user_id']
     user = crud.get_user_by_id(user_id)
+    # ****************************** #
+
     return {'fname' : user.fname,'lname' : user.lname, 'id':user.user_id ,'email' : user.email, 'password' : user.password, 'profile_img':user.profile_img}
 
 
@@ -116,9 +131,13 @@ def get_user_by_id():
 
 @app.route('/api/get-user-favorites', methods=['POST'])
 def get_user_favorites():
+
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
     user_id = int(data['user_id'])
-    #* GET USER FAVORITES
+    # ****************************** #
+
     favorite_product_list = crud.get_user_favorites(user_id)
     return jsonify(favorite_product_list)
 
@@ -172,7 +191,7 @@ def return_list_departments():
     return jsonify(departments)
 
 
-#! ============================= PRODUCT SPECIFIC ROUTES LINE  =============================
+#! ============================= PRODUCT SPECIFIC ROUTES =============================
 @app.route('/api/product-info',methods=['POST'])
 def return_product_info():
     """Returns product info for Product page"""
@@ -193,10 +212,19 @@ def return_products_added_by_user():
 @app.route('/api/return-products', methods=['POST'])
 def return_products():
     """return all products"""
+    print('**********************************************************************')
+    print('return_products')
+
+    #  GET DATA
+    # ****************************** #
     data = request.get_json()
     user_id = int(data['user_id'])
+    department = data['dep']
+    # ****************************** #
+    print('**********************************************************************')
+    print(department)
 
-    result = crud.get_products(user_id)
+    result = crud.get_products_by_department(department,user_id)
     return jsonify(result)
 
 
