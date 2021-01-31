@@ -33,7 +33,6 @@ function TopNav(props){
 
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                <Nav.Link><Link to="/shop"> Shop</Link></Nav.Link>
                     <Nav className="mr-auto">
                         {props.user?'':<Nav.Link><Link to="/signup">Login | Signup</Link></Nav.Link>}
                         {props.user?

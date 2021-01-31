@@ -44,8 +44,7 @@ function App() {
                   </Route>
 
 
-                  <Route path='/shop/:dep'>
-                      <Shop user={user} />
+                  <Route exact path='/shop/:dep' exact component={Shop} user={user}>
                   </Route>
 
                   <Route path='/product-page/:productId'>

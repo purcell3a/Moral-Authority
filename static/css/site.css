@@ -185,7 +185,7 @@ a {
 
 #topnav{
   background-color:transparent;
-  height: 8%;
+  height: 3rem;
 }
 
 
@@ -241,8 +241,10 @@ a {
 /* ============================ DEPARTMENT-NAV.JSX ========================== */
 
 #department-nav{
-  margin-top: 8%;
+  margin-top: 3rem;
+  background: linear-gradient(to bottom, #f3eeee, #ffffff);
 }
+
 
 
 /* ============================ BOTTOMNAV.JSX ========================== */
@@ -288,7 +290,6 @@ footer a{
   width:max-content;
   width:100%;
   height: auto;
-
 }
 
 

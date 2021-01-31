@@ -237,39 +237,32 @@ def filter_products():
     #  GET DATA
     # ****************************** #
     data = request.get_json()
-    department = data['selectedDepartment']
+    department = data['dep']
     certifications = (data['selectedCerts'])
+    category_id = crud.get_category_id(department)
     # ****************************** #
 
     #*  IF THERE ARE CERTIFICATIONS GET CERT IDS
     if certifications:
         cert_id_list = []
         for cert in certifications:
-            #*  IF CERTIFICATION IS NOT A BCORP ADD IT CERT_ID_LIST
+
+            #*  IF CERTIFICATION IS NOT A BCORP ADD IN CERT_ID_LIST
             if cert != 'Bcorp':
                 cert_id = crud.get_cert_id_by_title(cert)
                 cert_id_list.append(cert_id)
-            #* GET PRODUCT IDS OF PRODUCTS MADE BY BCORPS
+
+            #* GET PRODUCT IDS OF PRODUCTS MADE BY BCORPS IN DEPARTMENT
             if cert == 'Bcorp':
-                bcorps_product_ids = crud.get_product_ids_made_by_bcorps()
+                bcorps_product_ids = crud.get_product_ids_made_by_bcorps_in_department(category_id)
                 for product_id in bcorps_product_ids:
                         product_ids.append(product_id)
+
         #*  GET PRODUCTS ID'S WITH CERT IDS
         for cert_id in cert_id_list:
-            product_id_list_from_certs = crud.get_product_id_by_cert_id(cert_id)
-            #* IF THERE ARE CERTIFICATIONS AND DEPARTMENTS
-            if department:
-                category_id = crud.get_category_id(department)
-                # * GET PRODUCT IDS WITH category_id AND product_id FROM CERTS
-                for product_id in product_id_list_from_certs:
-                    product_ids = crud.filter_by_department_and_certification(category_id,product_id)
-            else:
-                product_ids = product_id_list_from_certs
-    else:
-        if department != '':
-            category_id = crud.get_category_id(department)
-            product_ids = crud.filter_by_department(category_id)
-    #* NOW LOOP THROUGH PRODUCT IDS AND RETURN PRODUCT OBJECTS 
+            product_id_list_from_certs_and_categories = crud.get_product_id_by_cert_and_category_id(cert_id,category_id)
+
+    #* NOW LOOP THROUGH PRODUCT IDS AND RETURN PRODUCT OBJECTS
     for productId in product_ids:
             product = crud.get_product_info(productId)
             products.append(product)

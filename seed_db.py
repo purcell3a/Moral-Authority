@@ -50,7 +50,7 @@ with open(filename, 'r') as file:
 
 
     for certification in ['EWG', 'FairTrade', 'Leaping Bunny','Plastic Free','Vegan','LGBTQ+ Owned','Woman Owned','BIPOC-owned','Organic']:
-        new_certification = Certification(company_certified = 'might delete this column',
+        new_certification = Certification(certifying_company= 'might delete this column',
                                     certification = certification,
                                     rating = 100,
                                     max_rating = 100,

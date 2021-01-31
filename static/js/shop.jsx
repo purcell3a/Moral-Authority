@@ -8,11 +8,10 @@ function Shop(props){
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
     const certsForFilter = Array.from(selectedCerts)
-    console.log('allshp')
 
     React.useEffect(() =>{
       get_all_products();
-    },[]);
+    },[dep]);
 
 
     React.useEffect(() => {
@@ -108,7 +107,7 @@ function Shop(props){
 
     function handleSubmit(evt){
       evt.preventDefault()
-        let data = {selectedDepartment:selectedDepartment,selectedCerts:certsForFilter}
+        let data = {dep,selectedCerts:certsForFilter}
         fetch('/api/filter-products',
         {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}} )
         .then(response => response.json())

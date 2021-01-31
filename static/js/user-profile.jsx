@@ -42,7 +42,6 @@ function ShowProfile(props) {
     }
 
     function get_user_favorites(){
-      console.log('GET USER FAVORITE IS RUNNING')
       let data = {'user_id' : props.user.id}
       fetch('/api/get-user-favorites' ,
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
