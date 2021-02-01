@@ -9,7 +9,7 @@ from datetime import datetime
 import csv
 
 # import crud
-from model import db, connect_to_db, Certification, Category,Product, ProductImage,User
+from model import db, connect_to_db, Certification, Category,Product, ProductImage,User,Subcategory
 import server
 
 os.system('dropdb moralauthority')
@@ -23,13 +23,14 @@ db.create_all()
 
 #  used geeksforgeeks to work with csv
 
-filename = 'data/B_Corp_Impact_Data.csv'
+bcorpInfo = 'data/B_Corp_Impact_Data.csv'
+categories = 'data/categories.csv'
 
 # ************************************************************************************
-with open(filename, 'r') as file:
+with open(bcorpInfo, 'r') as file:
     csv_file = csv.DictReader(file)
     for row in csv_file:
-        certifications = Certification(company_certified = row['company_name'].strip(),
+        certifications = Certification(certifying_company = row['company_name'].strip(),
                                         certification = 'Bcorp',
                                         cert_status = row['current_status'].strip(),
                                         cert_url = row['b_corp_profile'].strip(),
@@ -47,6 +48,16 @@ with open(filename, 'r') as file:
                                 date_modified='2020-11-21')
         db.session.add(new_category)
         db.session.commit()
+
+    with open(categories, 'r') as file:
+        csv_file = csv.DictReader(file)
+        for row in csv_file:
+            new_subcategory = Subcategory(title=row['subcategory'].strip(),
+                                        category_id=row['categoryID'].strip(),
+                                        date_added='2020-11-21',
+                                        date_modified='2020-11-21')
+            db.session.add(new_subcategory)
+            db.session.commit()
 
 
     for certification in ['EWG', 'FairTrade', 'Leaping Bunny','Plastic Free','Vegan','LGBTQ+ Owned','Woman Owned','BIPOC-owned','Organic']:

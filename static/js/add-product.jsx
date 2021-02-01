@@ -10,8 +10,13 @@
     const [selectedBCorp, setSelectedBcorp] = React.useState('');
     const [departments, setDepartments] = React.useState({deps:[]});
     const [selectedDepartment, setselectedDepartment] = React.useState('');
+
+    const [subCategories, setSubCategories] = React.useState({subcat:[]});
+    const [selectedSubCategory, setSelectedSubCategory] = React.useState('');
+
+
     const [certs, setCerts] = React.useState([]);
-    const [selectedCerts, setSelectedCerts] = React.useState( new Set());
+    const [selectedCerts, setSelectedCerts] = React.useState(new Set());
     const certsForFilter = Array.from(selectedCerts)
     const userFromStorage = JSON.parse(localStorage.getItem('user'));
     const history = useHistory()
@@ -50,53 +55,74 @@
         });
     },[]);
 
+      React.useEffect(() => {
+        fetch('/api/list-departments')
+        .then((response) => {
+            return response.json();
+          })
+        .then(data => {
+            let departmentlist = data.map(dep =>{
+              return {value:dep, display:dep}
+            });
+            setDepartments({
+            deps: [{value: '', display: '(Select a Department)'}].concat(departmentlist)
+          });
+        }).catch(error => {
+          console.log(error);
+        });
+    },[]);
+
     React.useEffect(() => {
-      fetch('/api/list-departments')
-      .then((response) => {
+        let data = {'department':selectedDepartment}
+        console.log('data',data)
+      fetch('/api/list-subCategories',
+       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
+      .then((response) => {console.log(response)
           return response.json();
         })
       .then(data => {
-          let departmentlist = data.map(dep =>{
-            return {value:dep, display:dep}
+          let subCategorylist = data.map(subcat =>{
+            return {value:subcat, display:subcat}
           });
-          setDepartments({
-          deps: [{value: '', display: '(Select a Department)'}].concat(departmentlist)
+          setSubCategories({
+          subcat: [{value: '', display: '(Select a SubCategory)'}].concat(subCategorylist)
         });
       }).catch(error => {
         console.log(error);
-      });
-  },[]);
-
-
-  React.useEffect(() => {
-    fetch('/api/return-certs')
-      .then(response => response.json())
-      .then(data => setCerts(data));
-      },[]);
+      });console.log('subcategories',subCategories)
+    },[selectedDepartment]);
 
 
 
-      function toggleCertFilter(cert) {
-        const newSet = new Set(selectedCerts);
-        if (selectedCerts.has(cert)) {
-          newSet.delete(cert);
-          setSelectedCerts(newSet);
-        } else {
-          newSet.add(cert);
-          setSelectedCerts(newSet);
-        }
+    React.useEffect(() => {
+      fetch('/api/return-certs')
+        .then(response => response.json())
+        .then(data => setCerts(data));
+        },[]);
+
+
+
+    function toggleCertFilter(cert) {
+      const newSet = new Set(selectedCerts);
+      if (selectedCerts.has(cert)) {
+        newSet.delete(cert);
+        setSelectedCerts(newSet);
+      } else {
+        newSet.add(cert);
+        setSelectedCerts(newSet);
       }
+    }
 
-      function generateCertifications(){
-        const certOptions = certs.map((cert,index) => (
-          <Form.Check label={cert}
-                      key={index}
-                      value={cert}
-                      onClick={() => toggleCertFilter(cert)}/>
+    function generateCertifications(){
+      const certOptions = certs.map((cert,index) => (
+        <Form.Check label={cert}
+                    key={index}
+                    value={cert}
+                    onClick={() => toggleCertFilter(cert)}/>
 
-        ))
-        return certOptions
-      }
+      ))
+      return certOptions
+    }
 
     function generateOptions(){
       if (selectedCerts.has("Bcorp")){
@@ -108,6 +134,21 @@
         return(<select name="BCorps"onChange={handleBcorpSelect} value={selectedBCorp}>
               {options}
             </select>)
+      }else{
+        return []
+      }
+    }
+
+    function generateSubCategories(){
+      if (selectedDepartment != null){
+        const options = subCategories.subcat.map((subcat, index) => (
+          <option key={index} value={subcat.value}>
+            {subcat.display}
+          </option>
+        ))
+        return (<select required name="subcategories" onChange={handleSubCategorySelect} value={selectedSubCategory}>
+          {options}
+        </select>)
       }else{
         return []
       }
@@ -127,6 +168,10 @@
     function handleDepartmentSelect(evt){
       setselectedDepartment(evt.target.value)
       }
+
+    function handleSubCategorySelect(evt){
+      setSelectedSubCategory(evt.target.value)
+    }
 
 
     function handleBcorpSelect(evt){
@@ -197,6 +242,10 @@
                   <Form.Group required>
                       {generateDepartments()}
                   </Form.Group>
+
+                    <Form.Group required>
+                      {generateSubCategories()}
+                  </Form.Group> 
 
                   <Form.Group>
                     {generateCertifications()}

@@ -30,6 +30,21 @@ def show_homepage(input_path):
     return render_template('base.html')
 
 
+#  <================================ IN PROGRESS ==================================>
+@app.route('/api/list-subCategories', methods=["POST"])
+def get_subcategory():
+
+    #  GET DATA
+    # ****************************** #
+    data = request.get_json()
+    department = (data['department'])
+    # ****************************** #
+    subcategories = crud.get_subcategory(department)
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',subcategories)
+
+    return jsonify(subcategories)
+
+
 @app.route('/api/recently-added', methods=["POST"])
 def recently_added_products():
 

@@ -1,6 +1,6 @@
 """CRUD operations."""
 from flask import Flask, render_template, request, flash, session, redirect ,jsonify
-from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification,ProductImage
+from model import db, User, connect_to_db, Product, Certification,Category, Favorite,ProductCertification,ProductImage, Subcategory
 import datetime
 import random
 
@@ -10,6 +10,16 @@ logger = logging.getLogger(__name__)
 # TODO LEARN ABOUT LOGGER
 logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE 
+
+#  <================================ IN PROGRESS ==================================>
+def get_subcategory(title):
+
+    result = []
+    subcategories = db.session.query(Subcategory.title).select_from(Subcategory).join(Category, Category.category_id == Subcategory.category_id).filter(Category.title == title).all()
+    for subcategory in subcategories:
+        result.append(subcategory[0])
+    return result
+
 #  <================================ USER INFO ==================================>
 
 def delete_product():

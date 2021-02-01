@@ -80,19 +80,18 @@ class Subcategory(db.Model):
 
     subcategory_id = db.Column(db.Integer,
                         autoincrement=True,
-                        nullable=False)
+                        nullable=False,
+                        primary_key=True)
     title = db.Column(db.String,
                         primary_key=True)
     category_id = db.Column(db.Integer,
                         db.ForeignKey('categories.category_id'))
-    product_id = db.Column(db.Integer,
-                db.ForeignKey('products.product_id'))
     date_added = db.Column(db.DateTime, nullable=False)
     date_modified = db.Column(db.DateTime, nullable=False,)
 
     def __repr__(self):
-        return (f'<Subcategory subcategory_id ={self.subcategory_id } title={self.title} category_id={self.category_id}'
-                f'product_id={self.product_id } date_added={self.date_added} date_modified={self.date_modified}>')
+        return (f'<Subcategory subcategory_id={self.subcategory_id} title={self.title} category_id={self.category_id}'
+                f'date_added={self.date_added} date_modified={self.date_modified}>')
 
 
 class Certification(db.Model):
@@ -199,61 +198,6 @@ class ProductCertification(db.Model):
         return (f'<ProductCertification productcert_id={self.productcert_id} product_id={self.product_id} cert_id ={self.cert_id}'
                 f'date_added={self.date_added} date_modified={self.date_modified}>')
 
-class Company(db.Model):
-    """A Product"""
-
-    __tablename__ = 'companies'
-
-    company_id = db.Column(db.Integer,
-                        autoincrement=True,
-                        nullable=False,
-                        primary_key=True)
-    company_name = db.Column(db.String,
-                        unique=False,
-                        nullable=False)
-    url = db.Column(db.String,
-                        nullable=False)
-    description = db.Column(db.String,
-                        nullable=True)
-    category_id = db.Column(db.Integer,
-                        db.ForeignKey('categories.category_id'),
-                        nullable=True) # TODO change back to false after testing
-    img_id = db.Column(db.Integer,
-                        db.ForeignKey('companyimages.image_id'),
-                        nullable=True) # TODO change back to false after testing
-    user_id = db.Column(db.Integer,
-                        db.ForeignKey('users.user_id'),
-                        nullable=False)
-    date_added = db.Column(db.DateTime,nullable=False,)
-    date_modified = db.Column(db.DateTime,nullable=False,)
-
-    favorite = db.relationship("Favorite")
-
-
-    def __repr__(self):
-        return (f'<Product product_id={self.product_id} title={self.title} img_id={self.img_id} company={self.company}'
-                f'description={self.description} url={self.url} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>')
-
-
-class CompanyImage(db.Model):
-    """A category."""
-
-    __tablename__ = 'productimages'
-
-    image_id = db.Column(db.Integer,
-                        nullable=False,
-                        primary_key=True)
-    company_id = db.Column(db.Integer,
-                        db.ForeignKey('products.product_id'),
-                        nullable=False)
-    url = db.Column(db.String)
-    date_added = db.Column(db.DateTime,nullable=False,)
-    date_modified = db.Column(db.DateTime,nullable=False,)
-
-    def __repr__(self):
-        return f'<ProductImage product_id={self.product_id} image_id={self.image_id} url={self.url} date_added={self.date_added} date_modified={self.date_modified}>'
-
-
 class CompanyCertification(db.Model):
     """A category."""
 
@@ -273,10 +217,58 @@ class CompanyCertification(db.Model):
     date_modified = db.Column(db.DateTime,nullable=False,)
 
     def __repr__(self):
-        return (f'<ProductCertification productcert_id={self.productcert_id} product_id={self.product_id} cert_id ={self.cert_id}'
+        return (f'<CompanyCertification companycert_id={self.companycert_id} company_id={self.company_id} cert_id ={self.cert_id}'
                 f'date_added={self.date_added} date_modified={self.date_modified}>')
 
 
+class CompanyImage(db.Model):
+    """A category."""
+
+    __tablename__ = 'companyimages'
+
+    image_id = db.Column(db.Integer,
+                        nullable=False,
+                        primary_key=True)
+    company_id = db.Column(db.Integer,
+                        db.ForeignKey('companies.company_id'),
+                        nullable=False)
+    url = db.Column(db.String)
+    date_added = db.Column(db.DateTime,nullable=False,)
+    date_modified = db.Column(db.DateTime,nullable=False,)
+
+    def __repr__(self):
+        return f'<CompanyImage company_id={self.company_id} image_id={self.image_id} url={self.url} date_added={self.date_added} date_modified={self.date_modified}>'
+
+class Company(db.Model):
+    """A Product"""
+
+    __tablename__ = 'companies'
+
+    company_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        nullable=False,
+                        primary_key=True)
+    title = db.Column(db.String,
+                        nullable=False)
+    url = db.Column(db.String,
+                        nullable=False)
+    description = db.Column(db.String,
+                        nullable=True)
+    category_id = db.Column(db.Integer,
+                        db.ForeignKey('categories.category_id'),
+                        nullable=True) # TODO change back to false after testing
+    img_id = db.Column(db.Integer,
+                        db.ForeignKey('companyimages.image_id'),
+                        nullable=True) # TODO change back to false after testing
+    user_id = db.Column(db.Integer,
+                        db.ForeignKey('users.user_id'),
+                        nullable=False)
+    date_added = db.Column(db.DateTime,nullable=False,)
+    date_modified = db.Column(db.DateTime,nullable=False,)
+
+    def __repr__(self):
+        return (f'<Company company_id={self.company_id} title={self.title} img_id={self.img_id} description={self.description}'
+                f'url={self.url} category_id ={self.category_id }date_added={self.date_added} date_modified={self.date_modified}>')
 
 def connect_to_db(flask_app, db_uri='postgresql:///moralauthority', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
