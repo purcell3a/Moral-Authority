@@ -32,7 +32,7 @@ Run server.py
 # DB Schema 
 
 * updated schema (02/01/21)
-![DB Schema Img](https://dbdiagram.io/embed/5f9f68363a78976d7b7a0ec0')
+![DB Schema Img](https://dbdiagram.io/embed/5f9f68363a78976d7b7a0ec0)
 
 * original schema (12/18/20)
 ![DB Schema Img](https://res.cloudinary.com/purcella/image/upload/v1608593131/testFolder/Screen_Shot_2020-12-20_at_6.44.20_PM_rlbmta.png)
