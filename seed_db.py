@@ -85,6 +85,7 @@ with open(bcorpInfo, 'r') as file:
                           url = 'none',
                           description = 'test product',
                             category_id = 1,
+                            subcategory_id = 1,
                             user_id = 1,
                             date_added = '2020-11-21',
                             date_modified = '2020-11-21')

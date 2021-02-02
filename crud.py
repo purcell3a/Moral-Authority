@@ -12,8 +12,12 @@ logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE 
 
 #  <================================ IN PROGRESS ==================================>
-def get_subcategory(title):
+def get_subcategory_id(subcategorytitle):
+    subcategory_id = db.session.query(Subcategory.subcategory_id).select_from(Subcategory).filter(Subcategory.title == subcategorytitle).first()
 
+    return subcategory_id[0]
+
+def get_subcategory(title):
     result = []
     subcategories = db.session.query(Subcategory.title).select_from(Subcategory).join(Category, Category.category_id == Subcategory.category_id).filter(Category.title == title).all()
     for subcategory in subcategories:
@@ -331,7 +335,7 @@ def update_product_image(img_id,product_id):
 
     db.session.commit()
 
-def add_product(productName,productUrl,company,description,category_id,user_id=1,img_id=1):
+def add_product(productName,productUrl,company,description,category_id,subcategory_id,user_id=1,img_id=1):
 
     now = datetime.datetime.now()
     new_product= Product(title=productName,
@@ -342,6 +346,7 @@ def add_product(productName,productUrl,company,description,category_id,user_id=1
                         date_added=now,
                         date_modified=now,
                         category_id=category_id,
+                        subcategory_id =subcategory_id,
                         img_id=img_id)
 
     db.session.add(new_product)

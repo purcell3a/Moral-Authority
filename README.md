@@ -17,11 +17,14 @@ BCorp API |  Cloudinary API
 # STACK:
 React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | Python
 
-
-# Planned Features:
-1. Secure login using Oauth
-2. Password recovery using Twilio API
-3. Database Re-design, pagination, more specific queries for larger product load
+# Planned Features & Fixes:
+* User Authentication
+* Oauth
+* Password recovery using Twilio API
+* User roles for product adds
+* Adding product from scraped pages
+* Adding subcategories (in progress)
+* pagination, more specific queries for larger product load
 
 # To use:
 Download File
@@ -36,3 +39,6 @@ Run server.py
 
 * original schema (12/18/20)
 ![DB Schema Img](https://res.cloudinary.com/purcella/image/upload/v1608593131/testFolder/Screen_Shot_2020-12-20_at_6.44.20_PM_rlbmta.png)
+
+# Recently updated:
+1. Redesigned dataase to handle company profiles (02/2021)

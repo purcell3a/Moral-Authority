@@ -10,11 +10,8 @@
     const [selectedBCorp, setSelectedBcorp] = React.useState('');
     const [departments, setDepartments] = React.useState({deps:[]});
     const [selectedDepartment, setselectedDepartment] = React.useState('');
-
     const [subCategories, setSubCategories] = React.useState({subcat:[]});
     const [selectedSubCategory, setSelectedSubCategory] = React.useState('');
-
-
     const [certs, setCerts] = React.useState([]);
     const [selectedCerts, setSelectedCerts] = React.useState(new Set());
     const certsForFilter = Array.from(selectedCerts)
@@ -27,8 +24,8 @@
 
     function handleSubmit(evt){
       evt.preventDefault()
-      console.log(productName, company,productUrl,description,selectedBCorp,'selecteddepartment=',selectedDepartment,'selectedCerts:', certsForFilter,'user_id',userFromStorage.id, 'file=',file)
-      let data = {productName:productName, company:company, productUrl:productUrl, description:description, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter,user_id:userFromStorage.id, img:file }
+      console.log('selectedSubCategory',selectedSubCategory)
+      let data = {selectedSubCategory:selectedSubCategory, productName:productName, company:company, productUrl:productUrl, description:description, selectedBCorp:selectedBCorp,category:selectedDepartment, selectedCerts:certsForFilter,user_id:userFromStorage.id, img:file }
       fetch('/api/add-product',{method: "POST",  body: JSON.stringify(data),  headers: {
         'Content-Type': 'application/json'}} )
       .then(response => response.json())

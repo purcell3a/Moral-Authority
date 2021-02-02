@@ -40,7 +40,6 @@ def get_subcategory():
     department = (data['department'])
     # ****************************** #
     subcategories = crud.get_subcategory(department)
-    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$',subcategories)
 
     return jsonify(subcategories)
 
@@ -298,6 +297,7 @@ def add_product():
     # ****************************** #
 
     #  INFO THAT NEEDS MORE PROCESSING
+    selectedSubCategory = data['selectedSubCategory'] #! IP
     category_from_data = data['category']
     selectedCerts = data['selectedCerts']
     img_url = data['img']
@@ -306,6 +306,8 @@ def add_product():
     # GET DEPARTMENT/CATEGORY ID FROM DB BASED ON DATA
     category_id = crud.get_category_id(category_from_data)
 
+    # GET SUBCATEGORY ID FROM DB BASED ON DATA
+    subcategory_id = crud.get_subcategory_id(selectedSubCategory) #! IP
 
     #  GET ALL CERT IDS FOR CERTS GIVEN IF THEY AREN'T A BCORP
     cert_id_list = []
@@ -317,7 +319,7 @@ def add_product():
     #  IF THERE IS A BCORP IGNORE THE COMPANY PROVIDED (we can do this on the front end later maybe?)
     if bcorp:
         company = bcorp
-    new_product = crud.add_product(productName,productUrl,company,description,category_id,user_id)
+    new_product = crud.add_product(productName,productUrl,company,description,category_id,subcategory_id,user_id)
     product_id = crud.get_product_id(productName,user_id)
     if img_url:
         image_id = crud.add_image(img_url,product_id)
