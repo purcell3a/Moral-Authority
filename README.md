@@ -25,6 +25,7 @@ React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | P
 * Adding product from scraped pages
 * Adding subcategories (in progress)
 * pagination, more specific queries for larger product load
+* add search to b-corp drop down in add-product
 
 # To use:
 Download File
