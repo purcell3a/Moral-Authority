@@ -199,6 +199,13 @@ def return_bcorps():
     return jsonify(bcorps)
 
 
+@app.route('/api/list-departments-subcategories')
+def return_departments_subcateogries():
+    ''' return list of departments/categories'''
+    departments_categories = crud.return_departments_subcateogries()
+    return jsonify(departments_categories)
+
+
 @app.route('/api/list-departments')
 def return_list_departments():
     ''' return list of departments/categories'''
@@ -334,5 +341,5 @@ def add_product():
 
 if __name__ == '__main__':
     connect_to_db(app)
-    app.run()
+    app.run(debug=True, host='0.0.0.0')
     # connect_to_db(app)

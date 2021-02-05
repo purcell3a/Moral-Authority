@@ -17,12 +17,22 @@ def get_subcategory_id(subcategorytitle):
 
     return subcategory_id[0]
 
-def get_subcategory(title):
+def get_subcategory(departmentTitle):
     result = []
-    subcategories = db.session.query(Subcategory.title).select_from(Subcategory).join(Category, Category.category_id == Subcategory.category_id).filter(Category.title == title).all()
+    subcategories = db.session.query(Subcategory.title).select_from(Subcategory).join(Category, Category.category_id == Subcategory.category_id).filter(Category.title == departmentTitle).all()
     for subcategory in subcategories:
         result.append(subcategory[0])
     return result
+
+
+def return_departments_subcateogries():
+
+    departments_subcategories= {}
+    all_departments = db.session.query(Category.title).select_from(Category).all()
+    for department in all_departments:
+            subcats = get_subcategory(department)
+            departments_subcategories[department[0]] = subcats
+    return departments_subcategories
 
 #  <================================ USER INFO ==================================>
 
@@ -205,15 +215,6 @@ def get_bcorps():
 
     return company_list
 
-
-# def filter_by_department_and_certification(category_id,product_id):
-
-#     product_id_list = []
-#     result =  Product.query.filter(Product.category_id == category_id, Product.product_id == product_id).all()
-#     for products in result:
-#         product_id_list.append(products.product_id)
-#     return  product_id_list
-
 def get_category_id(title):
 
     result = Category.query.filter(Category.title == title).first()
@@ -267,10 +268,9 @@ def return_certifications():
 def return_departments():
 
     departments= []
-    all_departments = Category.query.all()
+    all_departments = db.session.query(Category.title).select_from(Category).all()
     for department in all_departments:
-        if department.title not in departments:
-            departments.append(department.title)
+            departments.append(department[0])
     return departments
 
 def add_new_category(category):

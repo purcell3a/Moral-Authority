@@ -65,12 +65,11 @@ class Category(db.Model):
                         nullable=False,
                         primary_key=True)
     title = db.Column(db.String,nullable=False, unique=True)
-    subcategory = db.Column(db.Integer, nullable=True)
     date_added = db.Column(db.DateTime,nullable=False)
     date_modified = db.Column(db.DateTime,nullable=False)
 
     def __repr__(self):
-        return (f'<Category category_id={self.category_id} title={self.title} subcategory={self.subcategory}'
+        return (f'<Category category_id={self.category_id} title={self.title}'
                 f' date_added={self.date_added} date_modified={self.date_modified}>')
 
 
