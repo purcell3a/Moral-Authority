@@ -16,26 +16,6 @@ function DepartmentNav(){
       },[]);
 
 
-    //   React.useEffect(() => {
-    //     console.log('data',data)
-    //   fetch('/api/list-subCategories',
-    //    {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
-    //   .then((response) => {console.log(response)
-    //       return response.json();
-    //     })
-    //   .then(data => {
-    //       let dep = data.map(subcat =>{
-    //         return {value:subcat, display:subcat}
-    //       });
-    //       setSubCategories({
-    //       subcat: [{value: '', display: '(Select a SubCategory)'}].concat(subCategorylist)
-    //     });
-    //   }).catch(error => {
-    //     console.log(error);
-    //   });console.log('subcategories',subCategories)
-    // },[selectedDepartment]);
-
-
     function handleDepartmentSelect(dep){
         history.push({pathname:`/shop/${dep}`});
         console.log('push to',dep)

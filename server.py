@@ -241,12 +241,15 @@ def return_products():
     # ****************************** #
     data = request.get_json()
     user_id = int(data['user_id'])
-    department = data['dep']
+    # department = data['dep']
+    subcategory = data['cat']
     # ****************************** #
     print('**********************************************************************')
-    print(department)
+    # print(department)
+    print(subcategory)
 
-    result = crud.get_products_by_department(department,user_id)
+    result = crud.get_products_by_subcategory(subcategory,user_id)
+    # result = crud.get_products_by_department(department,user_id)
     return jsonify(result)
 
 

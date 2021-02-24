@@ -2,7 +2,9 @@
 
 function Shop(props){
 
-    let { dep } = useParams();
+    // let { dep } = useParams();
+    let { cat} = useParams();
+    console.log(props)
     const [productCards, setProductCards] = React.useState([])
     const [certs, setCerts] = React.useState([]);
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
@@ -11,7 +13,7 @@ function Shop(props){
 
     React.useEffect(() =>{
       get_all_products();
-    },[dep]);
+    },[cat]);
 
 
     React.useEffect(() => {
@@ -23,7 +25,7 @@ function Shop(props){
 
     function get_all_products(){
       let user_id = props.user? props.user.id:'0'
-      let data = {user_id,dep}
+      let data = {user_id,cat}
       console.log('data',data)
       fetch('/api/return-products',
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
@@ -32,10 +34,6 @@ function Shop(props){
       setProductCards(data)});
 
     }
-
-    function handleMoreInfoClick(productId){
-      history.push({pathname:`/product-page/${productId}`});
-    };
 
 
     function handleFavoriteClick(productId){

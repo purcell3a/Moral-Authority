@@ -143,7 +143,6 @@ class Product(db.Model):
                         nullable=True) # TODO change back to false after testing
     subcategory_id = db.Column(db.Integer,
                         db.ForeignKey('subcategories.subcategory_id'),
-                        unique=True,
                         nullable=True) # TODO change back to false after testing
     img_id = db.Column(db.Integer,
                         db.ForeignKey('productimages.image_id'),

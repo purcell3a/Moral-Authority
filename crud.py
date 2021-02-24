@@ -398,6 +398,30 @@ def get_product_info(productId):
                 'url': product.url,}
     return product
 
+def get_products_by_subcategory(subcategory,user_id=0):
+        # ! To scale would need to paginate
+
+    productList= []
+
+    product_tuples = db.session.query(Product).select_from(Product).join(Subcategory, Product.subcategory_id == Subcategory.subcategory_id).filter(Subcategory.title == subcategory).all()
+    for product in product_tuples:
+        favorite = product.favorite
+        img = get_product_img(1)
+        if favorite and user_id != 0:
+            product_favorite = 'True'
+        else:
+            product_favorite = 'False'
+        productObject = {'title':product.title,
+                    'description': product.description,
+                    'product_id' : product.product_id,
+                    'img_id':img,
+                    'company': product.company,
+                    'url': product.url,
+                    'product_favorite':product_favorite}
+        productList.append(productObject)
+    return productList
+
+
 def get_products_by_department(department,user_id=0):
     # ! To scale would need to paginate
 

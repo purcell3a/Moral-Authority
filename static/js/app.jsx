@@ -44,13 +44,15 @@ function App() {
                   </Route>
 
 
-                  <Route exact path='/shop/:dep' exact component={Shop} user={user}>
-                  </Route>
+                  {/* <Route exact path='/shop/:dep' exact component={Shop} user={user}>
+                  </Route> */}
 
                   <Route path='/product-page/:productId'>
                       <ProductPage user={user} />
                   </Route>
 
+                  <Route path='/shop/:cat' exact component={Shop} user={user}>
+                  </Route>
 
                   <Route path="/">
                       <Homepage user={user} />

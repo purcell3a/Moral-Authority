@@ -23,7 +23,6 @@ React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | P
 * Password recovery using Twilio API
 * User roles for product adds
 * Adding product from scraped pages
-* Adding subcategories (in progress)
 * pagination, more specific queries for larger product load
 * add search to b-corp drop down in add-product
 
@@ -42,4 +41,5 @@ Run server.py
 ![DB Schema Img](https://res.cloudinary.com/purcella/image/upload/v1608593131/testFolder/Screen_Shot_2020-12-20_at_6.44.20_PM_rlbmta.png)
 
 # Recently updated:
-1. Redesigned dataase to handle company profiles (02/2021)
+1. Redesigned database to handle company profiles (02/2021)
+2. Adding subcategories (02/2021)
