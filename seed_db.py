@@ -111,7 +111,7 @@ with open(bcorpInfo, 'r') as file:
     db.session.add(new_product)
     db.session.commit()
 
-    for photo in ["https://res.cloudinary.com/purcella/image/upload/v1607216629/testFolder/image_bpi3xn.jpg"]:
+    for photo in ['https://res.cloudinary.com/purcella/image/upload/v1607216629/testFolder/image_bpi3xn.jpg']:
         new_product_image = ProductImage(product_id = 1,
                                         url = photo,
                                         date_added = '2020-11-21',

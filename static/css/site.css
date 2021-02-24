@@ -655,7 +655,7 @@ margin-left: 3%;
 
 
 #upload-product-image{
-  background-image: url('https://www.chillinoodle.co.uk/skin/frontend/chillinoodle/default/images/catalog/product/placeholder/image.jpg');
+  background-image: url('https://res.cloudinary.com/purcella/image/upload/v1607216629/testFolder/image_bpi3xn.jpg');
   background-position: center; /* Center the image */
   min-width:16rem;
   min-height:16rem;
