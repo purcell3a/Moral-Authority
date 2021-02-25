@@ -331,7 +331,7 @@ def get_product_img(img_id):
 def update_product_image(img_id,product_id):
 
     product = Product.query.filter(Product.product_id==product_id).first()
-    update_product = product.img_id = img_id
+    product.img_id = img_id
 
     db.session.commit()
 
@@ -406,7 +406,7 @@ def get_products_by_subcategory(subcategory,user_id=0):
     product_tuples = db.session.query(Product).select_from(Product).join(Subcategory, Product.subcategory_id == Subcategory.subcategory_id).filter(Subcategory.title == subcategory).all()
     for product in product_tuples:
         favorite = product.favorite
-        img = get_product_img(1)
+        img = get_product_img(product.product_id)
         if favorite and user_id != 0:
             product_favorite = 'True'
         else:

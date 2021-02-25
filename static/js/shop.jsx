@@ -3,8 +3,7 @@
 function Shop(props){
 
     // let { dep } = useParams();
-    let { cat} = useParams();
-    console.log(props)
+    let {cat} = useParams();
     const [productCards, setProductCards] = React.useState([])
     const [certs, setCerts] = React.useState([]);
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());

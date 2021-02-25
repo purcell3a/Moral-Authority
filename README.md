@@ -21,9 +21,9 @@ React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | P
 * User Authentication
 * Oauth
 * Password recovery using Twilio API
-* User roles for product adds
-* Adding product from scraped pages
-* pagination, more specific queries for larger product load
+* User roles for product adds - IN PROGRESS
+* Adding product from scraped pages - IN PROGRESS
+* pagination, more specific queries for larger product load - IN PROGRESS
 * add search to b-corp drop down in add-product
 
 # To use:

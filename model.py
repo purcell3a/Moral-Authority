@@ -26,6 +26,9 @@ class User(db.Model):
                         unique=True)
     password = db.Column(db.String,
                         nullable=False)
+    # authorization = db.Column(db.Integer,
+    #                     nullable=False,
+    #                     unique=False)
     date_added = db.Column(db.DateTime,nullable=False)
     date_modified = db.Column(db.DateTime,nullable=False)
 

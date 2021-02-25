@@ -9,7 +9,7 @@ from datetime import datetime
 import csv
 
 # import crud
-from model import db, connect_to_db, Certification, Category,Product, ProductImage,User,Subcategory
+from model import db, connect_to_db, Certification, Category,Product, ProductImage,User,Subcategory,ProductCertification
 import server
 
 os.system('dropdb moralauthority')
@@ -61,6 +61,7 @@ with open(bcorpInfo, 'r') as file:
             db.session.commit()
 
 
+
     for certification in ['EWG', 'FairTrade', 'Leaping Bunny','Plastic Free','Vegan','LGBTQ+ Owned','Woman Owned','BIPOC-owned','Organic']:
         new_certification = Certification(certifying_company= 'might delete this column',
                                     certification = certification,
@@ -81,22 +82,71 @@ with open(bcorpInfo, 'r') as file:
     db.session.add(new_user)
     db.session.commit()
 
+    def add_image(img_url,product_id):
+        new_image= ProductImage(product_id=product_id,
+                            url=img_url,
+                            date_added='2020-11-21',
+                            date_modified='2020-11-21')
 
+        db.session.add(new_image)
+        db.session.commit()
+        return new_image.image_id
+
+    def update_product_image(img_id,product_id):
+
+        product = Product.query.filter(Product.product_id==product_id).first()
+        product.img_id = img_id
+
+        db.session.commit()
+
+
+    def get_product_id(productName,user_id):
+
+        product_id = Product.query.filter(Product.title == productName,Product.user_id == user_id).first()
+        return product_id.product_id
+
+    ewgProductdic = []
     with open(ewgProducts, 'r') as file:
         csv_file = csv.DictReader(file)
         for row in csv_file:
+            subcat = row['Subcategory'].strip()
+            subcategory_id = db.session.query(Subcategory.subcategory_id).select_from(Subcategory).filter(Subcategory.title == subcat).first()
             product = Product(title = row['Title'].strip(),
                                             company = row['Brand'].strip(),
                                             url = row['Link'].strip(),
                                             description = row['Where To Find'].strip(),
                                             category_id = 1,
-                                            subcategory_id = 1,
+                                            subcategory_id = subcategory_id[0],
+                                            # img_id = row['Image'].strip(),
                                             user_id = 1,
                                             date_added = '11-04-2020',
                                             date_modified = '11-04-2020')
 
+            # ewgProductdic.append((product.product_id,row['Image'].strip()))
+            # image_id = add_image(Product.product_id,row['Image'].strip())
+            # ewgProductdic[product.product_id] = image_id
+            img =  row['Image'].strip()
             db.session.add(product)
+
+            ewgProductdic.append((product,img))
             db.session.commit()
+
+
+
+    for product in ewgProductdic:
+        product,img_url = product
+        productcert =  ProductCertification(
+                            product_id = product.product_id,
+                            cert_id = 1,
+                            date_added = '11-04-2020',
+                            date_modified = '11-04-2020')
+        image_id = add_image(img_url,product.product_id)
+        print('####################################################################################################',product.product_id)
+        print('####################################################################################################',image_id)
+        update_product_image(image_id,product.product_id)
+
+        db.session.add(productcert)
+        db.session.commit()
 
 
     new_product = Product(title = 'Product1',
