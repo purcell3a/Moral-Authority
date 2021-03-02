@@ -9,6 +9,40 @@
 /* ============================ ADD-PRODUCT.JSX ======================line 548*/
 /* ============================ SIGNUP.JSX ===========================line 585*/
 /* ============================ ABOUT.JSX ============================line 654*/
+
+#pagination-row{
+  margin-top: 2rem;
+  margin-bottom: -2rem;
+  justify-content: center;
+}
+.page-item{
+  display: list-item;
+  text-align: -webkit-match-parent;
+  list-style: none;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #323a45;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.btn-primary.active{
+  color: #fff;
+  background-color: #323a45;
+  border-color: #ffc107; 
+}
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #323a45;
+  border-color: #ffc107;
+}
 /* ====================================== GLOBAL CSS ======================================== */
 .left-add-column{
   max-width:25rem;
@@ -284,7 +318,7 @@ footer a{
 
 .product-row{
   margin:.5rem;
-  margin-top: 7rem;
+  margin-top: 3rem;
   margin-bottom:5rem;
   width: 100vw;
   width:max-content;
@@ -363,7 +397,7 @@ select {
 
 
 .card-img, .card-img-top {
-   max-height: 16rem;
+  height: 16rem;
   border-radius: inherit;
 }
 
@@ -383,6 +417,7 @@ select {
 
 
 .card-body {
+  height: 9rem;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: .75rem;

@@ -43,3 +43,5 @@ Run server.py
 # Recently updated:
 1. Redesigned database to handle company profiles (02/2021)
 2. Adding subcategories (02/2021)
+
+

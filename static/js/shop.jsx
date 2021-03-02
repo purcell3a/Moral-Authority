@@ -22,10 +22,51 @@ function Shop(props){
     },[]);
 
 
+    // ==================================== IN PROGRESS ===========================================
+
+    let active = 2;
+    let items = [];
+
+    function paginationBasic(){
+      for (let number = 1; number <= 5; number++) {
+        items.push(
+          <Pagination.Item key={number} active={number === active}>
+            {number}
+          </Pagination.Item>
+        )};
+      return items
+    }
+
+
+    function usePagination(data, itemsPerPage) {
+      const [currentPage, setCurrentPage] = useState(1);
+      const maxPage = Math.ceil(data.length / itemsPerPage);
+    }
+
+    function currentData() {
+      const begin = (currentPage - 1) * itemsPerPage;
+      const end = begin + itemsPerPage;
+      return data.slice(begin, end);
+    }
+
+    function next() {
+      setCurrentPage((currentPage) => Math.min(currentPage + 1, maxPage));
+    }
+
+    function prev() {
+      setCurrentPage((currentPage) => Math.max(currentPage - 1, 1));
+    }
+
+    function jump(page) {
+      const pageNumber = Math.max(1, page)
+      setCurrentPage((currentPage) => Math.min(pageNumber, maxPage));
+    }
+
+    // ==================================== IN PROGRESS ===========================================
+
     function get_all_products(){
       let user_id = props.user? props.user.id:'0'
       let data = {user_id,cat}
-      console.log('data',data)
       fetch('/api/return-products',
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
@@ -113,8 +154,12 @@ function Shop(props){
 
     return (
       <React.Fragment>
-          <Row className="product-row">
 
+            <Row id='pagination-row'>
+            {paginationBasic()}
+            </Row>
+
+          <Row className="product-row">
 
             <Col xs={6} md={3}>
 
