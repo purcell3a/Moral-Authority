@@ -6,7 +6,7 @@ function Footer(){
 
         <footer id='bottomnav'>
                 <Link className='about-link-a' to="/about">About</Link>
-                <Link className='about-link-a' href='https://www.instagram.com/moralauthority'>Instagram</Link>
+                <a className='about-link-a' href="https://www.instagram.com/moralauthority" target="_blank">Instagram</a>
        </footer>
 
 

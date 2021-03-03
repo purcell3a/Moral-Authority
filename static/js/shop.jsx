@@ -9,6 +9,8 @@ function Shop(props){
     const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
     const certsForFilter = Array.from(selectedCerts)
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [maxPage, setMaxPage] = React.useState(5);
 
     React.useEffect(() =>{
       get_all_products();
@@ -23,24 +25,25 @@ function Shop(props){
 
 
     // ==================================== IN PROGRESS ===========================================
-
-    let active = 2;
+    let active = currentPage
     let items = [];
 
     function paginationBasic(){
-      for (let number = 1; number <= 5; number++) {
+      for (let number = 1; number <= maxPage; number++) {
         items.push(
-          <Pagination.Item key={number} active={number === active}>
+          <Pagination.Item key={number} active={number === active} onClick={() => jump(number)}>
             {number}
           </Pagination.Item>
         )};
-      return items
-    }
-
-
-    function usePagination(data, itemsPerPage) {
-      const [currentPage, setCurrentPage] = useState(1);
-      const maxPage = Math.ceil(data.length / itemsPerPage);
+      return (
+        <React.Fragment>
+          <Pagination.First onClick={() => jump(1)}/>
+          <Pagination.Prev onClick={() => prev()}/>
+            {items}
+          <Pagination.Next onClick={() => next()}/>
+          <Pagination.Last onClick={() => jump(maxPage)}/>
+        </React.Fragment>
+        )
     }
 
     function currentData() {
@@ -70,11 +73,11 @@ function Shop(props){
       fetch('/api/return-products',
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
-      .then(data => {console.log('GET-ALL-PRODUCTS-IN-DEP',data)
-      setProductCards(data)});
-
+      .then(data => {
+        setMaxPage(Math.ceil(data.length / 25))
+        setProductCards(data)
+      });
     }
-
 
     function handleFavoriteClick(productId){
       let user_id = props.user? props.user.id:alert('Please Log In To Favorite')
