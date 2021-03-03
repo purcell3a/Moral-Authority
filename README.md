@@ -11,6 +11,8 @@ With Moral Authority users can search for products based on  the Social, Environ
 # With Moral Authority:
 
 1. Users can create account, login & logout
+![results](static/img/readme/login-signup.png)
+
 2. Users can view & edit profile
 ![results](static/img/readme/profile.png)
 
@@ -26,12 +28,12 @@ BCorp API |  Cloudinary API
 React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | Python
 
 # Planned Features & Fixes:
+* Password security with Argon2i
 * User Authentication
 * Oauth
 * Password recovery using Twilio API
 * User roles for product adds - IN PROGRESS
 * Adding product from scraped pages - IN PROGRESS
-* pagination, more specific queries for larger product load - IN PROGRESS
 * add search to b-corp drop down in add-product
 
 # To use:
@@ -51,5 +53,4 @@ Run server.py
 # Recently updated:
 1. Redesigned database to handle company profiles (02/2021)
 2. Adding subcategories (02/2021)
-
-
+3. Pagination (3/2021)
