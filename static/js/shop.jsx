@@ -11,9 +11,13 @@ function Shop(props){
     const certsForFilter = Array.from(selectedCerts)
     const [currentPage, setCurrentPage] = React.useState(1);
     const [maxPage, setMaxPage] = React.useState(5);
+    const [companySearch, setCompanySearch] = React.useState({compset:[]})
+    let active = currentPage
+    let items = [];
 
     React.useEffect(() =>{
       get_all_products();
+      setCurrentPage(1)
     },[cat]);
 
 
@@ -25,9 +29,27 @@ function Shop(props){
 
 
     // ==================================== IN PROGRESS ===========================================
-    let active = currentPage
-    let items = [];
 
+    var resultComps = [];
+
+    function generateCompanies(){
+      console.log(companySearch.compset)
+      const companyOptions = companySearch.compset.map((product,index) => (
+        
+        <Form.Check label={product.value}
+                    key={index}
+                    value={product.value}
+                    onClick={() => toggleCertFilter(product)}/>
+
+      ))
+      return(
+        <React.Fragment>
+          <h6>Companies</h6>
+          {companyOptions}
+        </React.Fragment>
+      )
+    }
+    // ==================================== IN PROGRESS ===========================================
     function paginationBasic(){
       for (let number = 1; number <= maxPage; number++) {
         items.push(
@@ -58,12 +80,18 @@ function Shop(props){
       const pageNumber = Math.max(1, page)
       setCurrentPage((currentPage) => Math.min(pageNumber, maxPage));
     }
-    
+
     function handleMoreInfoClick(productId){
       history.push({pathname:`/product-page/${productId}`});
     };
 
-    // ==================================== IN PROGRESS ===========================================
+      // .then(data => {
+      //     let bcorplist = data.map(corp =>{
+      //       return {value:corp, display:corp}
+      //     });
+      //     setBcorps({
+      //     corps: [{value: '', display: '(Select your bcorp)'}].concat(bcorplist)
+      //   });
 
     function get_all_products(){
       let user_id = props.user? props.user.id:'0'
@@ -72,11 +100,30 @@ function Shop(props){
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
       .then(data => {
+        let compList = data.map(product => {
+          return ({value:product.company})
+        });
+        const compset = compList.sort()
+        setCompanySearch({
+          compset:compset
+        })
         setMaxPage(Math.ceil(data.length / 25))
         setProductCards(data)
         currentData()
       });
     }
+
+      // .then(data => {
+      //     let departmentlist = data.map(dep =>{
+      //       return {value:dep, display:dep}
+      //     });
+      //     setDepartments({
+      //     deps: [{value: '', display: '(Select a Department)'}].concat(departmentlist)
+      //   });
+      // }).catch(error => {
+      //   console.log(error);
+      // });
+
 
     function handleFavoriteClick(productId){
       let user_id = props.user? props.user.id:alert('Please Log In To Favorite')
@@ -146,8 +193,14 @@ function Shop(props){
                     onClick={() => toggleCertFilter(cert)}/>
 
       ))
-      return certOptions
+      return(
+        <React.Fragment>
+          <h6>Product Certifications</h6>
+          {certOptions}
+        </React.Fragment>
+      ) 
     }
+
 
     function handleSubmit(evt){
       evt.preventDefault()
@@ -161,9 +214,9 @@ function Shop(props){
     return (
       <React.Fragment>
 
-            <Row id='pagination-row'>
-            {paginationBasic()}
-            </Row>
+          <Row id='pagination-row'>
+              {paginationBasic()}
+          </Row>
 
           <Row className="product-row">
 
@@ -174,6 +227,7 @@ function Shop(props){
 
                     <Form.Group className='sidenav-certs'>
                     {generateCertifications()}
+                    {generateCompanies()}
                     </Form.Group>
 
                     </Nav>
