@@ -58,6 +58,10 @@ function Shop(props){
       const pageNumber = Math.max(1, page)
       setCurrentPage((currentPage) => Math.min(pageNumber, maxPage));
     }
+    
+    function handleMoreInfoClick(productId){
+      history.push({pathname:`/product-page/${productId}`});
+    };
 
     // ==================================== IN PROGRESS ===========================================
 
