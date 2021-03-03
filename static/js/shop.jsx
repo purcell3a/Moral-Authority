@@ -46,12 +46,6 @@ function Shop(props){
         )
     }
 
-    function currentData() {
-      const begin = (currentPage - 1) * itemsPerPage;
-      const end = begin + itemsPerPage;
-      return data.slice(begin, end);
-    }
-
     function next() {
       setCurrentPage((currentPage) => Math.min(currentPage + 1, maxPage));
     }
@@ -76,6 +70,7 @@ function Shop(props){
       .then(data => {
         setMaxPage(Math.ceil(data.length / 25))
         setProductCards(data)
+        currentData()
       });
     }
 
@@ -91,7 +86,11 @@ function Shop(props){
 
 
     function generateProductCards(){
-      const cards = productCards.map((product,index) =>(
+
+      const begin = (currentPage - 1) * 25;
+      const end = begin + 25;
+      const dividedProducts = productCards.slice(begin, end)
+      const cards = dividedProducts.map((product,index) =>(
 
           <Card key={product.product_id.toString() + product.product_favorite} value={product.product_id}>
 
