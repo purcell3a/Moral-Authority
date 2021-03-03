@@ -3,17 +3,18 @@
 // *******************************************************************
 function Homepage(props) {
 
-  const [productCards, setProductCard] = React.useState([])
+  const [productCards, setProductCards] = React.useState([])
   const history = useHistory()
 
 
   React.useEffect(() =>{
     let user_id = props.user? props.user.id:'0'
     let data = {user_id}
+    console.log('amievenrunning',data)
     fetch('/api/recently-added',
     {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
     .then(response => response.json())
-    .then(data => setProductCard(data));
+    .then(data => setProductCards(data));
   },[]);
 
   function get_recently_added_products(){
@@ -22,7 +23,7 @@ function Homepage(props) {
     fetch('/api/recently-added',
     {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
     .then(response => response.json())
-    .then(data => setProductCard(data));
+    .then(data => setProductCards(data));
   }
 
 

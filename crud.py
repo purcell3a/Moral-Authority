@@ -356,11 +356,12 @@ def add_product(productName,productUrl,company,description,category_id,subcatego
 
 
 def get_recently_added_products(user_id):
+
     productList= []
 
-    recent_products = Product.query.order_by(Product.date_added.desc()).limit(3).all()
-    for product in recent_products:
-        favorite = list(product.favorite)
+    recent_product_tuples = db.session.query(Product).select_from(Product).limit(3).all()
+    for product in recent_product_tuples:
+        favorite = product.favorite
         img = get_product_img(product.img_id)
         if favorite and favorite[0].user_id == user_id:
             product_favorite = 'True'
