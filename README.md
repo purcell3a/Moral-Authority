@@ -4,11 +4,19 @@ Hackbright Capstone Project
 An online marketplace empowering users to easily 'vote with their dollar'.
 With Moral Authority users can search for products based on  the Social, Environmental, Political and physical(Human Health) impact of a product and the company that makes it.
 
+![results](/static/img/readme/landing.png)
+
+
+
 # With Moral Authority:
 
 1. Users can create account, login & logout
 2. Users can view & edit profile
+![results](static/img/readme/profile.png)
+
 3. Users can add products to the site
+![results](static/img/readme/add-product.png)
+
 4. User can filter products by certification & department
 
 # API's used:
