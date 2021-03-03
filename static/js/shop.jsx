@@ -49,6 +49,26 @@ function Shop(props){
         </React.Fragment>
       )
     }
+
+    function generateCompanyOrProduct(){
+
+      const searchOption = ['Company','Product'].map((opt,index) => (
+
+            <Dropdown.Item label={opt}
+            key={index}
+            value={opt}
+            onClick={() => toggleCertFilter(opt)}>{opt}
+            </Dropdown.Item>
+        ))
+
+        return (
+          <React.Fragment>
+            <DropdownButton id="dropdown-basic-button" title="Search For">
+            {searchOption}
+            </DropdownButton>
+          </React.Fragment>
+        )
+      }
     // ==================================== IN PROGRESS ===========================================
     function paginationBasic(){
       for (let number = 1; number <= maxPage; number++) {
@@ -85,14 +105,6 @@ function Shop(props){
       history.push({pathname:`/product-page/${productId}`});
     };
 
-      // .then(data => {
-      //     let bcorplist = data.map(corp =>{
-      //       return {value:corp, display:corp}
-      //     });
-      //     setBcorps({
-      //     corps: [{value: '', display: '(Select your bcorp)'}].concat(bcorplist)
-      //   });
-
     function get_all_products(){
       let user_id = props.user? props.user.id:'0'
       let data = {user_id,cat}
@@ -112,18 +124,6 @@ function Shop(props){
         currentData()
       });
     }
-
-      // .then(data => {
-      //     let departmentlist = data.map(dep =>{
-      //       return {value:dep, display:dep}
-      //     });
-      //     setDepartments({
-      //     deps: [{value: '', display: '(Select a Department)'}].concat(departmentlist)
-      //   });
-      // }).catch(error => {
-      //   console.log(error);
-      // });
-
 
     function handleFavoriteClick(productId){
       let user_id = props.user? props.user.id:alert('Please Log In To Favorite')
@@ -226,6 +226,7 @@ function Shop(props){
                     <Nav defaultActiveKey='/product-search' className="flex-column">
 
                     <Form.Group className='sidenav-certs'>
+                    {generateCompanyOrProduct()}
                     {generateCertifications()}
                     {generateCompanies()}
                     </Form.Group>
