@@ -63,7 +63,7 @@ function Shop(props){
 
         return (
           <React.Fragment>
-            <DropdownButton id="dropdown-basic-button" title="Search For">
+            <DropdownButton id="search-for" id="dropdown-basic-button" title="Search For">
             {searchOption}
             </DropdownButton>
           </React.Fragment>

@@ -9,7 +9,10 @@
 /* ============================ ADD-PRODUCT.JSX ======================line 548*/
 /* ============================ SIGNUP.JSX ===========================line 585*/
 /* ============================ ABOUT.JSX ============================line 654*/
-
+#search-for{
+  width: 90%;
+  margin: 5%;
+}
 #pagination-row{
   margin-top: 2rem;
   margin-bottom: -2rem;
