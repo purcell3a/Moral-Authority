@@ -11,7 +11,8 @@ function Shop(props){
     const certsForFilter = Array.from(selectedCerts)
     const [currentPage, setCurrentPage] = React.useState(1);
     const [maxPage, setMaxPage] = React.useState(5);
-    const [companySearch, setCompanySearch] = React.useState({compset:[]})
+    const [companySearch, setCompanySearch] = React.useState([])
+    // const [productTypes, productTypes] = React.useState({productTypes:[]})
     let active = currentPage
     let items = [];
 
@@ -30,17 +31,15 @@ function Shop(props){
 
     // ==================================== IN PROGRESS ===========================================
 
-    var resultComps = [];
-
     function generateCompanies(){
-      console.log(companySearch.compset)
-      const companyOptions = companySearch.compset.map((product,index) => (
-        
-        <Form.Check label={product.value}
-                    key={index}
-                    value={product.value}
-                    onClick={() => toggleCertFilter(product)}/>
+      console.log(companySearch)
 
+      const companyOptions = companySearch.map((product,index) => (
+        
+        <Form.Check label={product}
+                    key={index}
+                    value={product}
+                    onClick={() => toggleCertFilter(product)}/>
       ))
       return(
         <React.Fragment>
@@ -49,6 +48,23 @@ function Shop(props){
         </React.Fragment>
       )
     }
+
+    // function generateProductType(){
+    //   console.log(companySearch.compset)
+    //   const productTypes = companySearch.compset.map((product,index) => (
+        
+    //     <Form.Check label={product.value}
+    //                 key={index}
+    //                 value={product.value}
+    //                 onClick={() => toggleCertFilter(product)}/>
+    //   ))
+    //   return(
+    //     <React.Fragment>
+    //       <h6>Product Type</h6>
+    //       {companyOptions[0]}
+    //     </React.Fragment>
+    //   )
+    // }
 
     function generateCompanyOrProduct(){
 
@@ -106,6 +122,7 @@ function Shop(props){
     };
 
     function get_all_products(){
+      const seen = []
       let user_id = props.user? props.user.id:'0'
       let data = {user_id,cat}
       fetch('/api/return-products',
@@ -113,12 +130,13 @@ function Shop(props){
       .then(response => response.json())
       .then(data => {
         let compList = data.map(product => {
-          return ({value:product.company})
+          if (!seen.includes(product.company)){
+            seen.push(product.company)
+          }
+          return seen
         });
-        const compset = compList.sort()
-        setCompanySearch({
-          compset:compset
-        })
+        const compset = seen.sort()
+        setCompanySearch(compset)
         setMaxPage(Math.ceil(data.length / 25))
         setProductCards(data)
         currentData()
