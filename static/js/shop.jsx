@@ -12,7 +12,7 @@ function Shop(props){
     const [currentPage, setCurrentPage] = React.useState(1);
     const [maxPage, setMaxPage] = React.useState(5);
     const [companySearch, setCompanySearch] = React.useState([])
-    // const [productTypes, productTypes] = React.useState({productTypes:[]})
+    const [productTypes, setProductTypes] = React.useState([])
     let active = currentPage
     let items = [];
 
@@ -29,13 +29,11 @@ function Shop(props){
     },[]);
 
 
-    // ==================================== IN PROGRESS ===========================================
+    // ==================================== IN PROGRESS START ===========================================
 
     function generateCompanies(){
-      console.log(companySearch)
-
       const companyOptions = companySearch.map((product,index) => (
-        
+
         <Form.Check label={product}
                     key={index}
                     value={product}
@@ -44,48 +42,29 @@ function Shop(props){
       return(
         <React.Fragment>
           <h6>Companies</h6>
-          {companyOptions}
+          {companyOptions[0]}
         </React.Fragment>
       )
     }
 
-    // function generateProductType(){
-    //   console.log(companySearch.compset)
-    //   const productTypes = companySearch.compset.map((product,index) => (
-        
-    //     <Form.Check label={product.value}
-    //                 key={index}
-    //                 value={product.value}
-    //                 onClick={() => toggleCertFilter(product)}/>
-    //   ))
-    //   return(
-    //     <React.Fragment>
-    //       <h6>Product Type</h6>
-    //       {companyOptions[0]}
-    //     </React.Fragment>
-    //   )
-    // }
+    function generateProductType(){
+      console.log(productTypes)
+      const productTypeList = productTypes.map((product,index) => (
 
-    function generateCompanyOrProduct(){
+        <Form.Check label={product}
+                    key={index}
+                    value={product}
+                    onClick={() => toggleCertFilter(product)}/>
+      ))
+      return(
+        <React.Fragment>
+          <h6>Product Type</h6>
+          {productTypeList[0]}
+        </React.Fragment>
+      )
+    }
 
-      const searchOption = ['Company','Product'].map((opt,index) => (
-
-            <Dropdown.Item label={opt}
-            key={index}
-            value={opt}
-            onClick={() => toggleCertFilter(opt)}>{opt}
-            </Dropdown.Item>
-        ))
-
-        return (
-          <React.Fragment>
-            <DropdownButton id="search-for" id="dropdown-basic-button" title="Search For">
-            {searchOption}
-            </DropdownButton>
-          </React.Fragment>
-        )
-      }
-    // ==================================== IN PROGRESS ===========================================
+    // ==================================== IN PROGRESS END ===========================================
     function paginationBasic(){
       for (let number = 1; number <= maxPage; number++) {
         items.push(
@@ -122,7 +101,8 @@ function Shop(props){
     };
 
     function get_all_products(){
-      const seen = []
+      const seenCompanies = []
+      const seenProductTypes = []
       let user_id = props.user? props.user.id:'0'
       let data = {user_id,cat}
       fetch('/api/return-products',
@@ -130,16 +110,19 @@ function Shop(props){
       .then(response => response.json())
       .then(data => {
         let compList = data.map(product => {
-          if (!seen.includes(product.company)){
-            seen.push(product.company)
+          if (!seenCompanies.includes(product.company)){
+            seenCompanies.push(product.company)
           }
-          return seen
+          if (!seenProductTypes.includes(product.product_type)){
+            seenProductTypes.push(product.product_type)
+          }
         });
-        const compset = seen.sort()
+        const compset = seenCompanies.sort()
+        const prodset = seenProductTypes.sort()
         setCompanySearch(compset)
+        setProductTypes(prodset)
         setMaxPage(Math.ceil(data.length / 25))
         setProductCards(data)
-        currentData()
       });
     }
 
@@ -241,10 +224,24 @@ function Shop(props){
             <Col xs={6} md={3}>
 
                 <Form onSubmit={handleSubmit} id="sidenav">
+
+                  <DropdownButton className="sidenav-search-button" id="search-for" title="Search For">
+                      <Dropdown.Item label={'Company'}
+                                      value={'Company'}
+                                      onClick={() => toggleCertFilter(value)}>
+                                      Company
+                      </Dropdown.Item>
+                      <Dropdown.Item label={'Product'}
+                                      value={'Product'}
+                                      onClick={() => toggleCertFilter(value)}>
+                                      Product
+                      </Dropdown.Item>
+                  </DropdownButton>
+
                     <Nav defaultActiveKey='/product-search' className="flex-column">
 
                     <Form.Group className='sidenav-certs'>
-                    {generateCompanyOrProduct()}
+                    {generateProductType()}
                     {generateCertifications()}
                     {generateCompanies()}
                     </Form.Group>

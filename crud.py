@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 # TODO LEARN ABOUT LOGGER
 logger.warning('informative message here')
-#TODO ADD DATE UPDATED TO UPDATE 
+#TODO ADD DATE UPDATED TO UPDATE FUNCTIONS
 
 #  <================================ IN PROGRESS ==================================>
 def get_subcategory_id(subcategorytitle):
@@ -33,8 +33,6 @@ def return_departments_subcateogries():
             subcats = get_subcategory(department)
             departments_subcategories[department[0]] = subcats
     return departments_subcategories
-
-#  <================================ USER INFO ==================================>
 
 def delete_product():
 
@@ -69,6 +67,8 @@ def update_product(img_id,title,company,url,description,product_id):
 
     return product.img_id
 
+
+#  <================================ USER INFO ==================================>
 
 def get_users():
     """Returns users in db."""
@@ -294,8 +294,6 @@ def add_new_certification(title):
     db.session.add(new_cert)
     db.session.commit()
 
-    print('new_cert',new_cert)
-
 
 
 #  <================================ PRODUCTS ==================================>
@@ -416,6 +414,7 @@ def get_products_by_subcategory(subcategory,user_id=0):
                     'description': product.description,
                     'product_id' : product.product_id,
                     'img_id':img,
+                    'product_type':product.product_type,
                     'company': product.company,
                     'url': product.url,
                     'product_favorite':product_favorite}

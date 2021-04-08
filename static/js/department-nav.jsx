@@ -16,10 +16,10 @@ function DepartmentNav(){
       },[]);
 
 
-    function handleDepartmentSelect(dep){
-        history.push({pathname:`/shop/${dep}`});
-        console.log('push to',dep)
-    };
+    // function handleDepartmentSelect(dep){
+    //     history.push({pathname:`/shop/${dep}`});
+    //     console.log('push to',dep)
+    // };
 
     function handleSubcategorySelect(cat){
       history.push({pathname:`/shop/${cat}`})

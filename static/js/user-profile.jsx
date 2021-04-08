@@ -70,8 +70,8 @@ function ShowProfile(props) {
                     {product.description}
                   </Card.Text>
 
-                  <Button className="more-info-button" 
-                          variant="primary" 
+                  <Button className="more-info-button"
+                          variant="primary"
                           onClick={() => handleMoreInfoClick(product.product_id)}>
                           More Info
                   </Button>

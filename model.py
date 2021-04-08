@@ -141,6 +141,8 @@ class Product(db.Model):
                         nullable=False)
     description = db.Column(db.String,
                         nullable=True)
+    product_type = db.Column(db.String,
+                    nullable=True)
     category_id = db.Column(db.Integer,
                         db.ForeignKey('categories.category_id'),
                         nullable=True) # TODO change back to false after testing

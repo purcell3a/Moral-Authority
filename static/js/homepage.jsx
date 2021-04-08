@@ -17,6 +17,7 @@ function Homepage(props) {
     .then(data => setProductCards(data));
   },[]);
 
+
   function get_recently_added_products(){
     let user_id = props.user? props.user.id:'0'
     let data = {user_id}
@@ -120,7 +121,6 @@ function Homepage(props) {
             <Image className='certlogo' src="static/img/logos/fairtradelogo.png"></Image>
             <Image className='certlogo' src="static/img/logos/leapingbunnylogo.png"></Image>
             <Image className='certlogo' src="static/img/logos/mbe.png"></Image>
-
           </Row>
 
       </React.Fragment>

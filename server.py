@@ -7,13 +7,6 @@ import cloudinary
 import secrets
 
 
-
-#! PRODUCT SPECIFIC ROUTES LINE 177
-#! USER ACCOUNT ROUTES LINE 45
-#! USER FAVORITE ROUTES LINE 104
-#! GENERAL PRODUCT FILTERS LINE 154
-
-
 cloudinary.config(
   cloud_name = "ClOUDNAME",
   api_key = "APIKEY",
@@ -32,6 +25,27 @@ def show_homepage(input_path):
 
 
 #  <================================ IN PROGRESS ==================================>
+
+@app.route('/api/return-products', methods=['POST'])
+def return_products():
+    """return all products"""
+    print('**********************************************************************')
+
+    #  GET DATA
+    # ****************************** #
+    data = request.get_json()
+    user_id = int(data['user_id'])
+    # department = data['dep']
+    subcategory = data['cat']
+    # ****************************** #
+    # print(department)
+    print(subcategory)
+
+    result = crud.get_products_by_subcategory(subcategory,user_id)
+    # result = crud.get_products_by_department(department,user_id)
+    return jsonify(result)
+
+
 @app.route('/api/list-subCategories', methods=["POST"])
 def get_subcategory():
 
@@ -59,6 +73,7 @@ def recently_added_products():
     return jsonify(recentProducts)
 
 #!============================= USER ACCOUNT ROUTES =============================
+
 @app.route('/api/signup', methods=["POST"])
 def sign_up():
     """add new user to the DB AND GO TO HOMEPAGE"""
@@ -229,28 +244,6 @@ def return_products_added_by_user():
     user_id = data['user_id']
     products = crud.get_products_added_by_user(user_id)
     return jsonify(products)
-
-
-@app.route('/api/return-products', methods=['POST'])
-def return_products():
-    """return all products"""
-    print('**********************************************************************')
-    print('return_products')
-
-    #  GET DATA
-    # ****************************** #
-    data = request.get_json()
-    user_id = int(data['user_id'])
-    # department = data['dep']
-    subcategory = data['cat']
-    # ****************************** #
-    print('**********************************************************************')
-    # print(department)
-    print(subcategory)
-
-    result = crud.get_products_by_subcategory(subcategory,user_id)
-    # result = crud.get_products_by_department(department,user_id)
-    return jsonify(result)
 
 
 @app.route('/api/filter-products', methods=['POST'])

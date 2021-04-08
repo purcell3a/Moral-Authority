@@ -6,8 +6,6 @@ With Moral Authority users can search for products based on  the Social, Environ
 
 ![results](/static/img/readme/landing.png)
 
-
-
 # With Moral Authority:
 
 1. Users can create account, login & logout
@@ -29,6 +27,7 @@ React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | P
 
 # Planned Features & Fixes:
 * Password security with Argon2i
+* https://img-9gag-fun.9cache.com/photo/agyx4Dn_700bwp.webp
 * User Authentication
 * Oauth
 * Password recovery using Twilio API
@@ -36,13 +35,20 @@ React Hooks | React Bootstrap | Javascript | CSS | HTML | PostgreSQL | Flask | P
 * Adding product from scraped pages - IN PROGRESS
 * add search to b-corp drop down in add-product
 
-# To use:
-Download File
-Insert own access key for Cloudinary API
-Run seed_db.py
-Run server.py
+## Getting Started
 
-# DB Schema 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+- Download files
+- Get your own API key for Cloudinary API and place in a secrets.sh file like so `export APIKEY="yourkey"`
+- Create .gitignore file and add secrets.sh
+- If you use virtual environments then start one `$ virtualenv env`(initiate) `$ source env/bin/activate`(run)
+- Source your secrets file `$ source secrets.sh` (every single time you open a new terminal)
+- Download required packages by running ` $ pip3 install -r requirements.txt`
+- Build database by running `$ python3 seed_db.py`
+- Launch your server! `$ python3 server.py`
+
+# DB Schema
 
 * updated schema (02/01/21)
 ![DB Schema Img](https://res.cloudinary.com/purcella/image/upload/v1612219040/testFolder/moral-authority_2_arltah.png)

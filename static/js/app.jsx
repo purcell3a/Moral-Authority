@@ -10,8 +10,6 @@ function App() {
       setUser(currentuser)
     },[]);
 
-    // TODO READ ABOUT REDUX
-
     return (
       <Router>
 
@@ -42,10 +40,6 @@ function App() {
                   <Route path='/user-profile'>
                       <ShowProfile setUser={setUser} user={user}/>
                   </Route>
-
-
-                  {/* <Route exact path='/shop/:dep' exact component={Shop} user={user}>
-                  </Route> */}
 
                   <Route path='/product-page/:productId'>
                       <ProductPage user={user} />

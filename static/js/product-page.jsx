@@ -6,7 +6,7 @@ function ProductPage() {
 
     React.useEffect(() =>{
         let data = {productId}
-        fetch('/api/product-info', 
+        fetch('/api/product-info',
         {method:"POST", body: JSON.stringify(data),headers: { 'Content-Type': 'application/json'}})
         .then(response => response.json())
         .then(data => setProductInfo(data));

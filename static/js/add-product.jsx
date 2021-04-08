@@ -19,7 +19,7 @@
     const history = useHistory()
     const [file, setSelectedFile] = React.useState(null)
     const myWidget = cloudinary.createUploadWidget({cloudName: 'purcella',upload_preset: 'ipialmwj',}, (error, result) => { if (result.event == "success") {
-          setSelectedFile(result.info.url) // result.info contains data from upload
+          setSelectedFile(result.info.url) // result.info contains data from product image upload
       } })
 
     function handleSubmit(evt){
@@ -52,6 +52,7 @@
         });
     },[]);
 
+
       React.useEffect(() => {
         fetch('/api/list-departments')
         .then((response) => {
@@ -68,6 +69,7 @@
           console.log(error);
         });
     },[]);
+
 
     React.useEffect(() => {
         let data = {'department':selectedDepartment}
@@ -98,7 +100,6 @@
         },[]);
 
 
-
     function toggleCertFilter(cert) {
       const newSet = new Set(selectedCerts);
       if (selectedCerts.has(cert)) {
@@ -110,6 +111,7 @@
       }
     }
 
+
     function generateCertifications(){
       const certOptions = certs.map((cert,index) => (
         <Form.Check label={cert}
@@ -120,6 +122,7 @@
       ))
       return certOptions
     }
+
 
     function generateOptions(){
       if (selectedCerts.has("Bcorp")){
@@ -136,6 +139,7 @@
       }
     }
 
+
     function generateSubCategories(){
       if (selectedDepartment != null){
         const options = subCategories.subcat.map((subcat, index) => (
@@ -151,6 +155,7 @@
       }
     }
 
+
     function generateDepartments(){
       const depoptions = departments.deps.map((dep, index) => (
         <option key={index} value={dep.value}>
@@ -161,6 +166,7 @@
               {depoptions}
             </select>)
     }
+
 
     function handleDepartmentSelect(evt){
       setselectedDepartment(evt.target.value)

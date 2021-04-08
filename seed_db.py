@@ -117,14 +117,10 @@ with open(bcorpInfo, 'r') as file:
                                             description = row['Where To Find'].strip(),
                                             category_id = 1,
                                             subcategory_id = subcategory_id[0],
-                                            # img_id = row['Image'].strip(),
+                                            product_type = row['Type'].strip(),
                                             user_id = 1,
                                             date_added = '11-04-2020',
                                             date_modified = '11-04-2020')
-
-            # ewgProductdic.append((product.product_id,row['Image'].strip()))
-            # image_id = add_image(Product.product_id,row['Image'].strip())
-            # ewgProductdic[product.product_id] = image_id
             img =  row['Image'].strip()
             db.session.add(product)
 
@@ -141,8 +137,6 @@ with open(bcorpInfo, 'r') as file:
                             date_added = '11-04-2020',
                             date_modified = '11-04-2020')
         image_id = add_image(img_url,product.product_id)
-        print('####################################################################################################',product.product_id)
-        print('####################################################################################################',image_id)
         update_product_image(image_id,product.product_id)
 
         db.session.add(productcert)
