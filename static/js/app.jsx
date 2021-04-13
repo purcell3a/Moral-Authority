@@ -45,6 +45,10 @@ function App() {
                       <ProductPage user={user} />
                   </Route>
 
+                  <Route path='/shop/:companyId'>
+                      <CompanyPage user={user} />
+                  </Route>
+
                   <Route path='/shop/:cat' exact component={Shop} user={user}>
                   </Route>
 
