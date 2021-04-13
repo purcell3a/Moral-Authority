@@ -17,6 +17,7 @@ function Shop(props){
     let items = [];
 
     React.useEffect(() =>{
+      get_search_parameters()
       get_all_products();
       setCurrentPage(1)
     },[cat]);
@@ -31,13 +32,16 @@ function Shop(props){
 
     // ==================================== IN PROGRESS START ===========================================
 
-    function get_search_paramaters(){
+    function get_search_parameters(){
       let user_id = props.user? props.user.id:'0'
       let data = {user_id,cat}
       fetch('/api/return-search-parameters',
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        setCompanySearch(data.companies)
+        setProductTypes(data.types)
+      });
     }
 
     function generateCompanies(){
@@ -51,7 +55,7 @@ function Shop(props){
       return(
         <React.Fragment>
           <h6>Companies</h6>
-          {companyOptions[0]}
+          {companyOptions[10]}
         </React.Fragment>
       )
     }
@@ -68,7 +72,7 @@ function Shop(props){
       return(
         <React.Fragment>
           <h6>Product Type</h6>
-          {productTypeList[0]}
+          {productTypeList}
         </React.Fragment>
       )
     }
@@ -128,8 +132,8 @@ function Shop(props){
         });
         const compset = seenCompanies.sort()
         const prodset = seenProductTypes.sort()
-        setCompanySearch(compset)
-        setProductTypes(prodset)
+        // setCompanySearch(compset)
+        // setProductTypes(prodset)
         setMaxPage(Math.ceil(data.length / 25))
         setProductCards(data)
       });
