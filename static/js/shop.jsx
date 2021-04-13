@@ -31,6 +31,15 @@ function Shop(props){
 
     // ==================================== IN PROGRESS START ===========================================
 
+    function get_search_paramaters(){
+      let user_id = props.user? props.user.id:'0'
+      let data = {user_id,cat}
+      fetch('/api/return-search-parameters',
+      {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
+      .then(response => response.json())
+      .then(data => console.log(data));
+    }
+
     function generateCompanies(){
       const companyOptions = companySearch.map((product,index) => (
 
@@ -199,7 +208,7 @@ function Shop(props){
           <h6>Product Certifications</h6>
           {certOptions}
         </React.Fragment>
-      ) 
+      )
     }
 
 

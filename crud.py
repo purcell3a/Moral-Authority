@@ -12,6 +12,20 @@ logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE FUNCTIONS
 
 #  <================================ IN PROGRESS ==================================>
+# get_search_parameters_by_subcategory('Makeup',user_id=0)
+def get_search_parameters_by_subcategory(subcategory,user_id=0):
+        # ! still returning tuples
+
+    search_data = {}
+    product_types = db.session.query(Product.product_type).join(Subcategory, Product.subcategory_id == Subcategory.subcategory_id).filter(Subcategory.title == subcategory).distinct().all()
+    product_companies = db.session.query(Product.company).join(Subcategory, Product.subcategory_id == Subcategory.subcategory_id).filter(Subcategory.title == subcategory).distinct().all()
+
+    search_data['companies'] = product_companies
+    search_data['types'] = product_types
+    print(search_data)
+    return search_data
+
+
 def get_subcategory_id(subcategorytitle):
     subcategory_id = db.session.query(Subcategory.subcategory_id).select_from(Subcategory).filter(Subcategory.title == subcategorytitle).first()
 

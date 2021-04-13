@@ -26,6 +26,24 @@ def show_homepage(input_path):
 
 #  <================================ IN PROGRESS ==================================>
 
+@app.route('/api/return-search-parameters', methods=['POST'])
+def return_search_parameters():
+    """return search parameters"""
+    print('**********************************************************************')
+
+    #  GET DATA
+    # ****************************** #
+    data = request.get_json()
+    user_id = int(data['user_id'])
+    subcategory = data['cat']
+    # ****************************** #
+    print(subcategory)
+
+    result = crud.get_search_parameters_by_subcategory(subcategory,user_id)
+    # result = crud.get_products_by_subcategory(subcategory,user_id)
+    # result = crud.get_products_by_department(department,user_id)
+    return jsonify(result)
+
 @app.route('/api/return-products', methods=['POST'])
 def return_products():
     """return all products"""
