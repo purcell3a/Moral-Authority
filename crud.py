@@ -39,7 +39,7 @@ def get_subcategory(departmentTitle):
     return result
 
 
-def return_departments_subcateogries():
+def get_departments_subcateogries():
 
     departments_subcategories= {}
     all_departments = db.session.query(Category.title).select_from(Category).all()
@@ -56,7 +56,7 @@ def delete_product():
     Product.query.filter(Product.product_id == 1).delete()
     db.session.commit()
 
-def add_product_image(product_id, url):
+def post_product_image(product_id, url):
 
     new_product_image = ProductImage(product_id = product_id,
                                         url = url,
@@ -68,7 +68,7 @@ def add_product_image(product_id, url):
     return new_product_image
 
 
-def update_product(img_id,title,company,url,description,product_id):
+def put_product(img_id,title,company,url,description,product_id):
 
     product = db.session.query(Product).get(product_id)
     product.title=title
@@ -130,7 +130,7 @@ def get_user_by_id(user_id):
     return user
 
 
-def create_user(fname,lname,email,password):
+def post_user(fname,lname,email,password):
     now = datetime.datetime.now()
     new_user= User(fname=fname, lname=lname, email=email, password=password,profile_img ='static/img/stock-profile-img.png',date_added=now, date_modified= now)
 
@@ -139,7 +139,7 @@ def create_user(fname,lname,email,password):
     return new_user
 
 
-def change_user_data(user_id,fname,lname,email,password,profilePhoto):
+def put_user_data(user_id,fname,lname,email,password,profilePhoto):
     now = datetime.datetime.now()
     user = User.query.get(user_id)
 
@@ -199,7 +199,7 @@ def get_user_favorite(user_id, product_id):
     return user_favorite
 
 
-def add_user_favorite(user_id,product_id):
+def post_user_favorite(user_id,product_id):
 
     now = datetime.datetime.now()
     new_favorite = Favorite(user_id = user_id,
@@ -210,7 +210,7 @@ def add_user_favorite(user_id,product_id):
     db.session.commit()
 
 
-def remove_user_favorite(user_id,product_id):
+def delete_user_favorite(user_id,product_id):
 
     favorite = Favorite.query.filter(Favorite.user_id == user_id, Favorite.product_id == product_id).first()
 
@@ -312,7 +312,7 @@ def add_new_certification(title):
 
 #  <================================ PRODUCTS ==================================>
 
-def add_image(img_url,product_id):
+def post_image(img_url,product_id):
     now = datetime.datetime.now()
     new_image= ProductImage(product_id=product_id,
                         url=img_url,
@@ -340,14 +340,14 @@ def get_product_img(img_id):
     image = db.session.query(ProductImage.url).select_from(ProductImage).filter(ProductImage.image_id == img_id).first()
     return image[0]
 
-def update_product_image(img_id,product_id):
+def put_product_image(img_id,product_id):
 
     product = Product.query.filter(Product.product_id==product_id).first()
     product.img_id = img_id
 
     db.session.commit()
 
-def add_product(productName,productUrl,company,description,category_id,subcategory_id,user_id=1,img_id=1):
+def post_product(productName,productUrl,company,description,category_id,subcategory_id,user_id=1,img_id=1):
 
     now = datetime.datetime.now()
     new_product= Product(title=productName,

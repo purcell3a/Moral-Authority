@@ -2,17 +2,28 @@
 
 function Shop(props){
 
+    // * GENERATE CONTENT
     // let { dep } = useParams();
     let {cat} = useParams();
-    const [productCards, setProductCards] = React.useState([])
-    const [certs, setCerts] = React.useState([]);
-    const [selectedCerts, setSelectedCerts] = React.useState( new Set());
     const history = useHistory()
-    const certsForFilter = Array.from(selectedCerts)
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [maxPage, setMaxPage] = React.useState(5);
     const [companySearch, setCompanySearch] = React.useState([])
     const [productTypes, setProductTypes] = React.useState([])
+    const [certs, setCerts] = React.useState([]);
+    const [productCards, setProductCards] = React.useState([])
+
+    // * FILTERING
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [maxPage, setMaxPage] = React.useState(5);
+    const [selectedCerts, setSelectedCerts] = React.useState(new Set());
+    const certsForFilter = Array.from(selectedCerts)
+
+    // !IP
+    const [selectedCompanies, setSelectedCompanies] = React.useState(new Set());
+    const companiesForFilter = Array.from(selectedCompanies)
+
+    const [selectedTypes, setSelectedTypes] = React.useState(new Set());
+    const typesForFilter = Array.from(selectedTypes)
+
     let active = currentPage
     let items = [];
 
@@ -50,7 +61,7 @@ function Shop(props){
         <Form.Check label={product}
                     key={index}
                     value={product}
-                    onClick={() => toggleCertFilter(product)}/>
+                    onClick={() => toggleCompanyFilter(product)}/>
       ))
       return(
         <React.Fragment>
@@ -61,13 +72,12 @@ function Shop(props){
     }
 
     function generateProductType(){
-      console.log(productTypes)
-      const productTypeList = productTypes.map((product,index) => (
+      const productTypeList = productTypes.map((type,index) => (
 
-        <Form.Check label={product}
+        <Form.Check label={type}
                     key={index}
-                    value={product}
-                    onClick={() => toggleCertFilter(product)}/>
+                    value={type}
+                    onClick={() => toggleTypeFilter(type)}/>
       ))
       return(
         <React.Fragment>
@@ -114,26 +124,12 @@ function Shop(props){
     };
 
     function get_all_products(){
-      const seenCompanies = []
-      const seenProductTypes = []
       let user_id = props.user? props.user.id:'0'
       let data = {user_id,cat}
       fetch('/api/return-products',
       {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
       .then(response => response.json())
       .then(data => {
-        let compList = data.map(product => {
-          if (!seenCompanies.includes(product.company)){
-            seenCompanies.push(product.company)
-          }
-          if (!seenProductTypes.includes(product.product_type)){
-            seenProductTypes.push(product.product_type)
-          }
-        });
-        const compset = seenCompanies.sort()
-        const prodset = seenProductTypes.sort()
-        // setCompanySearch(compset)
-        // setProductTypes(prodset)
         setMaxPage(Math.ceil(data.length / 25))
         setProductCards(data)
       });
@@ -199,6 +195,29 @@ function Shop(props){
       }
     }
 
+    // !IP
+    function toggleCompanyFilter(company) {
+      const newSet = new Set(selectedCompanies);
+      if (selectedCompanies.has(company)) {
+        newSet.delete(cert);
+        setSelectedCompanies(newSet);
+      } else {
+        newSet.add(cert);
+        setSelectedCompanies(newSet);
+      }
+    }
+    // !IP
+    function toggleTypeFilter(type) {
+      const newSet = new Set(selectedCerts);
+      if (selectedCerts.has(type)) {
+        newSet.delete(cert);
+        setSelectedTypes(newSet);
+      } else {
+        newSet.add(cert);
+        setSelectedTypes(newSet);
+      }
+    }
+
     function generateCertifications(){
       const certOptions = certs.map((cert,index) => (
         <Form.Check label={cert}
@@ -218,7 +237,7 @@ function Shop(props){
 
     function handleSubmit(evt){
       evt.preventDefault()
-        let data = {dep,selectedCerts:certsForFilter}
+        let data = {dep,selectedCerts:certsForFilter,selectedCompanies:companiesForFilter,selectedTypes:typesForFilter}
         fetch('/api/filter-products',
         {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}} )
         .then(response => response.json())

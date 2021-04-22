@@ -107,7 +107,7 @@ def sign_up():
     if existing_user == 'user exists':
         return jsonify('you already exist dingus')
     else:
-        new_user = crud.create_user(fname,lname,email,password)
+        new_user = crud.post_user(fname,lname,email,password)
         return jsonify('account created')
 
 
@@ -135,7 +135,7 @@ def login_user():
 
 
 @app.route('/api/change-user-data',methods=['POST'])
-def change_user_data():
+def post_user_data():
 
     #  GET DATA
     # ****************************** #
@@ -149,7 +149,7 @@ def change_user_data():
     profilePhoto = data['profilePhoto']
     # ****************************** #
 
-    updatedUser = crud.change_user_data(user_id,password=password,fname=fname,lname=lname,email=email,profilePhoto=profilePhoto)
+    updatedUser = crud.post_user_data(user_id,password=password,fname=fname,lname=lname,email=email,profilePhoto=profilePhoto)
     updated_user_info = {'fname': updatedUser.fname,
                 'id': updatedUser.user_id}
 
@@ -190,7 +190,7 @@ def get_user_favorites():
 
 
 @app.route('/api/toggle-favorite',methods=['POST'])
-def add_user_favorite():
+def post_user_favorite():
 
     #  GET DATA
     # ****************************** #
@@ -204,10 +204,10 @@ def add_user_favorite():
 
     # IF FAVORITE THEN REMOVE
     if favorite:
-        favorite_removed = crud.remove_user_favorite(user_id,product_id)
+        favorite_removed = crud.delete_user_favorite(user_id,product_id)
         return jsonify('Favorite Removed')
     else:
-        user_favorite = crud.add_user_favorite(user_id,product_id)
+        user_favorite = crud.post_user_favorite(user_id,product_id)
         print(user_favorite)
         return jsonify('Favorite Added!!!!')
 
@@ -231,9 +231,9 @@ def return_bcorps():
 
 
 @app.route('/api/list-departments-subcategories')
-def return_departments_subcateogries():
+def get_departments_subcateogries():
     ''' return list of departments/categories'''
-    departments_categories = crud.return_departments_subcateogries()
+    departments_categories = crud.get_departments_subcateogries()
     return jsonify(departments_categories)
 
 
@@ -261,7 +261,7 @@ def return_products_added_by_user():
     products = crud.get_products_added_by_user(user_id)
     return jsonify(products)
 
-
+# ! STILL NOT FILTERING FOR PRODUCT TYPE OR COMPANY YET
 @app.route('/api/filter-products', methods=['POST'])
 def filter_products():
     '''filter products and return to shop page'''
@@ -273,6 +273,8 @@ def filter_products():
     data = request.get_json()
     department = data['dep']
     certifications = (data['selectedCerts'])
+    companies = (data['selectedCompanies'])
+    types = (data['typesForFilter'])
     category_id = crud.get_category_id(department)
     # ****************************** #
 
@@ -339,15 +341,15 @@ def add_product():
     #  IF THERE IS A BCORP IGNORE THE COMPANY PROVIDED (we can do this on the front end later maybe?)
     if bcorp:
         company = bcorp
-    new_product = crud.add_product(productName,productUrl,company,description,category_id,subcategory_id,user_id)
+    new_product = crud.post_product(productName,productUrl,company,description,category_id,subcategory_id,user_id)
     product_id = crud.get_product_id(productName,user_id)
     if img_url:
-        image_id = crud.add_image(img_url,product_id)
-        product = crud.update_product_image(image_id,product_id)
+        image_id = crud.post_image(img_url,product_id)
+        product = crud.put_product_image(image_id,product_id)
     print('new_product',product)
     #  ADD PRODUCT CERTIFICATIONS TO RELATIONAL TABLE (which we don't need to do for bcorps)
     for cert_id in cert_id_list:
-        new_certification = crud.add_product_certifications(product_id,cert_id)
+        new_certification = crud.post_product_certifications(product_id,cert_id)
     return jsonify('Product added')
 
 
