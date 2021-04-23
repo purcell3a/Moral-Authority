@@ -10,7 +10,7 @@ function Homepage(props) {
   React.useEffect(() =>{
     let user_id = props.user? props.user.id:'0'
     let data = {user_id}
-    console.log('amievenrunning',data)
+ 
     fetch('/api/recently-added',
     {method: "POST",  body: JSON.stringify(data),  headers: {'Content-Type': 'application/json'}})
     .then(response => response.json())
