@@ -12,7 +12,7 @@ logger.warning('informative message here')
 #TODO ADD DATE UPDATED TO UPDATE FUNCTIONS
 
 #  <================================ IN PROGRESS ==================================>
-# get_search_parameters_by_subcategory('Makeup',user_id=0)
+
 def get_search_parameters_by_subcategory(subcategory,user_id=0):
         # ! still returning tuples
 
@@ -287,26 +287,26 @@ def return_departments():
             departments.append(department[0])
     return departments
 
-def add_new_category(category):
-    now = datetime.datetime.now()
+# def post_new_category(category):
+#     now = datetime.datetime.now()
 
-    new_category = Category( title=category,
-                            date_added=now,
-                            date_modified=now)
-    db.session.add(new_category)
-    db.session.commit()
+#     new_category = Category( title=category,
+#                             date_added=now,
+#                             date_modified=now)
+#     db.session.add(new_category)
+#     db.session.commit()
 
-def add_new_certification(title):
+# def add_new_certification(title):
 
-    now = datetime.datetime.now()
-    new_cert= Certification(certifying_company = 'might delete this column',
-                                certification = title,
-                                rating = 100,
-                                max_rating = 100,
-                                date_added = now,
-                                date_modified = now)
-    db.session.add(new_cert)
-    db.session.commit()
+#     now = datetime.datetime.now()
+#     new_cert= Certification(certifying_company = 'might delete this column',
+#                                 certification = title,
+#                                 rating = 100,
+#                                 max_rating = 100,
+#                                 date_added = now,
+#                                 date_modified = now)
+#     db.session.add(new_cert)
+#     db.session.commit()
 
 
 

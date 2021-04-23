@@ -2,7 +2,6 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect,jsonify, Blueprint,blueprints)
 from model import connect_to_db, db, User
 import crud
-from jinja2 import StrictUndefined
 import cloudinary
 import secrets
 
@@ -56,8 +55,6 @@ def return_list_departments():
     ''' return list of departments/categories'''
     departments= crud.return_departments()
     return jsonify(departments)
-
-
 
 
 if __name__ == '__main__':

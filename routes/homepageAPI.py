@@ -2,9 +2,8 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect,jsonify,Blueprint)
 from model import connect_to_db, db, User
 import crud
-from jinja2 import StrictUndefined
 import cloudinary
-import secrets
+
 
 
 homepageAPI = Blueprint('homepageAPI',__name__)
